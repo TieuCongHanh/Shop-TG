@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="#F6ECEC"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.Introduce_Shop">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical">
+       <!--sự kiện mới-->
+       <LinearLayout
+           android:layout_marginTop="10dp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal">
+
+           <TextView
+               android:textColor="@color/black"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Đơn hàng"
+               android:textSize="30sp"
+               android:layout_weight="1"
+               />
+
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal">
+
+           <LinearLayout
+               android:background="@color/white"
+               android:layout_margin="5dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:gravity="center"
+               android:orientation="vertical">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="40dp"
+                  android:layout_marginTop="10dp"
+                  android:text="0"
+                  android:id="@+id/totunum"
+                  android:textSize="25sp"/>
+
+               <TextView
+                   android:layout_width="80dp"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="5dp"
+                   android:gravity="center"
+                   android:text="Tổng sản phẩm"
+                   android:textColor="@color/black"
+                   android:textSize="16sp" />
+
+           </LinearLayout>
+
+           <LinearLayout
+               android:background="@color/white"
+               android:layout_margin="5dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:gravity="center"
+               android:orientation="vertical">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="40dp"
+                   android:layout_marginTop="10dp"
+                   android:text="0"
+                   android:textSize="25sp"/>
+
+               <TextView
+                   android:layout_width="80dp"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="5dp"
+                   android:gravity="center"
+                   android:text="Tổng só lượng bán"
+                   android:textColor="@color/black"
+                   android:textSize="16sp" />
+
+           </LinearLayout>
+
+           <LinearLayout
+               android:background="@color/white"
+               android:layout_margin="5dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:gravity="center"
+               android:orientation="vertical">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="40dp"
+                   android:layout_marginTop="10dp"
+                   android:text="0"
+                   android:textSize="25sp"/>
+
+               <TextView
+                   android:layout_width="80dp"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="5dp"
+                   android:gravity="center"
+                   android:text="Trả hàng/ hoàn trả"
+                   android:textColor="@color/black"
+                   android:textSize="16sp" />
+
+           </LinearLayout>
+
+           <LinearLayout
+               android:background="@color/white"
+               android:layout_margin="5dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:gravity="center"
+               android:orientation="vertical">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="40dp"
+                   android:layout_marginTop="10dp"
+                   android:text="0"
+                   android:id="@+id/totuvote"
+                   android:textSize="25sp"/>
+
+               <TextView
+                   android:layout_width="80dp"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="5dp"
+                   android:gravity="center"
+                   android:text="Phản hồi đánh giá"
+                   android:textColor="@color/black"
+                   android:textSize="16sp" />
+
+           </LinearLayout>
+
+       </LinearLayout>
+       <!--sự kiện mới-->
+       <LinearLayout
+           android:layout_marginTop="5dp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal">
+
+           <TextView
+               android:textColor="@color/black"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Thông tin Shop"
+               android:textSize="30sp"
+               android:layout_weight="1"
+               />
+
+       </LinearLayout>
+       <!--sự kiện mới-->
+       <LinearLayout
+
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+
+           <TextView
+               android:id="@+id/txtslogan"
+               android:layout_marginTop="5dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Với slogan của Shop là con bò cười chúng tôi sẽ mang đến cho bạn những trải nghiệp thú vị"
+               android:textSize="25sp"
+               android:layout_weight="1"
+               />
+           <TextView
+               android:id="@+id/txtdesc"
+               android:layout_marginTop="10dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Miêu tả: Shop chúng tôi luôn luôn đặt những vị khách hàng lên hàng đầu"
+               android:textSize="20sp"
+               android:layout_weight="1"
+               />
+
+       </LinearLayout>
+
+   </LinearLayout>
+
+</ScrollView>
