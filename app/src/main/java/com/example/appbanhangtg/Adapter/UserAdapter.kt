@@ -1,5 +1,7 @@
 package com.example.appbanhangtg.Adapter
 
+import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,13 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.example.appbanhangtg.Interface.ClickRecyclerView
+import com.bumptech.glide.request.RequestListener
 import com.example.appbanhangtg.Model.UserModel
 import com.example.appbanhangtg.R
-import com.example.appbanhangtg.databinding.ItemUserBinding
-
-private lateinit var binding: ItemUserBinding
+import com.bumptech.glide.request.target.Target
 
 class UserAdapter(private val list: List<UserModel>, private val clickRecyclerView: (UserModel) -> Unit) :
     RecyclerView.Adapter<UserAdapter.UserHolder>() {
@@ -50,11 +52,27 @@ class UserAdapter(private val list: List<UserModel>, private val clickRecyclerVi
 
             // Load ảnh
             val radiusInPixels = itemView.context.resources.displayMetrics.density * 100 // Chuyển đổi dp sang pixel
+            val baseUrl = "https://"
+
             Glide.with(itemView.context)
-                .load(currentUser.image)
-                .placeholder(R.drawable.icon_person) // Placeholder image while loading
+                .load(currentUser.image) // 'image' là URI hoặc đường dẫn ảnh
+                .placeholder(R.drawable.icon_person) // Hình ảnh placeholder khi đang tải
+                .error(R.drawable.icon_bill) // Hình ảnh hiển thị khi có lỗi
                 .transform(RoundedCorners(radiusInPixels.toInt()))
-                .into(avt)
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                        e?.logRootCauses("Glide") // Ghi lại nguyên nhân gốc của lỗi
+                        return false
+                    }
+
+
+                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                        return false
+                    }
+                })
+                .into(avt) // 'imageView' là ImageView trong layout của adapter
+
+
         }
 
     }
@@ -62,4 +80,5 @@ class UserAdapter(private val list: List<UserModel>, private val clickRecyclerVi
     override fun getItemCount(): Int {
         return list.size
     }
+
 }

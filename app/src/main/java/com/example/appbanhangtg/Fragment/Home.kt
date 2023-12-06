@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appbanhangtg.Activity.AddOrUpdate_User
+import com.example.appbanhangtg.Activity.ProductDetail
 import com.example.appbanhangtg.Activity.Shop
 import com.example.appbanhangtg.Adapter.ProductAdapter
 import com.example.appbanhangtg.Adapter.ShopAdapter
@@ -57,7 +58,9 @@ class Home : Fragment() {
         // sản phẩm
         productList = mutableListOf()
         productAdapter = ProductAdapter(productList) { clickedProduct ->
-            // Xử lý sự kiện click trên RecyclerView ở đây
+            val intent = Intent(context, ProductDetail::class.java)
+            intent.putExtra("PRODUCT_EXTRA", clickedProduct)
+            startActivity(intent)
         }
         binding.recyclerviewdish.adapter = productAdapter
         binding.recyclerviewdish.layoutManager = GridLayoutManager(

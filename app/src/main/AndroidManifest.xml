@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -15,6 +17,33 @@
         android:theme="@style/Theme.AppBanHangTG"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.Cartting"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.SetNewPassWord"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.AddOrUpdate_ProductShop"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.AddorUpdate_VoteShop"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.AddOrUpdate_Address"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Address"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.AccountSetting"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ProfileDetail"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ProductDetail"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Shop"
             android:exported="false" />
         <activity
@@ -25,7 +54,13 @@
             android:exported="false" />
         <activity
             android:name=".Activity.HomeUser"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Activity.Register"
             android:exported="false" />
@@ -35,11 +70,13 @@
         <activity
             android:name=".Activity.Login"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".MainActivity"

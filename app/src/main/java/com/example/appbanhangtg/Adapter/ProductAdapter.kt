@@ -30,6 +30,8 @@ class ProductAdapter (private val list: List<ProductModel>, private val clickRec
                     clickRecyclerView.invoke(clickedUser)
                 }
             }
+
+
         }
     }
 
@@ -40,6 +42,7 @@ class ProductAdapter (private val list: List<ProductModel>, private val clickRec
 
     override fun onBindViewHolder(holder: ProductAdapter.ProductHolder, position: Int) {
         val currentProduct = list[position]
+
 
         // Gán dữ liệu vào các view trong ViewHolder
         holder.apply {

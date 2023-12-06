@@ -3,6 +3,7 @@ package com.example.appbanhangtg.DAO
 import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
+import com.example.appbanhangtg.Model.ProductModel
 import com.example.appbanhangtg.Model.ShopModel
 import com.example.appbanhangtg.Model.UserModel
 import com.example.appbanhangtg.SQLiteDatabase.SQLiteData
@@ -34,5 +35,23 @@ class ShopDAO (context: Context){
         cursor?.close()
         db.close()
         return shopList
+    }
+    fun getByProductIdShop(shopId: Int): List<ShopModel> {
+        val shopList = mutableListOf<ShopModel>()
+
+        val allShops = getAllShop()
+
+        for (shop in allShops) {
+            if (shop._idShop == shopId) {
+                shopList.add(shop)
+            }
+        }
+
+        return shopList
+    }
+
+    fun getProductCountByShopId(shopId: Int): Int {
+        val allProducts = getAllShop()
+        return allProducts.count { it._idShop == shopId }
     }
 }

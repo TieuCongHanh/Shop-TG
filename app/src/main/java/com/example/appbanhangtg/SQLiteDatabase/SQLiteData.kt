@@ -26,6 +26,9 @@ class SQLiteData(context: Context): SQLiteOpenHelper(context,"DATA",null,1) {
         db?.execSQL("CREATE TABLE VOTESHOP(" +
                 "_idVoteShop integer primary key, numberofstart TEXT, content TEXT, date TEXT," +
                 " _idUser integer, _idShop integer)")
+        db?.execSQL("CREATE TABLE ADDRESS(" +
+                "_idAddRess integer primary key, fullname TEXT, phone TEXT, address TEXT, note TEXT," +
+                " _idUser integer)")
 
         // user
         db?.execSQL("Insert into USER(username,password,phone,role,email,image) values ('admin','admin','0123','Admin','admin@gmail.com'," +
@@ -68,12 +71,26 @@ class SQLiteData(context: Context): SQLiteOpenHelper(context,"DATA",null,1) {
         db?.execSQL("Insert into VOTESHOP(numberofstart,content,date,_idUser,_idShop) values ('5'," +
                 "'Shop làm ăn rất uy tín mọi người hãy ủng hộ shop nhiều nhiều lên nha chứ không shop mà nản l anh em mình khôncoscos '," +
                 "'20-11-2023',4,1)")
-        db?.execSQL("Insert into VOTESHOP(numberofstart,content,date,_idUser,_idShop) values ('5'," +
+        db?.execSQL("Insert into VOTESHOP(numberofstart,content,date,_idUser,_idShop) values ('2'," +
                 "'Shop làm ăn rất cẩu thả nhìn là biets méo uy tín rồi anh em cẩn tận shop này lừa đảo nha anh em tôi mua 2 mà ship có 3 à vão ò lừa đảo nha '," +
                 "'20-11-2023',3,1)")
-        db?.execSQL("Insert into VOTESHOP(numberofstart,content,date,_idUser,_idShop) values ('5'," +
+        db?.execSQL("Insert into VOTESHOP(numberofstart,content,date,_idUser,_idShop) values ('3'," +
                 "'Shop làm ăn rất uy tín mọi người hãy ủng hộ shop nhiều nhiều lên nha chứ không shop mà nản l anh em mình khôncoscos '," +
-                "'20-11-2023',2,2)")
+                "'20-11-2023',2,1)")
+        db?.execSQL("Insert into VOTESHOP(numberofstart,content,date,_idUser,_idShop) values ('1'," +
+                "'Shop làm ăn rất uy tín mọi người hãy ủng hộ shop nhiều nhiều lên nha chứ không shop mà nản l anh em mình khôncoscos '," +
+                "'20-11-2023',2,1)")
+        db?.execSQL("Insert into VOTESHOP(numberofstart,content,date,_idUser,_idShop) values ('4'," +
+                "'Shop làm ăn rất uy tín mọi người hãy ủng hộ shop nhiều nhiều lên nha chứ không shop mà nản l anh em mình khôncoscos '," +
+                "'20-11-2023',2,1)")
+
+        // address
+        db?.execSQL("Insert into ADDRESS(fullname,phone,address,note,_iduser) values ('Tiêu Công Ha'," +
+                "'0336119531','Liên Mạc, Thanh Hà, Hải Dương','Nhận hàng ở thôn tiêu xá', 1 )")
+        db?.execSQL("Insert into ADDRESS(fullname,phone,address,note,_iduser) values ('Tiêu Công Hạnh'," +
+                "'0336119531','Liên Mạc, Thanh Hà, Hải Dương','Nhận hàng ở thôn tiêu xá', 1 )")
+        db?.execSQL("Insert into ADDRESS(fullname,phone,address,note,_iduser) values ('Tiêu Công Ha'," +
+                "'0336119531','Liên Mạc, Thanh Hà, Hải Dương','Nhận hàng ở thôn tiêu xá', 2 )")
 
     }
 

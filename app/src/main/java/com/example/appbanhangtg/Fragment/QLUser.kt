@@ -43,7 +43,9 @@ class QLUser : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentQLUserBinding.inflate(inflater,container,false)
+
         userList = mutableListOf()
+
         userAdapter = UserAdapter(userList) { clickedUser ->
             // Xử lý sự kiện click trên RecyclerView ở đây
             val intent = Intent(context, AddOrUpdate_User::class.java)
@@ -51,6 +53,7 @@ class QLUser : Fragment() {
             startActivityForResult(intent, ADD_OR_UPDATE_REQUEST)
         }
         binding.recyclerview.adapter = userAdapter
+
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
         loadUsers()
 
@@ -59,7 +62,6 @@ class QLUser : Fragment() {
             intent.putExtra("_idUser", 0)
             startActivityForResult(intent, ADD_OR_UPDATE_REQUEST)
         }
-
 
 
 

@@ -84,10 +84,10 @@
                         android:id="@+id/txtusername_profile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+
                         android:text="hanh123"
                         android:textColor="@color/white"
-                        android:textSize="25sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -162,6 +162,10 @@
 
                 </LinearLayout>
                 <!--trong khung sự kiện mới-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#FFE2E2E2"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -288,8 +292,13 @@
                     </LinearLayout>
 
                 </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#FFE2E2E2"/>
                 <!-- đơn mua-->
                 <LinearLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -325,6 +334,10 @@
                             android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#FFE2E2E2"/>
                 <!--trong khung sự kiện đơn mua-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -420,6 +433,10 @@
                     </LinearLayout>
 
                 </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#FFE2E2E2"/>
                 <!-- đơn món ăn-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -457,6 +474,10 @@
                             android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#FFE2E2E2"/>
                 <!-- tiện ích-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -480,6 +501,10 @@
                         android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#FFE2E2E2"/>
                 <!-- khác hàng thân thiết-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -517,6 +542,10 @@
                             android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#FFE2E2E2"/>
                 <!-- Shop live-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -554,6 +583,10 @@
                             android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#FFE2E2E2"/>
                 <!-- love-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -591,6 +624,10 @@
                             android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#FFE2E2E2"/>
                 <!-- Shop đang theo dõi-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -668,13 +705,18 @@
 
                     <TextView
                         android:id="@+id/txtshowaccount_profile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="end|center"
                         android:layout_gravity="center"
                         android:text="  >   "
-                        android:textSize="15sp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
             </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#FFE2E2E2"/>
             <!-- Trung tâm trợ giúp-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -712,6 +754,10 @@
                         android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#FFE2E2E2"/>
             <!-- Trò chuyện với shop tg-->
             <LinearLayout
                 android:layout_width="match_parent"
