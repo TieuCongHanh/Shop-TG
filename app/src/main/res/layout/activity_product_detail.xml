@@ -19,8 +19,10 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:paddingLeft="10dp"
+               android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="55dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -31,10 +33,11 @@
                     android:src="@drawable/icon_back" />
 
                 <LinearLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="end">
+                    android:gravity="end|center">
 
                     <ImageView
                         android:id="@+id/imgshareroduct_detail"
@@ -43,12 +46,31 @@
                         android:src="@drawable/chiaser" />
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/imgcartproduct_detail"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/icon_cart_24" />
+                <RelativeLayout
+
+                    android:gravity="center"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/imgcartproduct_detail"
+                        android:layout_width="34dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/icon_cart_24" />
+
+                    <TextView
+                        android:gravity="center"
+                        android:id="@+id/numcart"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="-13dp"
+                        android:background="@drawable/border4"
+                        android:text="20"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+                </RelativeLayout>
 
                 <ImageView
                     android:id="@+id/img3croduct_detail"

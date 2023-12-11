@@ -54,4 +54,17 @@ class ShopDAO (context: Context){
         val allProducts = getAllShop()
         return allProducts.count { it._idShop == shopId }
     }
+    fun getShopsByUserId(userId: Int): List<ShopModel> {
+        val shopsByUser = mutableListOf<ShopModel>()
+        val allShops = getAllShop()
+
+        for (shop in allShops) {
+            if (shop._idUser == userId) {
+                shopsByUser.add(shop)
+            }
+        }
+
+        return shopsByUser
+    }
+
 }

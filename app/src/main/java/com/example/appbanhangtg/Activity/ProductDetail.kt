@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.example.appbanhangtg.DAO.CartDAO
 import com.example.appbanhangtg.DAO.ProductDAO
 import com.example.appbanhangtg.DAO.ShopDAO
 import com.example.appbanhangtg.DAO.VoteShopDAO
@@ -27,7 +28,7 @@ class ProductDetail : AppCompatActivity() {
 
     private lateinit var productDAO: ProductDAO
     private lateinit var voteShopDAO: VoteShopDAO
-
+    private val cartDAO: CartDAO by lazy { CartDAO(this) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,11 +102,24 @@ class ProductDetail : AppCompatActivity() {
         }
 
         val user = this?.let { SharedPrefsManager.getUser(it) }
+        val userId = user?._idUser
 
+        val cartCount = userId?.let {
+            cartDAO.getCartCountByUserId(it)
+        }
+
+        // Hiển thị số lượng sản phẩm lên TextView
+        cartCount?.let {
+            binding.numcart.text = "$it"
+        }
 
         binding.imgbackproductDetail.setOnClickListener {
             finish()
 
+        }
+       binding.imgcartproductDetail.setOnClickListener {
+            val intent = Intent(this,Cart::class.java)
+            startActivity(intent)
         }
     }
     private fun formatPrice(price: Double) : String {

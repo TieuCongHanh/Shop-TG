@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/showcach"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#EDCCF1"/>
+    <LinearLayout
+        android:id="@+id/shownameshop"
+        android:layout_width="match_parent"
+        android:paddingLeft="10dp"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/boxshopcart"
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
+        <TextView
+            android:id="@+id/nameshopcart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="name Shop"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/icon_next"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CFCCCF"
+        android:layout_marginBottom="10dp"/>
+<LinearLayout
+    android:layout_marginLeft="10dp"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <CheckBox
+        android:id="@+id/boxproductcart"
+        android:layout_width="30dp"
+        android:layout_height="30dp"/>
+    <ImageView
+        android:id="@+id/imgproductcart"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/shopping_cart"/>
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/nameproductcart"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="name product"
+            android:textColor="@color/black"
+            android:textSize="17sp"/>
+        <TextView
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:layout_width="190dp"
+            android:textSize="16sp"
+            android:textColor="@color/tim"
+            android:layout_height="wrap_content"
+            android:text="7 ngày miễn phí trả hàng"
+            android:background="@drawable/border3"/>
+        <TextView
+            android:id="@+id/priceproductcart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="priceproduct"
+            android:textColor="@color/tim"
+            android:textSize="17sp"/>
+    </LinearLayout>
+</LinearLayout>
+    <LinearLayout
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="130dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/imgtrucart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/minus" />
+
+        <TextView
+            android:id="@+id/txtquantitycart"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="1"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/imgcongcart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/add" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CFCCCF"
+      />
+</LinearLayout>

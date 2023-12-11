@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +16,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppBanHangTG"
         tools:targetApi="31">
+        <activity
+            android:name=".Activity.PurchaseOrder"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.MyShop"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Bill"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Cart"
+            android:exported="false" />
         <activity
             android:name=".Activity.Cartting"
             android:exported="false" />

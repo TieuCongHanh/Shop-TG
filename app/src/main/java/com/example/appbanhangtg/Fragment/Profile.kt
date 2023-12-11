@@ -11,8 +11,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.example.appbanhangtg.Activity.AccountSetting
+import com.example.appbanhangtg.Activity.Cart
 import com.example.appbanhangtg.Activity.Login
+import com.example.appbanhangtg.Activity.MyShop
 import com.example.appbanhangtg.Adapter.ShopAdapter
+import com.example.appbanhangtg.DAO.CartDAO
 import com.example.appbanhangtg.Interface.SharedPrefsManager
 import com.example.appbanhangtg.R
 import com.example.appbanhangtg.databinding.FragmentHomeBinding
@@ -20,6 +23,8 @@ import com.example.appbanhangtg.databinding.FragmentProfileBinding
 
 private lateinit var binding: FragmentProfileBinding
 class Profile : Fragment() {
+    private val cartDAO: CartDAO by lazy { CartDAO(requireContext()) }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,6 +56,25 @@ class Profile : Fragment() {
         binding.txtshowaccountProfile.setOnClickListener {
             val intent = Intent(context,AccountSetting::class.java)
             startActivity(intent)
+        }
+        binding.imgcartProfile.setOnClickListener {
+            val intent = Intent(context, Cart::class.java)
+            startActivity(intent)
+        }
+        binding.txtshoppRofile.setOnClickListener {
+            val intent = Intent(context,MyShop::class.java)
+            startActivity(intent)
+        }
+
+        val userId = user?._idUser
+
+        val cartCount = userId?.let {
+            cartDAO.getCartCountByUserId(it)
+        }
+
+        // Hiển thị số lượng sản phẩm lên TextView
+        cartCount?.let {
+          binding.numcart.text = "$it"
         }
 
         return binding.root

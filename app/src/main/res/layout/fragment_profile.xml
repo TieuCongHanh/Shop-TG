@@ -20,6 +20,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal">
@@ -42,13 +43,31 @@
                     android:gravity="end"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/imgcart_profile"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/icon_cart" />
+                    <RelativeLayout
+
+                        android:gravity="center"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/imgcart_profile"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/icon_cart" />
+
+                        <TextView
+                            android:gravity="center"
+                            android:id="@+id/numcart"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="-8dp"
+                            android:background="@drawable/border4"
+                            android:text="20"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
 
                     <ImageView
                         android:id="@+id/imgsetting_profile"
@@ -353,7 +372,7 @@
                         <ImageView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:background="@drawable/shop1"
+                            android:background="@drawable/confirm_profile"
                             android:layout_marginTop="10dp"/>
                         <TextView
                             android:layout_width="80dp"
@@ -375,7 +394,7 @@
                         <ImageView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:background="@drawable/shop1"
+                            android:background="@drawable/box_profile"
                             android:layout_marginTop="10dp"/>
                         <TextView
                             android:layout_width="80dp"
@@ -396,7 +415,7 @@
                         <ImageView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:background="@drawable/shop1"
+                            android:background="@drawable/cart_profile"
                             android:layout_marginTop="10dp"/>
                         <TextView
                             android:layout_width="80dp"
@@ -417,7 +436,7 @@
                         <ImageView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:background="@drawable/shop1"
+                            android:background="@drawable/start_profile"
                             android:layout_marginTop="10dp"/>
                         <TextView
                             android:layout_width="80dp"

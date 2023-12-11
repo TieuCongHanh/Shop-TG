@@ -48,19 +48,24 @@ class Shop : AppCompatActivity() {
                 0 -> {
                     tab.setCustomView(R.layout.custom_tab_layout_shop)
                     val customView = tab.customView
-                    customView?.findViewById<ImageView>(R.id.tab_icon)?.setImageResource(R.drawable.icon_bolt)
+                    customView?.findViewById<ImageView>(R.id.tab_icon)
+                        ?.setImageResource(R.drawable.icon_bolt)
                     customView?.findViewById<TextView>(R.id.tab_text)?.text = "Giới thiệu"
                 }
+
                 1 -> {
                     tab.setCustomView(R.layout.custom_tab_layout_shop)
                     val customView = tab.customView
-                    customView?.findViewById<ImageView>(R.id.tab_icon)?.setImageResource(R.drawable.ngoisao)
+                    customView?.findViewById<ImageView>(R.id.tab_icon)
+                        ?.setImageResource(R.drawable.ngoisao)
                     customView?.findViewById<TextView>(R.id.tab_text)?.text = "Đánh giá"
                 }
+
                 2 -> {
                     tab.setCustomView(R.layout.custom_tab_layout_shop)
                     val customView = tab.customView
-                    customView?.findViewById<ImageView>(R.id.tab_icon)?.setImageResource(R.drawable.icon_bill)
+                    customView?.findViewById<ImageView>(R.id.tab_icon)
+                        ?.setImageResource(R.drawable.icon_bill)
                     customView?.findViewById<TextView>(R.id.tab_text)?.text = "Sản phẩm"
                 }
             }
@@ -85,22 +90,8 @@ class Shop : AppCompatActivity() {
 
         val user = this?.let { SharedPrefsManager.getUser(it) }
         binding.imgbackIntroduce.setOnClickListener {
-//            if (user?.role == "Admin") {
-//                val Intent = Intent(this, HomeAdmin::class.java)
-//                startActivity(Intent)
-//                finish()
-//            } else if (user?.role == "Shipper") {
-//                val Intent = Intent(this, HomeShip::class.java)
-//                startActivity(Intent)
-//                finish()
-//            }else{
-//                val Intent = Intent(this, HomeUser::class.java)
-//                startActivity(Intent)
-//                finish()
-//        }
             finish()
+        }
 
     }
-
-}
 }

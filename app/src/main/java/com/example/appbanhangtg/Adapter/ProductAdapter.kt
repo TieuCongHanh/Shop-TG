@@ -44,7 +44,8 @@ class ProductAdapter (private val list: List<ProductModel>, private val clickRec
 
         // Gán dữ liệu vào các view trong ViewHolder
         holder.apply {
-            name.text = currentProduct.nameProduct
+            val nameProductLimited = currentProduct.nameProduct.limitTo(100)
+            name.text = nameProductLimited
             price.text = formatPrice(currentProduct.priceProduct)
 
             // Load ảnh
@@ -64,5 +65,12 @@ class ProductAdapter (private val list: List<ProductModel>, private val clickRec
     private fun formatPrice(price: Double) : String {
         val formatter = DecimalFormat("#,### VNĐ")
         return formatter.format(price)
+    }
+    fun String.limitTo(length: Int): String {
+        return if (this.length > length) {
+            "${this.substring(0, length)}..."
+        } else {
+            this
+        }
     }
 }
