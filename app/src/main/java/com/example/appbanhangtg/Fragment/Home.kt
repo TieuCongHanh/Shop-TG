@@ -6,24 +6,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.appbanhangtg.Activity.AddOrUpdate_User
 import com.example.appbanhangtg.Activity.ProductDetail
 import com.example.appbanhangtg.Activity.Shop
 import com.example.appbanhangtg.Adapter.ProductAdapter
 import com.example.appbanhangtg.Adapter.ShopAdapter
-import com.example.appbanhangtg.Adapter.UserAdapter
 import com.example.appbanhangtg.DAO.ProductDAO
 import com.example.appbanhangtg.DAO.ShopDAO
-import com.example.appbanhangtg.DAO.UserDAO
 import com.example.appbanhangtg.Model.ProductModel
 import com.example.appbanhangtg.Model.ShopModel
-import com.example.appbanhangtg.Model.UserModel
-import com.example.appbanhangtg.R
 import com.example.appbanhangtg.databinding.FragmentHomeBinding
-import com.example.appbanhangtg.databinding.FragmentQLUserBinding
+
 
 private lateinit var binding:FragmentHomeBinding
 class Home : Fragment() {
@@ -34,7 +28,7 @@ class Home : Fragment() {
     private lateinit var productAdapter: ProductAdapter
     private lateinit var productList: MutableList<ProductModel>
     private val productDAO: ProductDAO by lazy { ProductDAO(requireContext()) }
-
+    private lateinit var viewModel: ProductModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
