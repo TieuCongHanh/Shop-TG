@@ -10,8 +10,8 @@ class SQLiteData(context: Context): SQLiteOpenHelper(context,"DATA",null,1) {
                 "_idUser integer primary key, username TEXT, password TEXT, phone TEXT, role TEXT, email TEXT, image TEXT)")
 
         db?.execSQL("CREATE TABLE PRODUCT(" +
-                "_idProduct integer primary key, nameProduct TEXT, quantityProduct TEXT," +
-                " priceProduct TEXT, descriptionProduct TEXT, imageProduct TEXT," +
+                "_idProduct integer primary key, nameProduct TEXT, quantityProduct integer," +
+                " priceProduct double, descriptionProduct TEXT, imageProduct TEXT," +
                 " _idUser integer, _idShop integer, _idtypeProduct integer)")
 
         db?.execSQL("CREATE TABLE SHOP(" +
@@ -55,17 +55,17 @@ class SQLiteData(context: Context): SQLiteOpenHelper(context,"DATA",null,1) {
 
         // sản phẩm
         db?.execSQL("Insert into PRODUCT(nameProduct,quantityProduct,priceProduct,descriptionProduct,imageProduct,_idUser,_idShop,_idtypeProduct) values ('" +
-                "bánh ngọt','12','50000','bánh thơm ngon ngọt','https://toplist.vn/images/800px/quan-banh-ngot-tuyet-voi-nhat-hai-phong-149908.jpg',3,1,1)")
+                "bánh ngọt',12,50000,'bánh thơm ngon ngọt','https://toplist.vn/images/800px/quan-banh-ngot-tuyet-voi-nhat-hai-phong-149908.jpg',3,1,1)")
         db?.execSQL("Insert into PRODUCT(nameProduct,quantityProduct,priceProduct,descriptionProduct,imageProduct,_idUser,_idShop,_idtypeProduct) values ('" +
-                "bánh pizza','12','100000','Bánh ngon lắm nha','https://useful.vn/wp-content/uploads/2020/04/1541837945555_8122435.jpg',3,1,1)")
+                "bánh pizza',12,100000,'Bánh ngon lắm nha','https://useful.vn/wp-content/uploads/2020/04/1541837945555_8122435.jpg',3,1,1)")
         db?.execSQL("Insert into PRODUCT(nameProduct,quantityProduct,priceProduct,descriptionProduct,imageProduct,_idUser,_idShop,_idtypeProduct) values ('" +
-                "Laptop','12','20000000','Laptop mới','https://tse2.mm.bing.net/th?id=OIP.puzai_D4808Fi7vlZTj3dQHaFh&pid=Api&P=0&h=180',1,2,2)")
+                "Laptop',12,20000000,'Laptop mới','https://tse2.mm.bing.net/th?id=OIP.puzai_D4808Fi7vlZTj3dQHaFh&pid=Api&P=0&h=180',1,2,2)")
         db?.execSQL("Insert into PRODUCT(nameProduct,quantityProduct,priceProduct,descriptionProduct,imageProduct,_idUser,_idShop,_idtypeProduct) values ('" +
-                "Laptop','12','20000000','Laptop mới','https://tse2.mm.bing.net/th?id=OIP.puzai_D4808Fi7vlZTj3dQHaFh&pid=Api&P=0&h=180',1,2,2)")
+                "Laptop',12,20000000,'Laptop mới','https://tse2.mm.bing.net/th?id=OIP.puzai_D4808Fi7vlZTj3dQHaFh&pid=Api&P=0&h=180',1,2,2)")
         db?.execSQL("Insert into PRODUCT(nameProduct,quantityProduct,priceProduct,descriptionProduct,imageProduct,_idUser,_idShop,_idtypeProduct) values ('" +
-                "Laptop','12','20000000','Laptop mới','https://tse2.mm.bing.net/th?id=OIP.puzai_D4808Fi7vlZTj3dQHaFh&pid=Api&P=0&h=180',1,2,2)")
+                "Laptop',12,20000000,'Laptop mới','https://tse2.mm.bing.net/th?id=OIP.puzai_D4808Fi7vlZTj3dQHaFh&pid=Api&P=0&h=180',1,2,2)")
         db?.execSQL("Insert into PRODUCT(nameProduct,quantityProduct,priceProduct,descriptionProduct,imageProduct,_idUser,_idShop,_idtypeProduct) values ('" +
-                "Laptop','12','20000000','Laptop mới','https://tse2.mm.bing.net/th?id=OIP.puzai_D4808Fi7vlZTj3dQHaFh&pid=Api&P=0&h=180',1,2,2)")
+                "Laptop',12,20000000,'Laptop mới','https://tse2.mm.bing.net/th?id=OIP.puzai_D4808Fi7vlZTj3dQHaFh&pid=Api&P=0&h=180',1,2,2)")
 
         // VOTESHOP
         db?.execSQL("Insert into VOTESHOP(numberofstart,content,date,_idUser,_idShop) values ('5'," +

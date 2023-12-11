@@ -1,22 +1,25 @@
 package com.example.appbanhangtg.Activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable.Creator
+import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.example.appbanhangtg.DAO.ProductDAO
 import com.example.appbanhangtg.DAO.ShopDAO
 import com.example.appbanhangtg.DAO.VoteShopDAO
+import com.example.appbanhangtg.Interface.SharedPrefsManager
 import com.example.appbanhangtg.Model.ProductModel
-import com.example.appbanhangtg.Model.ProductWrapper
-import com.example.appbanhangtg.Model.ShopModel
-import com.example.appbanhangtg.Model.ShopWrapper
 import com.example.appbanhangtg.R
 import com.example.appbanhangtg.databinding.ActivityProductDetailBinding
+import java.text.DecimalFormat
+
 
 private lateinit var binding: ActivityProductDetailBinding
 
@@ -24,6 +27,8 @@ class ProductDetail : AppCompatActivity() {
 
     private lateinit var productDAO: ProductDAO
     private lateinit var voteShopDAO: VoteShopDAO
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,8 +57,8 @@ class ProductDetail : AppCompatActivity() {
                     .placeholder(R.drawable.shop1)
                     .into(binding.imgshopproductDetail)
 
-               val numproduct =  productDAO.getProductCountByShopId(shop._idShop)
-               val tbcvote =  voteShopDAO.getVoteShopCountById(shop._idShop)
+                val numproduct = productDAO.getProductCountByShopId(shop._idShop)
+                val tbcvote = voteShopDAO.getVoteShopCountById(shop._idShop)
 
                 binding.txtnumsp.text = "$numproduct"
                 binding.txttbcvote.text = "$tbcvote"
@@ -71,6 +76,7 @@ class ProductDetail : AppCompatActivity() {
 
             }
 
+
             // Hiển thị thông tin sản phẩm
             val tronavt = RequestOptions().transform(CircleCrop())
             Glide.with(binding.root.context)
@@ -78,23 +84,32 @@ class ProductDetail : AppCompatActivity() {
                 .apply(tronavt)
                 .placeholder(R.drawable.shop1)
                 .into(binding.avt)
-            binding.txtpriceproductDetail.text = " " + it.priceProduct + " VNĐ"
+            binding.txtpriceproductDetail.text = formatPrice(it.priceProduct)
             binding.txtnameproductDetail.text = it.nameProduct
             binding.txtdescproductDetail.text = it.descriptionProduct
+
+            Log.d("data","data " +it)
         }
 
         binding.imgCartAdd.setOnClickListener {
             Toast.makeText(this, "Đã thêm sản phẩm vào giỏ hàng", Toast.LENGTH_SHORT).show()
         }
         binding.txtcartting.setOnClickListener {
-
+            val intent = Intent(this, Cartting::class.java)
+            intent.putExtra("PRODUCT_EXTRA", productModel)
+            startActivity(intent)
         }
 
-
+        val user = this?.let { SharedPrefsManager.getUser(it) }
 
 
         binding.imgbackproductDetail.setOnClickListener {
             finish()
+
         }
+    }
+    private fun formatPrice(price: Double) : String {
+        val formatter = DecimalFormat("#,### VNĐ")
+        return formatter.format(price)
     }
 }

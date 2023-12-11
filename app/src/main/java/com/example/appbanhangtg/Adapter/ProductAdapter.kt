@@ -9,10 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.appbanhangtg.Model.ProductModel
-import com.example.appbanhangtg.Model.ShopModel
-import com.example.appbanhangtg.Model.UserModel
 import com.example.appbanhangtg.R
-import com.example.appbanhangtg.databinding.ItemShopBinding
+import java.text.DecimalFormat
 
 class ProductAdapter (private val list: List<ProductModel>, private val clickRecyclerView: (ProductModel) -> Unit) :
     RecyclerView.Adapter<ProductAdapter.ProductHolder>() {
@@ -47,7 +45,7 @@ class ProductAdapter (private val list: List<ProductModel>, private val clickRec
         // Gán dữ liệu vào các view trong ViewHolder
         holder.apply {
             name.text = currentProduct.nameProduct
-            price.text = currentProduct.priceProduct + " VNĐ"
+            price.text = formatPrice(currentProduct.priceProduct)
 
             // Load ảnh
             val radiusInPixels = itemView.context.resources.displayMetrics.density * 10 // Chuyển đổi dp sang pixel
@@ -62,5 +60,9 @@ class ProductAdapter (private val list: List<ProductModel>, private val clickRec
 
     override fun getItemCount(): Int {
         return list.size
+    }
+    private fun formatPrice(price: Double) : String {
+        val formatter = DecimalFormat("#,### VNĐ")
+        return formatter.format(price)
     }
 }

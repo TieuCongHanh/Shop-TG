@@ -80,11 +80,27 @@ class Shop : AppCompatActivity() {
             binding.txtnameshopIntroduce.text = it.nameShop + " >"
 
         }
-        binding.imgbackIntroduce.setOnClickListener {
-            finish()
-        }
         val averageRating = shopId?.let { voteshopDAO.calculateAverageRatingByShopId(it) }
-       binding.txtvoteIntroduce.text = "$averageRating"
+        binding.txtvoteIntroduce.text = "$averageRating"
+
+        val user = this?.let { SharedPrefsManager.getUser(it) }
+        binding.imgbackIntroduce.setOnClickListener {
+//            if (user?.role == "Admin") {
+//                val Intent = Intent(this, HomeAdmin::class.java)
+//                startActivity(Intent)
+//                finish()
+//            } else if (user?.role == "Shipper") {
+//                val Intent = Intent(this, HomeShip::class.java)
+//                startActivity(Intent)
+//                finish()
+//            }else{
+//                val Intent = Intent(this, HomeUser::class.java)
+//                startActivity(Intent)
+//                finish()
+//        }
+            finish()
+
     }
 
+}
 }

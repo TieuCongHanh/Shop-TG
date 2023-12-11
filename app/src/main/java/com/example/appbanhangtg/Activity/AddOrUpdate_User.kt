@@ -32,26 +32,41 @@ class AddOrUpdate_User : AppCompatActivity() {
 
     private val userDAO: UserDAO by lazy { UserDAO(this) }
     private var imageUri: Uri? = null
-    private val pickImage = 1
-
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            imageUri = result.data?.data
-            imageUri?.let { uri ->
-                binding.imgaddorupdate.setImageURI(uri)
-                // Nếu bạn muốn lưu URI vào EditText (chỉ để hiển thị)
-                binding.edtimgaddorupdate.setText(uri.toString())
-            }
-        }
+    companion object {
+        private const val pickImage = 1001 // Mã yêu cầu tùy ý
     }
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == pickImage) {
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                // Quyền đã được cấp, tiếp tục với việc chọn ảnh
+                // Quyền đã được cấp, bạn có thể tiếp tục với việc chọn ảnh
             } else {
-                // Quyền bị từ chối, xử lý trường hợp này
+                Toast.makeText(this, "Quyền truy cập bị từ chối", Toast.LENGTH_SHORT).show()
+                // Xử lý trường hợp quyền bị từ chối
             }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == pickImage && resultCode == Activity.RESULT_OK) {
+            imageUri = data?.data // URI của tài liệu hoặc tệp tin được chọn
+
+            // Kiểm tra và lấy quyền truy cập lâu dài
+            val contentResolver = applicationContext.contentResolver
+            val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            imageUri?.let {
+                contentResolver.takePersistableUriPermission(imageUri!!, takeFlags)
+            }
+            Glide.with(this)
+                .load(imageUri)
+                .into(binding.imgaddorupdate)
+            // Sử dụng URI với Glide để tải ảnh, hoặc xử lý tùy theo nhu cầu của bạn
         }
     }
 
@@ -60,17 +75,26 @@ class AddOrUpdate_User : AppCompatActivity() {
         binding = ActivityAddOrUpdateUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), pickImage)
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Nếu không có quyền, yêu cầu quyền từ người dùng
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                pickImage
+            )
         }
 
 
         binding.edtimgaddorupdate.setOnClickListener {
-            val intent = Intent().apply {
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
                 type = "image/*"
-                action = Intent.ACTION_GET_CONTENT
             }
-            resultLauncher.launch(Intent.createChooser(intent, "Chọn hình ảnh"))
+            startActivityForResult(intent, pickImage)
         }
 
         SpinerCoBan()
@@ -179,7 +203,6 @@ class AddOrUpdate_User : AppCompatActivity() {
     private fun displayUserInfo(user: UserModel) {
         binding.edtusernameaddorupdate.setText(user.username)
         binding.edtpasswordaddorupdate.setText(user.password)
-        binding.edtimgaddorupdate.setText(user.image)
         binding.edtphoneaddorupdate.setText(user.phone)
         binding.edtemailaddorupdate.setText(user.email)
 

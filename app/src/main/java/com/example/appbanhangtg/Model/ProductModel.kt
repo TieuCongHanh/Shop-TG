@@ -5,8 +5,8 @@ import java.io.Serializable
 class ProductModel(
     val _idProduct : Int,
     val nameProduct: String,
-    val quantityProduct: String,
-    val priceProduct: String,
+    val quantityProduct: Int,
+    val priceProduct: Double,
     val descriptionProduct:String,
     val imageProduct:String,
     val _idUser :Int,

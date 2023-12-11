@@ -1,5 +1,6 @@
 package com.example.appbanhangtg.Activity
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -48,7 +49,12 @@ class Address : AppCompatActivity() {
             false
         )
         val addressAdapter = AddressAdapter(addresss) { clickedProduct ->
-            Toast.makeText(this, "${clickedProduct.fullname}.", Toast.LENGTH_SHORT).show()
+            val selectedAddress = clickedProduct
+            val resultIntent = Intent()
+            resultIntent.putExtra("EXTRA_ADDRESS", clickedProduct)
+            setResult(Activity.RESULT_OK, resultIntent)
+            finish()
+
         }
         recyclerView.adapter = addressAdapter
     }
