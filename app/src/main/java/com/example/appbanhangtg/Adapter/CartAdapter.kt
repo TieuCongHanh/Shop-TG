@@ -30,6 +30,11 @@ class CartAdapter(
 ) :
 RecyclerView.Adapter<CartAdapter.BillHolder>() {
 
+    private val sortedList: MutableList<CartModel>
+    init {
+        sortedList = mutableListOf()
+        sortListByShopId()
+    }
     inner class BillHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameproductcart : TextView = itemView.findViewById(R.id.nameproductcart)
         val nameshoptcart : TextView = itemView.findViewById(R.id.nameshopcart)
@@ -48,10 +53,11 @@ RecyclerView.Adapter<CartAdapter.BillHolder>() {
             itemView.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    val clickedUser = list[position]
+                    val clickedUser = sortedList[position]
                     clickRecyclerView.invoke(clickedUser)
                 }
             }
+
         }
 
     }
@@ -65,7 +71,7 @@ RecyclerView.Adapter<CartAdapter.BillHolder>() {
 
     override fun onBindViewHolder(holder: CartAdapter.BillHolder, position: Int) {
         holder.apply {
-            val productId = list[position]._idProduct
+            val productId = sortedList[position]._idProduct
 
             val productInfo = cartDAO.getProductInfoByCartId(productId)
             val nameproduct = productInfo.first ?: "" // vị trí 1
@@ -84,28 +90,25 @@ RecyclerView.Adapter<CartAdapter.BillHolder>() {
                 .into(imgproductcart)
 
             val shopDAO = ShopDAO(context)
-            val shopList = shopDAO.getByProductIdShop(productId)
+            val shopList = shopDAO.getByProductIdShop(sortedList[position]._idShop)
 
             // Hiển thị tên cửa hàng chỉ một lần
             if (shopList.isNotEmpty()) {
-                val currentShopName = shopList[0].nameShop // Lấy tên cửa hàng của sản phẩm hiện tại
-                var previousShopName = ""
-
                 // Tìm sản phẩm trước đó để so sánh _idShop
-                if (position > 0) {
-                    val previousProductId = list[position - 1]._idProduct
-                    val previousShopList = shopDAO.getByProductIdShop(previousProductId)
-                    if (previousShopList.isNotEmpty()) {
-                        previousShopName = previousShopList[0].nameShop ?: ""
-                    }
-                }
-
-                // Nếu tên cửa hàng của sản phẩm hiện tại khác với sản phẩm trước đó thì hiển thị tên cửa hàng mới
-                if (currentShopName != previousShopName) {
-                    nameshoptcart.text = currentShopName
+                if (position > 0 && sortedList[position]._idShop == sortedList[position - 1]._idShop) {
+                    // Ẩn TextView khi sản phẩm hiện tại cùng idShop với sản phẩm trước đó
+                    showname.visibility = View.GONE
+                    showcah.visibility = View.GONE
                 } else {
-                    showname.visibility = View.GONE // Ẩn TextView nếu cùng cửa hàng với sản phẩm trước đó
-                    showcah.visibility = View.GONE // Ẩn TextView nếu cùng cửa hàng với sản phẩm trước đó
+                    // Hiển thị TextView khi sản phẩm hiện tại không cùng idShop với sản phẩm trước đó
+                    showname.visibility = View.VISIBLE
+                    showcah.visibility = View.VISIBLE
+
+                    // Hiển thị tên cửa hàng của sản phẩm hiện tại
+                    if (shopList.isNotEmpty()) {
+                        val currentShopName = shopList[0].nameShop
+                        nameshoptcart.text = currentShopName
+                    }
                 }
             }
         }
@@ -126,6 +129,21 @@ RecyclerView.Adapter<CartAdapter.BillHolder>() {
             this
         }
     }
+    private fun sortListByShopId() {
+        val shopIdMap = mutableMapOf<Int, MutableList<CartModel>>()
 
+        list.forEach { cart ->
+            val shopId = cart._idShop
+            if (shopIdMap.containsKey(shopId)) {
+                shopIdMap[shopId]?.add(cart)
+            } else {
+                shopIdMap[shopId] = mutableListOf(cart)
+            }
+        }
+
+        shopIdMap.values.forEach { shopList ->
+            sortedList.addAll(shopList)
+        }
+    }
 
 }

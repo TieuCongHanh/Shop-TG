@@ -32,11 +32,11 @@ class SQLiteData(context: Context): SQLiteOpenHelper(context,"DATA",null,1) {
         db?.execSQL("CREATE TABLE BILL(" +
                 "_idBill integer primary key," +
                 "quantitybill integer, sumpricebill double, ptthanhtoan TEXT, phiship double,datedathang TEXT , datenhanhang TEXT," +
-                " TTproduct TEXT, TTgiaohang TEXT, TThuy TEXT, TTNH TEXT, TTvote TEXT ,"+
-                " _idUser integer, _idProduct integer, _idAddRess integer)")
+                "TTXacNhan, TTLayhang TEXT, TTGiaoHang TEXT, TTHuy TEXT, TTDaGiao TEXT, TTVote TEXT ,"+
+                " _idUser integer, _idProduct integer, _idAddRess integer, _idShop integer)")
         db?.execSQL("CREATE TABLE CART(" +
                 "_idCart integer primary key," +
-                " _idUser integer, _idProduct integer)")
+                " _idUser integer, _idProduct integer, _idShop integer)")
 
         // user
         db?.execSQL("Insert into USER(username,password,phone,role,email,image) values ('admin','admin','0123','Admin','admin@gmail.com'," +
@@ -102,16 +102,16 @@ class SQLiteData(context: Context): SQLiteOpenHelper(context,"DATA",null,1) {
 
         // bill
         db?.execSQL("Insert into BILL(quantitybill,sumpricebill,ptthanhtoan,phiship,datedathang,datenhanhang," +
-                "TTproduct,TTgiaohang,TThuy,TTNH,_idUser,_idProduct,_idAddRess) values (2," +
-                "100000.0,'Thanh toán khi nhận hàng',30000.0,'11/12/2023','16/12/2023','false','false','false','false',1,2,2 )")
+                "TTXacNhan,TTLayhang,TTGiaoHang,TTHuy,TTDaGiao,TTVote,_idUser,_idProduct,_idAddRess,_idShop) values (2," +
+                "100000.0,'Thanh toán khi nhận hàng',30000.0,'11/12/2023','16/12/2023','false','false','false','false',1,2,2 ,1)")
         db?.execSQL("Insert into BILL(quantitybill,sumpricebill,ptthanhtoan,phiship,datedathang,datenhanhang," +
-                "TTproduct,TTgiaohang,TThuy,TTNH,_idUser,_idProduct,_idAddRess) values (2," +
-                "100000.0,'Thanh toán khi nhận hàng',30000.0,'11/12/2023','16/12/2023','false','false','false','false',1,2,2 )")
+                "TTXacNhan,TTLayhang,TTGiaoHang,TTHuy,TTDaGiao,TTVote,_idUser,_idProduct,_idAddRess,_idShop) values (2," +
+                "100000.0,'Thanh toán khi nhận hàng',30000.0,'11/12/2023','16/12/2023','false','false','false','false',1,2,2,1 )")
 
         // cart
-        db?.execSQL("Insert into CART(_idUser,_idProduct) values (1,2 )")
-        db?.execSQL("Insert into CART(_idUser,_idProduct) values (1,2 )")
-        db?.execSQL("Insert into CART(_idUser,_idProduct) values (1,3 )")
+        db?.execSQL("Insert into CART(_idUser,_idProduct,_idShop) values (1,2,1 )")
+        db?.execSQL("Insert into CART(_idUser,_idProduct,_idShop) values (1,2 ,1)")
+        db?.execSQL("Insert into CART(_idUser,_idProduct,_idShop) values (1,3 ,2)")
 
     }
 

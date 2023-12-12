@@ -1,6 +1,7 @@
 package com.example.appbanhangtg.DAO
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import com.example.appbanhangtg.Model.BillModel
@@ -26,10 +27,12 @@ class CartDAO (private val context: Context) {
                 val _idCart = it.getInt(it.getColumnIndex("_idCart"))
                 val _idUser = it.getInt(it.getColumnIndex("_idUser"))
                 val _idProduct = it.getInt(it.getColumnIndex("_idProduct"))
+                val _idShop = it.getInt(it.getColumnIndex("_idShop"))
                 val cart = CartModel(
                     _idCart,
                     _idUser,
-                    _idProduct
+                    _idProduct,
+                    _idShop
                 )
                 cartList.add(cart)
             }
@@ -56,10 +59,12 @@ class CartDAO (private val context: Context) {
                 val _idCart = it.getInt(it.getColumnIndex("_idCart"))
                 val _idUser = it.getInt(it.getColumnIndex("_idUser"))
                 val _idProduct = it.getInt(it.getColumnIndex("_idProduct"))
+                val _idShop = it.getInt(it.getColumnIndex("_idShop"))
                 val cart = CartModel(
                     _idCart,
                     _idUser,
-                    _idProduct
+                    _idProduct,
+                    _idShop
                 )
                 cartList.add(cart)
             }
@@ -99,6 +104,8 @@ class CartDAO (private val context: Context) {
 
         return Triple(nameProduct, priceProduct, imageProduct)
     }
+
+
     fun getCartCountByUserId(userId: Int): Int {
         val allProducts = getAllBill()
         return allProducts.count { it._idUser == userId }
@@ -149,6 +156,22 @@ class CartDAO (private val context: Context) {
         return product
     }
 
+    fun addCart(cart: CartModel): Long {
+        val db = sqLiteData.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put("_idUser", cart._idUser)
+        contentValues.put("_idProduct", cart._idProduct)
+        contentValues.put("_idShop", cart._idShop)
 
+        val addcart = db.insert("CART", null, contentValues)
+        db.close()
+        return addcart
+    }
+    fun deleteCart(cartId: Int): Int {
+        val db = sqLiteData.writableDatabase
+        val deleteCount = db.delete("CART", "_idCart = ?", arrayOf(cartId.toString()))
+        db.close()
+        return deleteCount
+    }
 
 }

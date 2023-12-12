@@ -16,6 +16,7 @@ import com.example.appbanhangtg.DAO.ProductDAO
 import com.example.appbanhangtg.DAO.ShopDAO
 import com.example.appbanhangtg.DAO.VoteShopDAO
 import com.example.appbanhangtg.Interface.SharedPrefsManager
+import com.example.appbanhangtg.Model.CartModel
 import com.example.appbanhangtg.Model.ProductModel
 import com.example.appbanhangtg.R
 import com.example.appbanhangtg.databinding.ActivityProductDetailBinding
@@ -89,18 +90,69 @@ class ProductDetail : AppCompatActivity() {
             binding.txtnameproductDetail.text = it.nameProduct
             binding.txtdescproductDetail.text = it.descriptionProduct
 
-            Log.d("data","data " +it)
+            val user = this?.let { SharedPrefsManager.getUser(it) }
+            val userId = user?._idUser
+            val productIdsp = it._idProduct
+            val shopIdsp = it._idShop
+
+
+            // thêm sản phẩm vào giỏ hàng
+            binding.imgCartAdd.setOnClickListener {
+                if (productIdsp == null || userId == null ){
+                    Toast.makeText(this, "Lỗi rùi hahaa", Toast.LENGTH_SHORT).show()
+                }else{
+                    hamADDCart(userId,productIdsp,shopIdsp)
+                }
+
+            }
+
         }
 
-        binding.imgCartAdd.setOnClickListener {
-            Toast.makeText(this, "Đã thêm sản phẩm vào giỏ hàng", Toast.LENGTH_SHORT).show()
-        }
+
         binding.txtcartting.setOnClickListener {
             val intent = Intent(this, Cartting::class.java)
             intent.putExtra("PRODUCT_EXTRA", productModel)
             startActivity(intent)
         }
 
+        // tính tổng sản phẩm có trong giỏ hàng
+        sumcart()
+
+        binding.imgbackproductDetail.setOnClickListener {
+            finish()
+
+        }
+        binding.imgcartproductDetail.setOnClickListener {
+            val intent = Intent(this, Cart::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun formatPrice(price: Double): String {
+        val formatter = DecimalFormat("#,### VNĐ")
+        return formatter.format(price)
+    }
+    private fun hamADDCart(
+        iduser: Int,
+        idproduct: Int,
+        shopIdsp: Int
+    ) {
+        val newCart = CartModel(
+            0,
+            iduser,
+            idproduct,
+            shopIdsp
+        )
+        val cartId = cartDAO.addCart(newCart)
+
+        if (cartId > -1) {
+            Toast.makeText(this, "Thêm thành công sản phẩm vào giỏ hàng", Toast.LENGTH_SHORT).show()
+            sumcart()
+        } else {
+            Toast.makeText(this, "thêm thất bại", Toast.LENGTH_SHORT).show()
+        }
+    }
+    private fun sumcart(){
         val user = this?.let { SharedPrefsManager.getUser(it) }
         val userId = user?._idUser
 
@@ -112,18 +164,5 @@ class ProductDetail : AppCompatActivity() {
         cartCount?.let {
             binding.numcart.text = "$it"
         }
-
-        binding.imgbackproductDetail.setOnClickListener {
-            finish()
-
-        }
-       binding.imgcartproductDetail.setOnClickListener {
-            val intent = Intent(this,Cart::class.java)
-            startActivity(intent)
-        }
-    }
-    private fun formatPrice(price: Double) : String {
-        val formatter = DecimalFormat("#,### VNĐ")
-        return formatter.format(price)
     }
 }

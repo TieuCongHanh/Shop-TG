@@ -67,7 +67,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="-13dp"
                         android:background="@drawable/border4"
-                        android:text="20"
+                        android:text="0"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
                 </RelativeLayout>

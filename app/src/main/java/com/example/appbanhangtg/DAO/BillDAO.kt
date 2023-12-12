@@ -31,12 +31,12 @@ class BillDAO(private val context: Context) {
                 val phiship = it.getDouble(it.getColumnIndex("phiship"))
                 val datedathang = it.getString(it.getColumnIndex("datedathang"))
                 val datenhanhang = it.getString(it.getColumnIndex("datenhanhang"))
-                val TTdathang = it.getString(it.getColumnIndex("TTdathang"))
-                val TTproduct = it.getString(it.getColumnIndex("TTproduct"))
-                val TTgiaohang = it.getString(it.getColumnIndex("TTgiaohang"))
-                val TThuy = it.getString(it.getColumnIndex("TThuy"))
-                val TTNH = it.getString(it.getColumnIndex("TTNH"))
-                val TTvote = it.getString(it.getColumnIndex("TTvote"))
+                val TTXacNhan = it.getString(it.getColumnIndex("TTXacNhan"))
+                val TTLayhang = it.getString(it.getColumnIndex("TTLayhang"))
+                val TTGiaoHang = it.getString(it.getColumnIndex("TTHuy"))
+                val TTHuy = it.getString(it.getColumnIndex("TThuy"))
+                val TTDaGiao = it.getString(it.getColumnIndex("TTDaGiao"))
+                val TTVote = it.getString(it.getColumnIndex("TTVote"))
                 val _idUser = it.getInt(it.getColumnIndex("_idUser"))
                 val _idProduct = it.getInt(it.getColumnIndex("_idProduct"))
                 val _idAddRess = it.getInt(it.getColumnIndex("_idAddRess"))
@@ -48,12 +48,12 @@ class BillDAO(private val context: Context) {
                     phiship,
                     datedathang,
                     datenhanhang,
-                    TTdathang,
-                    TTproduct,
-                    TTgiaohang,
-                    TThuy,
-                    TTNH,
-                    TTvote,
+                    TTXacNhan,
+                    TTLayhang,
+                    TTGiaoHang,
+                    TTHuy,
+                    TTDaGiao,
+                    TTVote,
                     _idUser,
                     _idProduct,
                     _idAddRess
@@ -117,8 +117,55 @@ class BillDAO(private val context: Context) {
 
         return Triple(nameProduct, priceProduct, imageProduct)
     }
+    fun getbillCountByUserId(userId: Int): Int {
+        val allProducts = getAllBill()
+        return allProducts.count { it._idUser == userId }
+    }
+    @SuppressLint("Range")
+    fun getProductByIdProduct(productId: Int): ProductModel? {
+        val db = sqLiteData.readableDatabase
 
+        val selection = "_idProduct = ?"
+        val selectionArgs = arrayOf(productId.toString())
 
+        val cursor: Cursor? = db.query(
+            "PRODUCT", null, selection, selectionArgs,
+            null, null, null
+        )
+
+        var product: ProductModel? = null
+
+        cursor?.use {
+            if (it.moveToFirst()) {
+                val _idProduct = it.getInt(it.getColumnIndex("_idProduct"))
+                val nameProduct = it.getString(it.getColumnIndex("nameProduct"))
+                val quantityProduct = it.getInt(it.getColumnIndex("quantityProduct"))
+                val priceProduct = it.getDouble(it.getColumnIndex("priceProduct"))
+                val descriptionProduct = it.getString(it.getColumnIndex("descriptionProduct"))
+                val imageProduct = it.getString(it.getColumnIndex("imageProduct"))
+                val _idUser = it.getInt(it.getColumnIndex("_idUser"))
+                val _idShop = it.getInt(it.getColumnIndex("_idShop"))
+                val _idtypeProduct = it.getInt(it.getColumnIndex("_idtypeProduct"))
+
+                product = ProductModel(
+                    _idProduct,
+                    nameProduct,
+                    quantityProduct,
+                    priceProduct,
+                    descriptionProduct,
+                    imageProduct,
+                    _idUser,
+                    _idShop,
+                    _idtypeProduct
+                )
+            }
+        }
+
+        cursor?.close()
+        db.close()
+
+        return product
+    }
 
     fun addBill(bill: BillModel): Long {
         val db = sqLiteData.writableDatabase
@@ -129,12 +176,12 @@ class BillDAO(private val context: Context) {
         contentValues.put("phiship", bill.phiship)
         contentValues.put("datedathang", bill.datedathang)
         contentValues.put("datenhanhang", bill.datenhanhang)
-        contentValues.put("TTdathang", bill.TTdathang)
-        contentValues.put("TTproduct", bill.TTproduct)
-        contentValues.put("TTgiaohang", bill.TTgiaohang)
-        contentValues.put("TThuy", bill.TThuy)
-        contentValues.put("TTNH", bill.TTNH)
-        contentValues.put("TTvote", bill.TTvote)
+        contentValues.put("TTXacNhan", bill.TTXacNhan)
+        contentValues.put("TTLayhang", bill.TTLayhang)
+        contentValues.put("TTGiaoHang", bill.TTGiaoHang)
+        contentValues.put("TTHuy", bill.TTHuy)
+        contentValues.put("TTDaGiao", bill.TTDaGiao)
+        contentValues.put("TTVote", bill.TTVote)
         contentValues.put("_idUser", bill._idUser)
         contentValues.put("_idProduct", bill._idProduct)
         contentValues.put("_idAddRess", bill._idAddRess)

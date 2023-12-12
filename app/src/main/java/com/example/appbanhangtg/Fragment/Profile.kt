@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.example.appbanhangtg.Activity.AccountSetting
+import com.example.appbanhangtg.Activity.Bill
 import com.example.appbanhangtg.Activity.Cart
 import com.example.appbanhangtg.Activity.Login
 import com.example.appbanhangtg.Activity.MyShop
@@ -63,6 +64,10 @@ class Profile : Fragment() {
         }
         binding.txtshoppRofile.setOnClickListener {
             val intent = Intent(context,MyShop::class.java)
+            startActivity(intent)
+        }
+        binding.historibill.setOnClickListener {
+            val intent = Intent(context,Bill::class.java)
             startActivity(intent)
         }
 
