@@ -111,6 +111,20 @@ RecyclerView.Adapter<CartAdapter.BillHolder>() {
                     }
                 }
             }
+            imgtrucart.setOnClickListener {
+                val currentQuantity = txtquantitycart.text.toString().toIntOrNull() ?: 0
+                if (currentQuantity > 1) {
+                    val updatedQuantity = currentQuantity - 1
+                    txtquantitycart.text = updatedQuantity.toString()
+                }
+            }
+
+            imgcongcart.setOnClickListener {
+                val currentQuantity = txtquantitycart.text.toString().toIntOrNull() ?: 0
+                val updatedQuantity = currentQuantity + 1
+                txtquantitycart.text = updatedQuantity.toString()
+            }
+
         }
     }
 

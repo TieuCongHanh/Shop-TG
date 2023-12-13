@@ -62,9 +62,4 @@ class Cart : AppCompatActivity() {
         recyclerView.adapter = cartAdapter
     }
 
-
-
-
-
-
 }

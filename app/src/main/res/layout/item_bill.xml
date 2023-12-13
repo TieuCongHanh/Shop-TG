@@ -2,13 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/tim"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_marginTop="20dp"
        android:paddingHorizontal="10dp"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/nameshopbill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="name Shop"
@@ -17,6 +22,7 @@
             android:textColor="@color/black"
             android:textStyle="bold"/>
        <TextView
+           android:id="@+id/trangthaibill"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="Trang thái"
@@ -30,6 +36,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/imgproductbill"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@drawable/shopping_cart"/>
@@ -39,19 +46,35 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/nameproductbill"
                 android:layout_marginBottom="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="name product"
                 android:textColor="@color/black"
                 android:textSize="19sp"/>
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="X số lượng"
-                android:gravity="end"
-                android:textColor="@color/black"
-                android:textSize="16sp"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="X"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:gravity="end"
+                    android:layout_marginRight="5dp"/>
+                <TextView
+                    android:id="@+id/quantityproductbill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="X số lượng"
+                    android:gravity="end"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+            </LinearLayout>
             <LinearLayout
                 android:gravity="bottom"
                 android:layout_width="match_parent"
@@ -67,6 +90,7 @@
                     android:text="7 ngày trả hàng"
                     android:background="@drawable/border3"/>
                 <TextView
+                    android:id="@+id/priceproductbill"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:layout_width="match_parent"
@@ -87,14 +111,28 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="1 sản phẩm"
-            android:layout_gravity="center"
-            android:textSize="16sp"
-            android:id="@+id/sumproduct"/>
+       <LinearLayout
+           android:layout_gravity="center"
+           android:layout_weight="1"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal">
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="1"
+               android:layout_gravity="center"
+               android:textSize="16sp"
+               android:id="@+id/sumproduct"/>
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_weight="1"
+               android:layout_height="wrap_content"
+               android:text=" sản phẩm"
+               android:layout_gravity="center"
+               android:textSize="16sp"
+              />
+       </LinearLayout>
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -108,14 +146,15 @@
             android:textSize="18sp"
             android:textColor="@color/black"
             android:layout_gravity="center"/>
+
         <TextView
+            android:id="@+id/sumpricebill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="0 VNĐ"
             android:textColor="@color/tim"
-            android:textSize="18sp"
-            android:layout_gravity="center"
-            android:id="@+id/sumpricebill"/>
+            android:textSize="18sp" />
 
     </LinearLayout>
     <TextView
@@ -133,6 +172,7 @@
             android:background="@drawable/cart_profile"
             android:layout_gravity="center"/>
         <TextView
+            android:id="@+id/giaohang"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -151,12 +191,15 @@
         android:layout_height="1dp"
         android:background="#CFCCCF"/>
     <LinearLayout
+        android:id="@+id/linerxacnhan"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="end"
+        android:orientation="horizontal"
         android:paddingHorizontal="10dp"
         >
         <TextView
+            android:id="@+id/voteproductbill"
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:background="@drawable/border1"
@@ -165,5 +208,11 @@
             android:textColor="@color/white"
             android:gravity="center"
             android:layout_gravity="center"/>
+
     </LinearLayout>
+    <TextView
+        android:id="@+id/showborder"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CFCCCF"/>
 </LinearLayout>

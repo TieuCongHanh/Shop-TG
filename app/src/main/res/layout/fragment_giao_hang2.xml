@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.PurchaseOrder.XacNhan">
+    tools:context=".Fragment.PurchaseOrder1.GiaoHang">
 
     <androidx.recyclerview.widget.RecyclerView
 
-        android:id="@+id/recyclerview_bill"
+        android:id="@+id/recyclerview_bill1"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="match_parent" />

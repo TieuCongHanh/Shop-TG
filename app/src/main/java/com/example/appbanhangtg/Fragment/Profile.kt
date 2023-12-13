@@ -12,9 +12,11 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.example.appbanhangtg.Activity.AccountSetting
 import com.example.appbanhangtg.Activity.Bill
+import com.example.appbanhangtg.Activity.Bill1
 import com.example.appbanhangtg.Activity.Cart
 import com.example.appbanhangtg.Activity.Login
 import com.example.appbanhangtg.Activity.MyShop
+import com.example.appbanhangtg.Activity.VoteProduct
 import com.example.appbanhangtg.Adapter.ShopAdapter
 import com.example.appbanhangtg.DAO.CartDAO
 import com.example.appbanhangtg.Interface.SharedPrefsManager
@@ -68,6 +70,14 @@ class Profile : Fragment() {
         }
         binding.historibill.setOnClickListener {
             val intent = Intent(context,Bill::class.java)
+            startActivity(intent)
+        }
+        binding.voteproductdetail.setOnClickListener {
+            val intent = Intent(context,VoteProduct::class.java)
+            startActivity(intent)
+        }
+        binding.donbancuatoi.setOnClickListener {
+            val intent = Intent(context,Bill1::class.java)
             startActivity(intent)
         }
 

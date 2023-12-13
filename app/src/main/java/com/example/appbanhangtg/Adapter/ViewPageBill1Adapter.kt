@@ -4,15 +4,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.appbanhangtg.Fragment.PurchaseOrder.DaGiao
-import com.example.appbanhangtg.Fragment.PurchaseOrder.DanhGia
-import com.example.appbanhangtg.Fragment.PurchaseOrder.GiaoHang
-import com.example.appbanhangtg.Fragment.PurchaseOrder.Huy
-import com.example.appbanhangtg.Fragment.PurchaseOrder.LayHang
-import com.example.appbanhangtg.Fragment.PurchaseOrder.XacNhan
+import com.example.appbanhangtg.Fragment.PurchaseOrder1.DaGiao
+import com.example.appbanhangtg.Fragment.PurchaseOrder1.GiaoHang
+import com.example.appbanhangtg.Fragment.PurchaseOrder1.Huy
+import com.example.appbanhangtg.Fragment.PurchaseOrder1.LayHang
+import com.example.appbanhangtg.Fragment.PurchaseOrder1.XacNhan
 
-
-class ViewPageBillAdapter (
+class ViewPageBill1Adapter (
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle,
 ): FragmentStateAdapter(fragmentManager, lifecycle) {
@@ -27,21 +25,20 @@ class ViewPageBillAdapter (
             }
 
             1 -> {
-               LayHang()
+                LayHang()
             }
-
-            2 -> {
-                GiaoHang()
+            2 ->{
+                Huy()
             }
             3 ->{
-                Huy()
+                GiaoHang()
             }
             4 ->{
                 DaGiao()
             }
 
             else -> {
-                DaGiao()
+                XacNhan()
             }
         }
     }

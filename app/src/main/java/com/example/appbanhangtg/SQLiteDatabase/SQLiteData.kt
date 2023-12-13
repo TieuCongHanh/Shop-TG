@@ -32,7 +32,7 @@ class SQLiteData(context: Context): SQLiteOpenHelper(context,"DATA",null,1) {
         db?.execSQL("CREATE TABLE BILL(" +
                 "_idBill integer primary key," +
                 "quantitybill integer, sumpricebill double, ptthanhtoan TEXT, phiship double,datedathang TEXT , datenhanhang TEXT," +
-                "TTXacNhan, TTLayhang TEXT, TTGiaoHang TEXT, TTHuy TEXT, TTDaGiao TEXT, TTVote TEXT ,"+
+                "TTXacNhan TEXT, TTLayhang TEXT, TTGiaoHang TEXT, TTHuy TEXT, TTDaGiao TEXT, TTVote TEXT ,"+
                 " _idUser integer, _idProduct integer, _idAddRess integer, _idShop integer)")
         db?.execSQL("CREATE TABLE CART(" +
                 "_idCart integer primary key," +
@@ -40,7 +40,7 @@ class SQLiteData(context: Context): SQLiteOpenHelper(context,"DATA",null,1) {
 
         // user
         db?.execSQL("Insert into USER(username,password,phone,role,email,image) values ('admin','admin','0123','Admin','admin@gmail.com'," +
-                "'https://phunugioi.com/wp-content/uploads/2020/10/avatar-chat-anime.jpg') ")
+                "'https://tse3.mm.bing.net/th?id=OIP.R9Th0iy5DHgJQs5Hfn-VdQHaJQ&pid=Api&P=0&h=180') ")
         db?.execSQL("Insert into USER(username,password,phone,role,email,image) values ('shipper','shipper','0123','Shipper','shipper@gmail.com'," +
                 "'https://1.bp.blogspot.com/-K_0zfgKhlbw/XqZl81WsZZI/AAAAAAAAjP8/K5Tp7visL9g7aKNNQYSq5kHGRd2P84E9QCLcBGAsYHQ/s1600/Anh-avatar-dep-cho-con-trai%2B%252840%2529.jpg') ")
         db?.execSQL("Insert into USER(username,password,phone,role,email,image) values ('user','user','0123','User','user@gmail.com'," +
@@ -100,6 +100,14 @@ class SQLiteData(context: Context): SQLiteOpenHelper(context,"DATA",null,1) {
         db?.execSQL("Insert into ADDRESS(fullname,phone,address,note,_iduser) values ('Tiêu Công Ha'," +
                 "'0336119531','Liên Mạc, Thanh Hà, Hải Dương','Nhận hàng ở thôn tiêu xá', 2 )")
 
+
+       //  bill
+        db?.execSQL("Insert into BILL(quantitybill,sumpricebill,ptthanhtoan,phiship,datedathang,datenhanhang," +
+                "TTXacNhan,TTLayhang,TTGiaoHang,TTHuy,TTDaGiao,TTVote,_idUser,_idProduct,_idAddRess,_idShop) values (2," +
+                "230000.0,'Thanh toán khi nhận hàng',30000.0,'11/12/2023','16/12/2023','false','false','false','false','false','false',1,2,2 ,1)")
+        db?.execSQL("Insert into BILL(quantitybill,sumpricebill,ptthanhtoan,phiship,datedathang,datenhanhang," +
+                "TTXacNhan,TTLayhang,TTGiaoHang,TTHuy,TTDaGiao,TTVote,_idUser,_idProduct,_idAddRess,_idShop) values (2," +
+                "230000.0,'Thanh toán khi nhận hàng',30000.0,'11/12/2023','16/12/2023','false','false','false','false','false','false',1,2,2,1 )")
 
         // cart
         db?.execSQL("Insert into CART(_idUser,_idProduct,_idShop) values (1,2,1 )")
