@@ -17,6 +17,9 @@
         android:theme="@style/Theme.AppBanHangTG"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.Bill2"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Bill1"
             android:exported="false" />
         <activity

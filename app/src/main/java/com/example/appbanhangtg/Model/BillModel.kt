@@ -19,7 +19,8 @@ class BillModel(
     val _idUser : Int,
     val _idProduct : Int,
     val _idAddRess : Int,
-    val _idShop : Int
+    val _idShop : Int,
+    val username : String
 ): Serializable {
 
 

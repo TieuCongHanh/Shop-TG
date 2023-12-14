@@ -18,10 +18,12 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.example.appbanhangtg.DAO.AddRessDAO
+import com.example.appbanhangtg.DAO.BillDAO
 import com.example.appbanhangtg.DAO.ProductDAO
 import com.example.appbanhangtg.DAO.ShopDAO
 import com.example.appbanhangtg.Interface.SharedPrefsManager
 import com.example.appbanhangtg.Model.AddressModel
+import com.example.appbanhangtg.Model.BillModel
 import com.example.appbanhangtg.Model.ProductModel
 import com.example.appbanhangtg.R
 import com.example.appbanhangtg.databinding.ActivityCarttingBinding
@@ -34,10 +36,14 @@ import java.util.Calendar
 private lateinit var binding: ActivityCarttingBinding
 
 class Cartting : AppCompatActivity() {
-    private var numberquantity = 1
-    private var totalSum = 0.0
+    private var numberquantity : Int = 1
+    private var totalSum : Double = 0.0
+    private var totalMonyship : Double = 0.0
+    private var ptship : String = ""
+    private var ngaynhanhang : String = ""
     private lateinit var productDAO: ProductDAO
     private lateinit var addRessDAO: AddRessDAO
+    private lateinit var billDAO: BillDAO
 
     companion object {
         private const val REQUEST_ADDRESS = 1001
@@ -48,11 +54,34 @@ class Cartting : AppCompatActivity() {
         binding = ActivityCarttingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        NutTangGiamSL()
+        updatePriceUI()
+        updateTotalSum()
+        ptgiaohang()
+        ptship()
+
         val user = this?.let { SharedPrefsManager.getUser(it) }
         val productModel = intent.getSerializableExtra("PRODUCT_EXTRA") as? ProductModel
         productDAO = ProductDAO(this)
+        billDAO = BillDAO(this)
+
+        // Lấy danh sách địa chỉ của người dùng
+        addRessDAO = AddRessDAO(this)
+        val userId = user?._idUser
+        val addressList = userId?.let {
+            addRessDAO.getByAddressIdUser(it)
+        }
+
+        // Kiểm tra danh sách địa chỉ và hiển thị địa chỉ đầu tiên nếu có
+        if (addressList?.isNotEmpty() == true) {
+            val firstAddress = addressList[0]
+            binding.fullnamePhone.text = "${firstAddress.fullname} | ${firstAddress.phone}"
+            binding.address.text = firstAddress.address
+            binding.note.text = firstAddress.note
+        }
 
         productModel?.let {
+
             val shopDAO = ShopDAO(this)
             val shopList = shopDAO.getByProductIdShop(it._idShop)
 
@@ -73,27 +102,39 @@ class Cartting : AppCompatActivity() {
             binding.sumtienhang.text = formatPrice(it.priceProduct)
             binding.sumone.text = formatPrice(it.priceProduct)
             binding.txtnameProduct.text = it.nameProduct
+
+
+            // nút đặt hàng
+            binding.txtaddbill.setOnClickListener {
+                // Cập nhật các biến dựa trên thông tin hiện tại
+                val quantitybill = numberquantity
+                val sumpricebill = totalSum
+                val ptthanhtoan = ptship
+                val phiship = totalMonyship
+                val currentDate = Calendar.getInstance()
+                val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+                val datedathang = dateFormat.format(currentDate.time)
+                val datenhanhang = ngaynhanhang
+                val _idUser = userId
+                val _idProduct = productModel?._idProduct
+                val _idAddRess = addressList?.get(0)?._idAddRess
+                val _idShop = shopList.get(0)._idShop
+
+                if (addressList?.isNotEmpty() == false){
+                    Toast.makeText(this, "Không có địa chỉ", Toast.LENGTH_SHORT).show()
+                }
+                else if (_idUser != null && _idProduct != null && _idAddRess != null && _idShop != null) {
+                    hamadd(
+                        quantitybill, sumpricebill, ptthanhtoan, phiship, datedathang, datenhanhang,
+                        "false", "false", "false", "false", "false", "false",
+                        _idUser, _idProduct, _idAddRess, _idShop,""
+                    )
+                } else {
+                    Toast.makeText(this, "Thông tin không đầy đủ", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
-        // Lấy danh sách địa chỉ của người dùng
-        addRessDAO = AddRessDAO(this)
-        val userId = user?._idUser
-        val addressList = userId?.let {
-            addRessDAO.getByAddressIdUser(it)
-        }
-
-        // Kiểm tra danh sách địa chỉ và hiển thị địa chỉ đầu tiên nếu có
-        if (addressList?.isNotEmpty() == true) {
-            val firstAddress = addressList[0]
-            binding.fullnamePhone.text = "${firstAddress.fullname} | ${firstAddress.phone}"
-            binding.address.text = firstAddress.address
-            binding.note.text = firstAddress.note
-        }
-
-        // nút đặt hàng
-        binding.txtaddbill.setOnClickListener {
-            Toast.makeText(this, "Đã đặt hàng thành công", Toast.LENGTH_SHORT).show()
-        }
 
         // nút back
         binding.imgbackproductDetail.setOnClickListener {
@@ -113,8 +154,7 @@ class Cartting : AppCompatActivity() {
             ptthanhtoan()
         }
 
-        NutTangGiamSL()
-        updateTotalSum()
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -163,10 +203,11 @@ class Cartting : AppCompatActivity() {
         val productModel = intent.getSerializableExtra("PRODUCT_EXTRA") as? ProductModel
         productModel?.let {
             val price = it.priceProduct * numberquantity
-            binding.txtpriceproduct.text = formatPrice(price) // giá tiền sản phẩm * s lượng
-            binding.sumone.text = formatPrice(price)    // toogr tiền 1 sản phẩm
-            binding.sumtienhang.text = formatPrice(price)  // tổng tiền hàng
-            updateTotalSum() // gọi tới để cập nhập tổng tiên hàng cho tổng tiền thanh toán
+            binding.sumone.text = formatPrice(price)
+            binding.sumtienhang.text = formatPrice(price)
+
+            // Cập nhật tổng tiền hàng ở đây
+            updateTotalSum()
         }
     }
 
@@ -190,21 +231,7 @@ class Cartting : AppCompatActivity() {
         }
 
         option1.setOnClickListener {
-            val currentDate3 = Calendar.getInstance()
-            val currentDate4 = Calendar.getInstance()
-            currentDate3.add(Calendar.DAY_OF_MONTH, 3) // Thêm 3 ngày
-            currentDate4.add(Calendar.DAY_OF_MONTH, 4) // Thêm 4 ngày
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-            val resultDate3 = dateFormat.format(currentDate3.time)
-            val resultDate4 = dateFormat.format(currentDate4.time)
-
-            binding.ptvanchuyen.text = "Nhanh"
-            binding.moneysship.text = formatPrice(30000.0)
-            binding.sumtienship.text = formatPrice(30000.0)
-            binding.date.text =
-                "Nhận hàng vào : " + resultDate3 + " - " + resultDate4 // Hiển thị ngày giao hàng
-            updateTotalSum()  // gọi tới để cập nhập tổng tiền shop cho tổng tiền thanh toán
-
+            ptgiaohang()
         }
 
         option2.setOnClickListener {
@@ -217,10 +244,11 @@ class Cartting : AppCompatActivity() {
             val resultDate6 = dateFormat.format(currentDate6.time)
 
             binding.ptvanchuyen.text = "Bình thường"
-            binding.sumtienship.text = formatPrice(20000.0)
-            binding.moneysship.text = formatPrice(20000.0)
-            binding.date.text =
-                "Nhận hàng vào : " + resultDate5 + " - " + resultDate6 // Hiển thị ngày giao hàng
+            totalMonyship = 20000.0
+            ngaynhanhang =  "Nhận hàng vào : " + resultDate5 + " - " + resultDate6
+            binding.sumtienship.text = formatPrice(totalMonyship)
+            binding.moneysship.text = formatPrice(totalMonyship)
+            binding.date.text = ngaynhanhang
             updateTotalSum()
 
         }
@@ -232,9 +260,11 @@ class Cartting : AppCompatActivity() {
             val resultDate7 = dateFormat.format(currentDate7.time)
 
             binding.ptvanchuyen.text = "Chậm"
-            binding.sumtienship.text = formatPrice(10000.0)
-            binding.moneysship.text = formatPrice(10000.0)
-            binding.date.text = "Nhận hàng trên : " + resultDate7  // Hiển thị ngày giao hàng
+            totalMonyship = 10000.0
+            ngaynhanhang = "Nhận hàng trên : " + resultDate7
+            binding.sumtienship.text = formatPrice(totalMonyship)
+            binding.moneysship.text = formatPrice(totalMonyship)
+            binding.date.text = ngaynhanhang
             updateTotalSum()
 
         }
@@ -261,10 +291,14 @@ class Cartting : AppCompatActivity() {
         }
 
         option1.setOnClickListener {
-            binding.ptthanhtoanshow.text = "Thanh toán khi nhận hàng"
+            ptship()
         }
 
         dialog.show()
+    }
+    private fun ptship(){
+        ptship = "Thanh toán khi nhận hàng"
+        binding.ptthanhtoanshow.text = ptship
     }
 
     private fun updateTotalSum() {
@@ -281,6 +315,74 @@ class Cartting : AppCompatActivity() {
         totalSum = sumtienship + sumtienhang + sumtiengiamgia
         binding.sumtienthanhtoan.text = formatPrice(totalSum)
         binding.sumtienthanhtoan1.text = formatPrice(totalSum)
+    }
+
+    private fun ptgiaohang() {
+        val currentDate3 = Calendar.getInstance()
+        val currentDate4 = Calendar.getInstance()
+        currentDate3.add(Calendar.DAY_OF_MONTH, 3) // Thêm 3 ngày
+        currentDate4.add(Calendar.DAY_OF_MONTH, 4) // Thêm 4 ngày
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val resultDate3 = dateFormat.format(currentDate3.time)
+        val resultDate4 = dateFormat.format(currentDate4.time)
+
+        binding.ptvanchuyen.text = "Nhanh"
+        totalMonyship = 30000.0
+        ngaynhanhang = "Nhận hàng vào: " + resultDate3 + " - " + resultDate4
+        binding.moneysship.text = formatPrice(totalMonyship)
+        binding.sumtienship.text = formatPrice(totalMonyship)
+        binding.date.text = ngaynhanhang
+        updateTotalSum()  // gọi tới để cập nhập tổng tiền shop cho tổng tiền thanh toán
+    }
+    private fun hamadd(
+        quantitybill: Int,
+        sumpricebill: Double,
+        ptthanhtoan: String,
+        phiship: Double,
+        datedathang: String,
+        datenhanhang: String,
+        TTXacNhan: String,
+        TTLayhang: String,
+        TTGiaoHang: String,
+        TTHuy: String,
+        TTDaGiao: String,
+        TTVote: String,
+        _idUser: Int,
+        _idProduct: Int,
+        _idAddRess: Int,
+        _idShop: Int,
+        username : String
+
+    ) {
+        val newbill = BillModel(
+            0,
+            quantitybill,
+            sumpricebill,
+            ptthanhtoan,
+            phiship,
+            datedathang,
+            datenhanhang,
+            TTXacNhan,
+            TTLayhang,
+            TTGiaoHang,
+            TTHuy,
+            TTDaGiao,
+            TTVote,
+            _idUser,
+            _idProduct,
+            _idAddRess,
+            _idShop,
+            username
+        )
+        val typeId = billDAO.addBill(newbill)
+
+        if (typeId > -1) {
+            Toast.makeText(this, "Đặt hàng thành công", Toast.LENGTH_SHORT).show()
+            setResult(AppCompatActivity.RESULT_OK)
+            finish()
+        } else {
+            Toast.makeText(this, "Đặt hàng thất bại", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }

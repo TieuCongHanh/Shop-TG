@@ -33,7 +33,7 @@ class SQLiteData(context: Context): SQLiteOpenHelper(context,"DATA",null,1) {
                 "_idBill integer primary key," +
                 "quantitybill integer, sumpricebill double, ptthanhtoan TEXT, phiship double,datedathang TEXT , datenhanhang TEXT," +
                 "TTXacNhan TEXT, TTLayhang TEXT, TTGiaoHang TEXT, TTHuy TEXT, TTDaGiao TEXT, TTVote TEXT ,"+
-                " _idUser integer, _idProduct integer, _idAddRess integer, _idShop integer)")
+                " _idUser integer, _idProduct integer, _idAddRess integer, _idShop integer,username TEXT)")
         db?.execSQL("CREATE TABLE CART(" +
                 "_idCart integer primary key," +
                 " _idUser integer, _idProduct integer, _idShop integer)")
@@ -103,11 +103,11 @@ class SQLiteData(context: Context): SQLiteOpenHelper(context,"DATA",null,1) {
 
        //  bill
         db?.execSQL("Insert into BILL(quantitybill,sumpricebill,ptthanhtoan,phiship,datedathang,datenhanhang," +
-                "TTXacNhan,TTLayhang,TTGiaoHang,TTHuy,TTDaGiao,TTVote,_idUser,_idProduct,_idAddRess,_idShop) values (2," +
-                "230000.0,'Thanh toán khi nhận hàng',30000.0,'11/12/2023','16/12/2023','false','false','false','false','false','false',1,2,2 ,1)")
+                "TTXacNhan,TTLayhang,TTGiaoHang,TTHuy,TTDaGiao,TTVote,_idUser,_idProduct,_idAddRess,_idShop,username) values (2," +
+                "230000.0,'Thanh toán khi nhận hàng',30000.0,'11/12/2023','16/12/2023','false','false','false','false','false','false',1,2,2 ,1,'shipper')")
         db?.execSQL("Insert into BILL(quantitybill,sumpricebill,ptthanhtoan,phiship,datedathang,datenhanhang," +
-                "TTXacNhan,TTLayhang,TTGiaoHang,TTHuy,TTDaGiao,TTVote,_idUser,_idProduct,_idAddRess,_idShop) values (2," +
-                "230000.0,'Thanh toán khi nhận hàng',30000.0,'11/12/2023','16/12/2023','false','false','false','false','false','false',1,2,2,1 )")
+                "TTXacNhan,TTLayhang,TTGiaoHang,TTHuy,TTDaGiao,TTVote,_idUser,_idProduct,_idAddRess,_idShop,username) values (2," +
+                "230000.0,'Thanh toán khi nhận hàng',30000.0,'11/12/2023','16/12/2023','false','false','false','false','false','false',1,2,2,1 ,'shipper')")
 
         // cart
         db?.execSQL("Insert into CART(_idUser,_idProduct,_idShop) values (1,2,1 )")

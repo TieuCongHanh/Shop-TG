@@ -1,5 +1,6 @@
 package com.example.appbanhangtg.Adapter
 
+import android.app.AlertDialog
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.appbanhangtg.DAO.BillDAO
 import com.example.appbanhangtg.DAO.CartDAO
 import com.example.appbanhangtg.DAO.ShopDAO
+import com.example.appbanhangtg.Interface.OnDataChangedListener
 import com.example.appbanhangtg.Model.BillModel
 import com.example.appbanhangtg.Model.CartModel
 import com.example.appbanhangtg.Model.ProductModel
@@ -28,6 +30,7 @@ class BillAdapter(
     private val context: Context,
     private val list: List<BillModel>,
     private val billDAO: BillDAO,
+    private val onDataChangedListener: OnDataChangedListener, // Thêm callback này
     private val clickRecyclerView: (BillModel) -> Unit
 ) :
     RecyclerView.Adapter<BillAdapter.BillHolder>() {
@@ -68,6 +71,7 @@ class BillAdapter(
     }
 
     override fun onBindViewHolder(holder: BillAdapter.BillHolder, position: Int) {
+
         holder.apply {
             val productId = list[position]._idProduct
 
@@ -106,35 +110,57 @@ class BillAdapter(
             quantityproductbill.text = soluongsp.toString()
 
             sumproduct.text = soluongsp.toString()
-            sumpricebill.text = (soluongsp * priceProduct + phoship).toString()
+            sumpricebill.text = formatPrice(list[position].sumpricebill)
 
-            if (list[position].TTXacNhan == "false") {
+            if (list[position].TTXacNhan == "false" && list[position].TTHuy=="false") {
                 trangthaibill.text = "Chờ xác nhận"
-                show1.visibility = View.GONE
-                linerxacnhan.visibility = View.GONE
-            } else if (list[position].TTLayhang == "false") {
+                voteproductbill.setText("Hủy đơn")
+                giaohang.setText("Đang chờ người bán xác nhận")
+                voteproductbill.setOnClickListener {
+                    val bill = list[position]
+                    showConfirmationDialog(bill, holder.itemView.context, position)
+                }
+            } else if (list[position].TTLayhang == "false" && list[position].TTHuy=="false") {
                 trangthaibill.text = "Chờ lấy hàng"
-                show1.visibility = View.GONE
-                linerxacnhan.visibility = View.GONE
-            } else if (list[position].TTGiaoHang == "false") {
+                voteproductbill.setText("Hủy đơn")
+                giaohang.setText("Đang chờ người bán lấy hàng")
+                voteproductbill.setOnClickListener {
+                    val bill = list[position]
+                    showConfirmationDialog(bill, holder.itemView.context, position)
+                }
+            } else if (list[position].TTGiaoHang == "false" && list[position].TTDaGiao =="false" && list[position].TTHuy=="false") {
                 trangthaibill.text = "Chưa giao hàng"
-                show1.visibility = View.GONE
-                linerxacnhan.visibility = View.GONE
-            } else if (list[position].TTGiaoHang == "true") {
+                voteproductbill.setText("Hủy đơn")
+                giaohang.setText("Đơn hàng đang chờ giao")
+                voteproductbill.setOnClickListener {
+                    val bill = list[position]
+                    showConfirmationDialog(bill, holder.itemView.context, position)
+                }
+            } else if (list[position].TTGiaoHang == "true" && list[position].TTDaGiao =="false" && list[position].TTHuy=="false") {
                 trangthaibill.text = "Đang giao hàng"
+                giaohang.setText("Đơn hàng đang được giao")
                 show1.visibility = View.GONE
                 linerxacnhan.visibility = View.GONE
             } else if (list[position].TTHuy == "true") {
                 trangthaibill.text = "Đã hủy"
+                giaohang.setText("Đơn hàng đã hủy")
                 show1.visibility = View.GONE
                 linerxacnhan.visibility = View.GONE
-            } else if (list[position].TTDaGiao == "true") {
+            } else if (list[position].TTDaGiao == "true" && list[position].TTVote == "false") {
                 trangthaibill.text = "Hoàn thành"
-            } else if (list[position].TTVote == "false") {
+                giaohang.setText("Đơn hàng đã giao thành công")
+            } else if (list[position].TTDaGiao == "true" && list[position].TTVote == "true") {
+                trangthaibill.text = "Hoàn thành"
+                giaohang.setText("Đơn hàng đã giao thành công")
+                voteproductbill.setText("Mua lại")
+            }
+            else if (list[position].TTVote == "false") {
                 trangthaibill.text = "Chưa đánh giá"
+                giaohang.setText("Đơn hàng đã giao thành công")
             }
             else if (list[position].TTVote == "true") {
                 trangthaibill.text = "Đã đánh giá"
+                giaohang.setText("Đơn hàng đã giao thành công")
                 show1.visibility = View.GONE
                 linerxacnhan.visibility = View.GONE
             }
@@ -160,5 +186,25 @@ class BillAdapter(
         }
     }
 
+    private fun showConfirmationDialog(bill: BillModel, context: Context, position: Int) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Xác Nhận")
+        builder.setMessage("Bạn có muốn xác nhận hành động này không?")
 
+        builder.setPositiveButton("Có") { dialog, which ->
+            if (list[position].TTHuy == "false" && list[position].TTDaGiao == "false"){
+                val tthuy = "true"
+                billDAO.updateTTHuy(bill._idBill, tthuy)
+                onDataChangedListener.onBillDataChanged() // Gọi callback
+                Toast.makeText(context, "Hủy đơn thành công", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        builder.setNegativeButton("Không") { dialog, which ->
+            dialog.dismiss()
+        }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
 }

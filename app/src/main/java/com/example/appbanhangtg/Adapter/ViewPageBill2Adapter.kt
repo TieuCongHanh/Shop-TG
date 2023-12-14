@@ -5,11 +5,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-import com.example.appbanhangtg.Fragment.DonMua.DanhGia
-import com.example.appbanhangtg.Fragment.DonMua.Danhgia1
+import com.example.appbanhangtg.Fragment.DonBan.LayHang
+import com.example.appbanhangtg.Fragment.DonBan.XacNhan
+import com.example.appbanhangtg.Fragment.DonShip.DaGiao
+import com.example.appbanhangtg.Fragment.DonShip.GiaoHang
 
-
-class ViewPageVoteProductAdapter(
+class ViewPageBill2Adapter  (
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle,
 ): FragmentStateAdapter(fragmentManager, lifecycle) {
@@ -20,15 +21,15 @@ class ViewPageVoteProductAdapter(
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> {
-                DanhGia()
+               GiaoHang()
             }
 
             1 -> {
-                Danhgia1()
+                DaGiao()
             }
 
             else -> {
-                DanhGia()
+                GiaoHang()
             }
         }
     }

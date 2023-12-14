@@ -4,12 +4,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.appbanhangtg.Fragment.PurchaseOrder.DaGiao
-import com.example.appbanhangtg.Fragment.PurchaseOrder.DanhGia
-import com.example.appbanhangtg.Fragment.PurchaseOrder.GiaoHang
-import com.example.appbanhangtg.Fragment.PurchaseOrder.Huy
-import com.example.appbanhangtg.Fragment.PurchaseOrder.LayHang
-import com.example.appbanhangtg.Fragment.PurchaseOrder.XacNhan
+import com.example.appbanhangtg.Fragment.DonMua.DaGiao
+import com.example.appbanhangtg.Fragment.DonMua.GiaoHang
+import com.example.appbanhangtg.Fragment.DonMua.Huy
+import com.example.appbanhangtg.Fragment.DonMua.LayHang
+import com.example.appbanhangtg.Fragment.DonMua.XacNhan
 
 
 class ViewPageBillAdapter (

@@ -92,6 +92,19 @@ class ProductDAO(private val context: Context) {
         db.close()
         return updateproduct
     }
+    fun updateSL(productId: Int, newQuantity: String): Int {
+        val db = sqLiteData.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put("quantityProduct", newQuantity)
+
+        val selection = "_idProduct = ?"
+        val selectionArgs = arrayOf(productId.toString())
+
+        val updatedRows = db.update("PRODUCT", contentValues, selection, selectionArgs)
+        db.close()
+        return updatedRows
+    }
+
     fun deleteProduct(productId: Int): Int {
         val db = sqLiteData.writableDatabase
         val deleteCount = db.delete("PRODUCT", "_idProduct = ?", arrayOf(productId.toString()))

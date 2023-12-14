@@ -3,12 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.DonBan.DaGiao">
-
+    tools:context=".Fragment.DonShip.GiaoHang">
 
     <androidx.recyclerview.widget.RecyclerView
 
-        android:id="@+id/recyclerview_bill1"
+        android:id="@+id/recyclerview_ship"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="match_parent" />

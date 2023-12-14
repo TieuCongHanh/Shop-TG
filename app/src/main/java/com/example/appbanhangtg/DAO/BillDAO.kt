@@ -41,6 +41,7 @@ class BillDAO(private val context: Context) {
                 val _idProduct = it.getInt(it.getColumnIndex("_idProduct"))
                 val _idAddRess = it.getInt(it.getColumnIndex("_idAddRess"))
                 val _idShop = it.getInt(it.getColumnIndex("_idShop"))
+                val username = it.getString(it.getColumnIndex("username"))
                 val product = BillModel(
                     _idBill,
                     quantitybill,
@@ -58,7 +59,8 @@ class BillDAO(private val context: Context) {
                     _idUser,
                     _idProduct,
                     _idAddRess,
-                    _idShop
+                    _idShop,
+                    username
                 )
                 billtList.add(product)
             }
@@ -100,6 +102,7 @@ class BillDAO(private val context: Context) {
                 val _idProduct = it.getInt(it.getColumnIndex("_idProduct"))
                 val _idAddRess = it.getInt(it.getColumnIndex("_idAddRess"))
                 val _idShop = it.getInt(it.getColumnIndex("_idShop"))
+                val username = it.getString(it.getColumnIndex("username"))
                 val bill = BillModel(
                     _idBill,
                     quantitybill,
@@ -117,7 +120,8 @@ class BillDAO(private val context: Context) {
                     _idUser,
                     _idProduct,
                     _idAddRess,
-                    _idShop
+                    _idShop,
+                    username
                 )
                 billList.add(bill)
             }
@@ -233,6 +237,7 @@ class BillDAO(private val context: Context) {
             contentValues.put("_idProduct", bill._idProduct)
             contentValues.put("_idAddRess", bill._idAddRess)
             contentValues.put("_idShop", bill._idShop)
+            contentValues.put("username", bill._idShop)
 
             val addproduct = db.insert("BILL", null, contentValues)
             db.close()
@@ -254,6 +259,66 @@ class BillDAO(private val context: Context) {
         val db = sqLiteData.writableDatabase
         val contentValues = ContentValues()
         contentValues.put("TTLayHang", newTTLayHang)
+
+        val selection = "_idBill = ?"
+        val selectionArgs = arrayOf(billId.toString())
+
+        val updatedRows = db.update("BILL", contentValues, selection, selectionArgs)
+        db.close()
+        return updatedRows
+    }
+    fun updateTTHuy(billId: Int, newTTHuy: String): Int {
+        val db = sqLiteData.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put("TTHuy", newTTHuy)
+
+        val selection = "_idBill = ?"
+        val selectionArgs = arrayOf(billId.toString())
+
+        val updatedRows = db.update("BILL", contentValues, selection, selectionArgs)
+        db.close()
+        return updatedRows
+    }
+    fun updateTTGiaoHang(billId: Int, newTTHuy: String): Int {
+        val db = sqLiteData.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put("TTGiaoHang", newTTHuy)
+
+        val selection = "_idBill = ?"
+        val selectionArgs = arrayOf(billId.toString())
+
+        val updatedRows = db.update("BILL", contentValues, selection, selectionArgs)
+        db.close()
+        return updatedRows
+    }
+    fun updateDateNhan(billId: Int, newdate: String): Int {
+        val db = sqLiteData.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put("datenhanhang", newdate)
+
+        val selection = "_idBill = ?"
+        val selectionArgs = arrayOf(billId.toString())
+
+        val updatedRows = db.update("BILL", contentValues, selection, selectionArgs)
+        db.close()
+        return updatedRows
+    }
+    fun updateTTDaGiao(billId: Int, newTTHuy: String): Int {
+        val db = sqLiteData.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put("TTDaGiao", newTTHuy)
+
+        val selection = "_idBill = ?"
+        val selectionArgs = arrayOf(billId.toString())
+
+        val updatedRows = db.update("BILL", contentValues, selection, selectionArgs)
+        db.close()
+        return updatedRows
+    }
+    fun updateUsername(billId: Int, newTTHuy: String): Int {
+        val db = sqLiteData.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put("username", newTTHuy)
 
         val selection = "_idBill = ?"
         val selectionArgs = arrayOf(billId.toString())

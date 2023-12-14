@@ -25,6 +25,7 @@ class Bill1Adapter(
     private val context: Context,
     private val list: List<BillModel>,
     private val billDAO: BillDAO,
+    private val onDataChangedListener: OnDataChangedListener, // Thêm callback này
     private val clickRecyclerView: (BillModel) -> Unit
 ) :
     RecyclerView.Adapter<Bill1Adapter.Bill1Holder>() {
@@ -66,6 +67,7 @@ class Bill1Adapter(
 
     override fun onBindViewHolder(holder: Bill1Adapter.Bill1Holder, position: Int) {
         val billId = list[position]._idBill
+
         holder.apply {
 
             val productId = list[position]._idProduct
@@ -107,36 +109,62 @@ class Bill1Adapter(
             sumproduct.text = soluongsp.toString()
             sumpricebill.text = formatPrice(list[position].sumpricebill)
 
-            if (list[position].TTXacNhan == "false") {
+            if (list[position].TTXacNhan == "false" && list[position].TTHuy=="false") {
                 trangthaibill.text = "Chờ xác nhận"
                 voteproductbill.setText("Xác nhận")
+                giaohang.setText("Hãy bấm xác nhận")
                 voteproductbill.setOnClickListener {
                     val bill = list[position]
                     showConfirmationDialog(bill, holder.itemView.context, position)
                 }
-            } else if (list[position].TTLayhang == "false") {
+            } else if (list[position].TTLayhang == "false" && list[position].TTHuy=="false") {
                 trangthaibill.text = "Chờ lấy hàng"
                 voteproductbill.setText("Lấy hàng")
+                giaohang.setText("Hãy bấm lấy hàng")
                 voteproductbill.setOnClickListener {
                     val bill = list[position]
                     showConfirmationDialog(bill, holder.itemView.context, position)
                 }
-            }else if (list[position].TTGiaoHang == "false") {
-                trangthaibill.text = "Chưa giao hàng"
-                show1.visibility = View.GONE
-                linerxacnhan.visibility = View.GONE
+            }else if (list[position].TTGiaoHang == "false" && list[position].TTDaGiao =="false" && list[position].TTHuy=="false") {
+                trangthaibill.text = "Đơn hàng chưa giao "
+                voteproductbill.setText("Giao hàng")
+                giaohang.setText("Đang chờ người giao hàng xác nhận")
+                val user = context?.let { SharedPrefsManager.getUser(it) }
+                val roleUser = user?.role
+                if (roleUser == "Shipper"){
+                    voteproductbill.setOnClickListener {
+                        val bill = list[position]
+                        showConfirmationDialog(bill, holder.itemView.context, position)
+                    }
+                }else{
+                    show1.visibility = View.GONE
+                    linerxacnhan.visibility = View.GONE
+                }
             }
-            else if (list[position].TTGiaoHang == "true") {
-                trangthaibill.text = "Đang giao hàng"
-                show1.visibility = View.GONE
-                linerxacnhan.visibility = View.GONE
+            else if (list[position].TTGiaoHang == "true" && list[position].TTDaGiao =="false" && list[position].TTHuy=="false") {
+                trangthaibill.text = "Đơn hàng đang giao "
+                voteproductbill.setText("Xác nhận")
+                giaohang.setText("Đơn hàng đang được giao")
+                val user = context?.let { SharedPrefsManager.getUser(it) }
+                val roleUser = user?.role
+                if (roleUser == "Shipper"){
+                    voteproductbill.setOnClickListener {
+                        val bill = list[position]
+                        showConfirmationDialog(bill, holder.itemView.context, position)
+                    }
+                }else{
+                    show1.visibility = View.GONE
+                    linerxacnhan.visibility = View.GONE
+                }
             }
             else if (list[position].TTDaGiao == "true") {
                 trangthaibill.text = "Hoàn thành"
+                giaohang.text = "Đơn hàng đã giao thành công"
                 show1.visibility = View.GONE
                 linerxacnhan.visibility = View.GONE
             } else if (list[position].TTHuy == "true") {
                 trangthaibill.text = "Đã hủy"
+                giaohang.setText("Đơn hàng đã bị hủy")
                 show1.visibility = View.GONE
                 linerxacnhan.visibility = View.GONE
             }
@@ -168,16 +196,34 @@ class Bill1Adapter(
         builder.setMessage("Bạn có muốn xác nhận hành động này không?")
 
         builder.setPositiveButton("Có") { dialog, which ->
-            if (list[position].TTXacNhan == "false"){
+            if (list[position].TTXacNhan == "false" && list[position].TTHuy == "false"){
                 val ttxacnhan = "true"
                 billDAO.updateTTXacNhan(bill._idBill, ttxacnhan)
-
+                onDataChangedListener.onBillDataChanged() // Gọi callback
                 Toast.makeText(context, "Xác nhận thành công", Toast.LENGTH_SHORT).show()
-            }else  if (list[position].TTLayhang == "false" && list[position].TTXacNhan == "true"){
+            }else if (list[position].TTLayhang == "false" && list[position].TTXacNhan == "true" && list[position].TTHuy == "false"){
                 val ttlayhang = "true"
                 billDAO.updateTTLayHang(bill._idBill, ttlayhang)
-
+                onDataChangedListener.onBillDataChanged() // Gọi callback
                 Toast.makeText(context, "Xác nhận lấy hàng thành công", Toast.LENGTH_SHORT).show()
+            }
+            else if (list[position].TTHuy == "false" && list[position].TTLayhang == "true"
+                && list[position].TTXacNhan == "true" && list[position].TTGiaoHang == "false" && list[position].TTDaGiao == "false"){
+                val ttgiaohang = "true"
+                val user = context?.let { SharedPrefsManager.getUser(it) }
+                val userUsername = user?.username
+                billDAO.updateUsername(bill._idBill,userUsername.toString())
+                billDAO.updateTTGiaoHang(bill._idBill, ttgiaohang)
+                onDataChangedListener.onBillDataChanged() // Gọi callback
+                Toast.makeText(context, "ĐÃ nhận đơn giao hàng", Toast.LENGTH_SHORT).show()
+            }
+            else if (list[position].TTHuy == "false" && list[position].TTLayhang == "true"
+                && list[position].TTXacNhan == "true" && list[position].TTGiaoHang == "true" && list[position].TTDaGiao == "false"){
+                val ttgiaohang = "true"
+                val date = "true"
+                billDAO.updateTTGiaoHang(bill._idBill, ttgiaohang)
+                onDataChangedListener.onBillDataChanged() // Gọi callback
+                Toast.makeText(context, "Đã giao hàng thành công", Toast.LENGTH_SHORT).show()
             }
 
         }

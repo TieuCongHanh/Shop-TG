@@ -1,4 +1,4 @@
-package com.example.appbanhangtg.Fragment.PurchaseOrder1
+package com.example.appbanhangtg.Fragment.DonShip
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,22 +9,22 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.appbanhangtg.Adapter.Bill1Adapter
 import com.example.appbanhangtg.DAO.BillDAO
 import com.example.appbanhangtg.DAO.ShopDAO
+import com.example.appbanhangtg.Interface.OnDataChangedListener
 import com.example.appbanhangtg.Interface.SharedPrefsManager
 import com.example.appbanhangtg.Model.BillModel
 import com.example.appbanhangtg.R
-import com.example.appbanhangtg.databinding.FragmentGiaoHang2Binding
-import com.example.appbanhangtg.databinding.FragmentXacNhan2Binding
+import com.example.appbanhangtg.databinding.FragmentDaGiao3Binding
+import com.example.appbanhangtg.databinding.FragmentGiaoHang3Binding
 
-private lateinit var binding:FragmentGiaoHang2Binding
-class GiaoHang : Fragment() {
+private lateinit var binding:FragmentDaGiao3Binding
+class DaGiao : Fragment() , OnDataChangedListener {
     private lateinit var billDAO: BillDAO
     private lateinit var shopDAO: ShopDAO
+    override fun onBillDataChanged() {
+        loadDataAndUpdateUI()
+    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentGiaoHang2Binding.inflate(inflater,container,false)
+    private fun loadDataAndUpdateUI() {
         billDAO = BillDAO(requireContext())
         shopDAO = ShopDAO(requireContext())
 
@@ -35,18 +35,28 @@ class GiaoHang : Fragment() {
 
         // Lọc danh sách hóa đơn dựa trên idShop và so sánh idUser của shop
         val filteredBillList = billList.filter { bill ->
-            val shop = shopDAO.getByProductIdShop(bill._idShop).firstOrNull()
-            shop != null && shop._idUser == userId
-                    && bill.TTXacNhan == "true" && bill.TTLayhang == "true"
+            bill.username == currentUser?.username
+                    && bill.TTXacNhan == "true" && bill.TTLayhang == "true" && bill.TTHuy == "false"
+                    && bill.TTDaGiao == "true" && bill.TTGiaoHang == "true"
         }
+        if (currentUser?.role == "Shipper") {
+            // Hiển thị danh sách hóa đơn đã lọc
+            displayBillList(filteredBillList)
+        }
+    }
 
-        // Hiển thị danh sách hóa đơn đã lọc
-        displayBillList(filteredBillList)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentDaGiao3Binding.inflate(inflater, container, false)
+        loadDataAndUpdateUI()
 
         return binding.root
     }
+
     private fun displayBillList(bill: List<BillModel>) {
-        val recyclerView = binding.recyclerviewBill1
+        val recyclerView = binding.recyclerviewShip
 
         recyclerView.layoutManager = GridLayoutManager(
             requireContext(),
@@ -54,7 +64,7 @@ class GiaoHang : Fragment() {
             GridLayoutManager.VERTICAL,
             false
         )
-        val billAdapter = Bill1Adapter(requireContext(), bill, billDAO) { clickedCart ->
+        val billAdapter = Bill1Adapter(requireContext(), bill, billDAO, this) { clickedCart ->
 
         }
         recyclerView.adapter = billAdapter
