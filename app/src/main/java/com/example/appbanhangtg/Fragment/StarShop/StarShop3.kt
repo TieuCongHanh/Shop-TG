@@ -23,7 +23,10 @@ class StarShop3 : Fragment() {
     private var shopModel: ShopModel? = null
     private lateinit var voteshopDAO: VoteShopDAO
     private lateinit var userDAO: UserDAO
-
+    override fun onResume() {
+        super.onResume()
+        list()
+    }
     companion object {
         fun newInstance(shopWrapper: ShopWrapper): StarShop3 {
             val fragment = StarShop3()
@@ -39,6 +42,25 @@ class StarShop3 : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentStarShop3Binding.inflate(inflater, container, false)
+        list()
+        return binding.root
+    }
+
+    private fun displayStarList(votes: List<VoteShopModel>) {
+        val recyclerView = binding.recyclerview3
+
+        recyclerView.layoutManager = GridLayoutManager(
+            context,
+            1,
+            GridLayoutManager.VERTICAL,
+            false
+        )
+        val voteShopAdapter = VoteShopAdapter(votes, userDAO) { clickedVoteShop ->
+            Toast.makeText(context, "${clickedVoteShop._idVoteShop}", Toast.LENGTH_SHORT).show()
+        }
+        recyclerView.adapter = voteShopAdapter
+    }
+    private fun list(){
         val shopWrapper = arguments?.getSerializable("SHOP_EXTRA") as? ShopWrapper
         val shopModel = shopWrapper?.shopModel
         val shopId = shopModel?._idShop
@@ -59,22 +81,6 @@ class StarShop3 : Fragment() {
             binding.txttotu.text = "Tổng đánh giá của 4 sao là : $it"
         }
 
-        return binding.root
-    }
-
-    private fun displayStarList(votes: List<VoteShopModel>) {
-        val recyclerView = binding.recyclerview3
-
-        recyclerView.layoutManager = GridLayoutManager(
-            context,
-            1,
-            GridLayoutManager.VERTICAL,
-            false
-        )
-        val voteShopAdapter = VoteShopAdapter(votes, userDAO) { clickedVoteShop ->
-            Toast.makeText(context, "${clickedVoteShop._idVoteShop}", Toast.LENGTH_SHORT).show()
-        }
-        recyclerView.adapter = voteShopAdapter
     }
 
 }

@@ -26,7 +26,10 @@ class Shipper : Fragment(), OnDataChangedListener {
     override fun onBillDataChanged() {
         loadDataAndUpdateUI()
     }
-
+    override fun onResume() {
+        super.onResume()
+        loadDataAndUpdateUI()
+    }
     private fun loadDataAndUpdateUI() {
         billDAO = BillDAO(requireContext())
         shopDAO = ShopDAO(requireContext())

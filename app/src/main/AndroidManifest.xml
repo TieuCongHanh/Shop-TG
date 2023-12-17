@@ -17,6 +17,18 @@
         android:theme="@style/Theme.AppBanHangTG"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.BillDetail"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.AddVote_Product"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.VoteProduct1"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.AddOrUpdate_Shop"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Bill2"
             android:exported="false" />
         <activity

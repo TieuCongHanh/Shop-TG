@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.appbanhangtg.Activity.BillDetail
 import com.example.appbanhangtg.Activity.ProductDetail
 import com.example.appbanhangtg.Adapter.BillAdapter
 import com.example.appbanhangtg.DAO.BillDAO
@@ -23,7 +24,10 @@ class Danhgia1 : Fragment() , OnDataChangedListener {
     override fun onBillDataChanged() {
         loadDataAndUpdateUI()
     }
-
+    override fun onResume() {
+        super.onResume()
+        loadDataAndUpdateUI()
+    }
     private fun loadDataAndUpdateUI() {
         billDAO = BillDAO(requireContext())
         val user = context?.let { SharedPrefsManager.getUser(it) }
@@ -32,7 +36,8 @@ class Danhgia1 : Fragment() , OnDataChangedListener {
         val billList = userId?.let {
             billDAO.getByBillIdUser(it)
         }
-            ?.filter { it.TTXacNhan == "true" && it.TTLayhang == "true" && it.TTHuy == "false" && it.TTDaGiao == "true" && it.TTVote == "true" } // Thay "Trạng thái cần lọc" bằng giá trị cụ thể
+            ?.filter { it.TTXacNhan == "true" && it.TTLayhang == "true"
+                    && it.TTHuy == "false" && it.TTDaGiao == "true" && it.TTVote == "true" } // Thay "Trạng thái cần lọc" bằng giá trị cụ thể
 
         billList?.let { displayBillList(it) }
     }
@@ -58,12 +63,8 @@ class Danhgia1 : Fragment() , OnDataChangedListener {
             false
         )
         val billAdapter = BillAdapter(requireContext(), bill, billDAO,this) { clickedCart ->
-            val productId = clickedCart._idProduct
-            Log.d("TTXacNhan", "TT: " + clickedCart.TTXacNhan)
-            val productModel = billDAO.getProductByIdProduct(productId)
-
-            val intent = Intent(context, ProductDetail::class.java)
-            intent.putExtra("PRODUCT_EXTRA", productModel)
+            val intent = Intent(requireContext(), BillDetail::class.java)
+            intent.putExtra("BILL_EXTRA", clickedCart)
             startActivity(intent)
         }
         recyclerView.adapter = billAdapter

@@ -67,6 +67,26 @@ class UserDAO (context: Context){
         db.close()
         return updateuser
     }
+    fun updateUserDetails(userId: Int, phone: String,email: String, image: String?): Int {
+        val db = sqLiteData.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put("phone", phone)
+        contentValues.put("email", email)
+        contentValues.put("image", image ?: "")
+
+        val updateCount = db.update("USER", contentValues, "_idUser = ?", arrayOf(userId.toString()))
+        db.close()
+        return updateCount
+    }
+    fun updateUserPassword(userId: Int, newPassword: String): Int {
+        val db = sqLiteData.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put("password", newPassword)
+
+        val updateCount = db.update("USER", contentValues, "_idUser = ?", arrayOf(userId.toString()))
+        db.close()
+        return updateCount
+    }
 
 
     fun login(username: String, password: String, context: Context): UserModel? {

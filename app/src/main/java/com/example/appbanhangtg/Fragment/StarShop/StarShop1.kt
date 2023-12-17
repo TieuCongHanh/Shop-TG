@@ -23,7 +23,10 @@ class StarShop1 : Fragment() {
     private var shopModel: ShopModel? = null
     private lateinit var voteshopDAO: VoteShopDAO
     private lateinit var userDAO: UserDAO
-
+    override fun onResume() {
+        super.onResume()
+        liststarshop2()
+    }
     companion object {
         fun newInstance(shopWrapper: ShopWrapper): StarShop1 {
             val fragment = StarShop1()
@@ -39,6 +42,25 @@ class StarShop1 : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentStarShop1Binding.inflate(inflater, container, false)
+        liststarshop2()
+        return binding.root
+    }
+
+    private fun displayStarList(votes: List<VoteShopModel>) {
+        val recyclerView = binding.recyclerview1
+
+        recyclerView.layoutManager = GridLayoutManager(
+            context,
+            1,
+            GridLayoutManager.VERTICAL,
+            false
+        )
+        val voteShopAdapter = VoteShopAdapter(votes,userDAO) { clickedVoteShop ->
+            Toast.makeText(context, "${clickedVoteShop._idVoteShop}", Toast.LENGTH_SHORT).show()
+        }
+        recyclerView.adapter = voteShopAdapter
+    }
+    private fun liststarshop2(){
         val shopWrapper = arguments?.getSerializable("SHOP_EXTRA") as? ShopWrapper
         val shopModel = shopWrapper?.shopModel
         val shopId = shopModel?._idShop
@@ -59,22 +81,6 @@ class StarShop1 : Fragment() {
             binding.txttotu.text = "Tổng đánh giá của 2 sao là : $it"
         }
 
-        return binding.root
-    }
-
-    private fun displayStarList(votes: List<VoteShopModel>) {
-        val recyclerView = binding.recyclerview1
-
-        recyclerView.layoutManager = GridLayoutManager(
-            context,
-            1,
-            GridLayoutManager.VERTICAL,
-            false
-        )
-        val voteShopAdapter = VoteShopAdapter(votes,userDAO) { clickedVoteShop ->
-            Toast.makeText(context, "${clickedVoteShop._idVoteShop}", Toast.LENGTH_SHORT).show()
-        }
-        recyclerView.adapter = voteShopAdapter
     }
 
 }

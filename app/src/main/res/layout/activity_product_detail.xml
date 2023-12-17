@@ -127,7 +127,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="end|center"
-                        android:text="đã bán được 200"
+                        android:text="đã bán được 0"
                         android:textColor="@color/white"
                         android:textSize="17sp" />
 
@@ -145,7 +145,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="45000 VNĐ"
+                        android:text="20.000.000 VNĐ  "
                         android:textColor="@color/white"
                         android:textSize="15sp" />
 
@@ -237,17 +237,20 @@
                     android:background="@drawable/ngoisao" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
+                    android:paddingLeft="5dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="  5.0  "
+                    android:id="@+id/tbcdanhgia"
                     android:textSize="20sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Đã bán 600"
+                    android:text="Đã bán 0"
+                    android:id="@+id/SLdaban"
                     android:textSize="18sp" />
 
                 <LinearLayout

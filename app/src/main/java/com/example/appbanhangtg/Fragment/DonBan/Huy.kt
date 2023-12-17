@@ -1,11 +1,13 @@
 package com.example.appbanhangtg.Fragment.DonBan
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.appbanhangtg.Activity.BillDetail
 import com.example.appbanhangtg.Adapter.Bill1Adapter
 import com.example.appbanhangtg.DAO.BillDAO
 import com.example.appbanhangtg.DAO.ShopDAO
@@ -21,7 +23,10 @@ class Huy : Fragment(), OnDataChangedListener {
     override fun onBillDataChanged() {
         loadDataAndUpdateUI()
     }
-
+    override fun onResume() {
+        super.onResume()
+        loadDataAndUpdateUI()
+    }
     private fun loadDataAndUpdateUI() {
         billDAO = BillDAO(requireContext())
         shopDAO = ShopDAO(requireContext())
@@ -62,7 +67,9 @@ class Huy : Fragment(), OnDataChangedListener {
             false
         )
         val billAdapter = Bill1Adapter(requireContext(), bill, billDAO,this) { clickedCart ->
-
+            val intent = Intent(requireContext(), BillDetail::class.java)
+            intent.putExtra("BILL_EXTRA", clickedCart)
+            startActivity(intent)
         }
         recyclerView.adapter = billAdapter
     }

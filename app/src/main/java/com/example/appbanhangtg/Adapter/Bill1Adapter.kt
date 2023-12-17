@@ -20,6 +20,8 @@ import com.example.appbanhangtg.Interface.SharedPrefsManager
 import com.example.appbanhangtg.Model.BillModel
 import com.example.appbanhangtg.R
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class Bill1Adapter(
     private val context: Context,
@@ -211,17 +213,19 @@ class Bill1Adapter(
                 && list[position].TTXacNhan == "true" && list[position].TTGiaoHang == "false" && list[position].TTDaGiao == "false"){
                 val ttgiaohang = "true"
                 val user = context?.let { SharedPrefsManager.getUser(it) }
-                val userUsername = user?.username
-                billDAO.updateUsername(bill._idBill,userUsername.toString())
+                val userUsername = user?.username.toString()
+                val currentDate = SimpleDateFormat("dd/MM/yyyy").format(Date())
+
+                billDAO.updateUsername(bill._idBill,userUsername)
                 billDAO.updateTTGiaoHang(bill._idBill, ttgiaohang)
+                billDAO.updateDateNhan(bill._idBill,currentDate)
                 onDataChangedListener.onBillDataChanged() // Gọi callback
                 Toast.makeText(context, "ĐÃ nhận đơn giao hàng", Toast.LENGTH_SHORT).show()
             }
             else if (list[position].TTHuy == "false" && list[position].TTLayhang == "true"
                 && list[position].TTXacNhan == "true" && list[position].TTGiaoHang == "true" && list[position].TTDaGiao == "false"){
                 val ttgiaohang = "true"
-                val date = "true"
-                billDAO.updateTTGiaoHang(bill._idBill, ttgiaohang)
+                billDAO.updateTTDaGiao(bill._idBill, ttgiaohang)
                 onDataChangedListener.onBillDataChanged() // Gọi callback
                 Toast.makeText(context, "Đã giao hàng thành công", Toast.LENGTH_SHORT).show()
             }

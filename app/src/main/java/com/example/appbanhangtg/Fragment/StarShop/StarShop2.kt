@@ -24,7 +24,10 @@ class StarShop2 : Fragment() {
     private var shopModel: ShopModel? = null
     private lateinit var voteshopDAO: VoteShopDAO
     private lateinit var userDAO: UserDAO
-
+    override fun onResume() {
+        super.onResume()
+        list()
+    }
     companion object {
         fun newInstance(shopWrapper: ShopWrapper): StarShop2 {
             val fragment = StarShop2()
@@ -40,26 +43,7 @@ class StarShop2 : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentStarShop2Binding.inflate(inflater, container, false)
-        val shopWrapper = arguments?.getSerializable("SHOP_EXTRA") as? ShopWrapper
-        val shopModel = shopWrapper?.shopModel
-        val shopId = shopModel?._idShop
-
-        voteshopDAO = VoteShopDAO(requireContext())
-        userDAO = UserDAO(requireContext())
-
-        // Lấy danh sách vote theo ID của cửa hàng
-        val voteShopList = shopId?.let {
-            voteshopDAO.getByVote2ShopId(it)
-        }
-        val voteCount = shopId?.let {
-            voteshopDAO.getStarCoun2tById(it)
-        }
-
-        voteShopList?.let { displayStarList(it) }
-        voteCount?.let {
-            binding.txttotu.text = "Tổng đánh giá của 3 sao là : $it"
-        }
-
+        list()
         return binding.root
     }
 
@@ -77,5 +61,26 @@ class StarShop2 : Fragment() {
         }
         recyclerView.adapter = voteShopAdapter
     }
+private fun list(){
+    val shopWrapper = arguments?.getSerializable("SHOP_EXTRA") as? ShopWrapper
+    val shopModel = shopWrapper?.shopModel
+    val shopId = shopModel?._idShop
 
+    voteshopDAO = VoteShopDAO(requireContext())
+    userDAO = UserDAO(requireContext())
+
+    // Lấy danh sách vote theo ID của cửa hàng
+    val voteShopList = shopId?.let {
+        voteshopDAO.getByVote2ShopId(it)
+    }
+    val voteCount = shopId?.let {
+        voteshopDAO.getStarCoun2tById(it)
+    }
+
+    voteShopList?.let { displayStarList(it) }
+    voteCount?.let {
+        binding.txttotu.text = "Tổng đánh giá của 3 sao là : $it"
+    }
+
+}
 }

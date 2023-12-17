@@ -117,11 +117,18 @@ class Cartting : AppCompatActivity() {
                 val datenhanhang = ngaynhanhang
                 val _idUser = userId
                 val _idProduct = productModel?._idProduct
-                val _idAddRess = addressList?.get(0)?._idAddRess
+                 var _idAddRess : Int = 1
+                if (addressList?.isNotEmpty() == true){
+                    _idAddRess = addressList?.get(0)?._idAddRess!!
+                }else{
+                    _idAddRess = 0
+                }
+
                 val _idShop = shopList.get(0)._idShop
 
-                if (addressList?.isNotEmpty() == false){
+                if (_idAddRess == null || _idAddRess <= 0 ){
                     Toast.makeText(this, "Không có địa chỉ", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
                 }
                 else if (_idUser != null && _idProduct != null && _idAddRess != null && _idShop != null) {
                     hamadd(
@@ -211,6 +218,7 @@ class Cartting : AppCompatActivity() {
         }
     }
 
+    // dialog phương thức vận chuyển
     private fun moneyship() {
         val dialog = BottomSheetDialog(this)
         val dialogView = layoutInflater.inflate(R.layout.dialog_moneyship, null)
@@ -272,6 +280,7 @@ class Cartting : AppCompatActivity() {
         dialog.show()
     }
 
+    // dialog phương thức thanh toán
     private fun ptthanhtoan() {
         val dialog = BottomSheetDialog(this)
         val dialogView = layoutInflater.inflate(R.layout.dialog_ptthanhtoan, null)
@@ -296,6 +305,8 @@ class Cartting : AppCompatActivity() {
 
         dialog.show()
     }
+
+
     private fun ptship(){
         ptship = "Thanh toán khi nhận hàng"
         binding.ptthanhtoanshow.text = ptship
@@ -354,35 +365,47 @@ class Cartting : AppCompatActivity() {
         username : String
 
     ) {
-        val newbill = BillModel(
-            0,
-            quantitybill,
-            sumpricebill,
-            ptthanhtoan,
-            phiship,
-            datedathang,
-            datenhanhang,
-            TTXacNhan,
-            TTLayhang,
-            TTGiaoHang,
-            TTHuy,
-            TTDaGiao,
-            TTVote,
-            _idUser,
-            _idProduct,
-            _idAddRess,
-            _idShop,
-            username
-        )
-        val typeId = billDAO.addBill(newbill)
+        val currentProduct = productDAO.getProductById(_idProduct)
+        val currentQuantity = currentProduct?.quantityProduct ?: 0
 
-        if (typeId > -1) {
-            Toast.makeText(this, "Đặt hàng thành công", Toast.LENGTH_SHORT).show()
-            setResult(AppCompatActivity.RESULT_OK)
-            finish()
-        } else {
-            Toast.makeText(this, "Đặt hàng thất bại", Toast.LENGTH_SHORT).show()
+        if (currentQuantity >= numberquantity){
+            val newbill = BillModel(
+                0,
+                quantitybill,
+                sumpricebill,
+                ptthanhtoan,
+                phiship,
+                datedathang,
+                datenhanhang,
+                TTXacNhan,
+                TTLayhang,
+                TTGiaoHang,
+                TTHuy,
+                TTDaGiao,
+                TTVote,
+                _idUser,
+                _idProduct,
+                _idAddRess,
+                _idShop,
+                username
+            )
+            val typeId = billDAO.addBill(newbill)
+            if (typeId > -1) {
+                Toast.makeText(this, "Đặt hàng thành công", Toast.LENGTH_SHORT).show()
+
+                // Tính toán số lượng còn lại và cập nhật
+                val newQuantity = currentQuantity - numberquantity
+                productDAO.updateSL(_idProduct, newQuantity.toString())
+
+                setResult(AppCompatActivity.RESULT_OK)
+                finish()
+            } else {
+                Toast.makeText(this, "Đặt hàng thất bại", Toast.LENGTH_SHORT).show()
+            }
+        }else{
+            Toast.makeText(this, "Sản phẩm này hiện tại chỉ còn $currentQuantity sản phẩm", Toast.LENGTH_SHORT).show()
         }
+
     }
 
 }

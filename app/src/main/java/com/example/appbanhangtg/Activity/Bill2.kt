@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import com.example.appbanhangtg.Adapter.ViewPageBill1Adapter
+import com.example.appbanhangtg.Adapter.ViewPageBill2Adapter
 import com.example.appbanhangtg.R
 import com.example.appbanhangtg.databinding.ActivityBill1Binding
 import com.example.appbanhangtg.databinding.ActivityBill2Binding
@@ -18,7 +19,7 @@ class Bill2 : AppCompatActivity() {
 
         binding.imgbackaddProductshop.setOnClickListener { finish() }
 
-        val adapter = ViewPageBill1Adapter(supportFragmentManager, lifecycle)
+        val adapter = ViewPageBill2Adapter(supportFragmentManager, lifecycle)
         binding.pagershop.adapter = adapter
         TabLayoutMediator(binding.tablayoutshop, binding.pagershop) { tab, pos ->
             when (pos) {

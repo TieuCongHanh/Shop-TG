@@ -1,11 +1,13 @@
 package com.example.appbanhangtg.Fragment.DonShip
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.appbanhangtg.Activity.BillDetail
 import com.example.appbanhangtg.Adapter.Bill1Adapter
 import com.example.appbanhangtg.DAO.BillDAO
 import com.example.appbanhangtg.DAO.ShopDAO
@@ -25,6 +27,11 @@ class GiaoHang : Fragment(), OnDataChangedListener {
         loadDataAndUpdateUI()
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadDataAndUpdateUI()
+    }
+
     private fun loadDataAndUpdateUI() {
         billDAO = BillDAO(requireContext())
         shopDAO = ShopDAO(requireContext())
@@ -36,8 +43,8 @@ class GiaoHang : Fragment(), OnDataChangedListener {
 
         // Lọc danh sách hóa đơn dựa trên idShop và so sánh idUser của shop
         val filteredBillList = billList.filter { bill ->
-            bill.username == currentUser?.username
-                    && bill.TTXacNhan == "true" && bill.TTLayhang == "true" && bill.TTHuy == "false"
+            bill.username == currentUser?.username &&
+                    bill.TTXacNhan == "true" && bill.TTLayhang == "true" && bill.TTHuy == "false"
                     && bill.TTDaGiao == "false" && bill.TTGiaoHang == "true"
         }
         if (currentUser?.role == "Shipper") {
@@ -51,6 +58,7 @@ class GiaoHang : Fragment(), OnDataChangedListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentGiaoHang3Binding.inflate(inflater, container, false)
+
         loadDataAndUpdateUI()
 
         return binding.root
@@ -66,7 +74,9 @@ class GiaoHang : Fragment(), OnDataChangedListener {
             false
         )
         val billAdapter = Bill1Adapter(requireContext(), bill, billDAO, this) { clickedCart ->
-
+            val intent = Intent(requireContext(), BillDetail::class.java)
+            intent.putExtra("BILL_EXTRA", clickedCart)
+            startActivity(intent)
         }
         recyclerView.adapter = billAdapter
     }

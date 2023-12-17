@@ -308,7 +308,7 @@ class AddOrUpdate_ProductShop : AppCompatActivity() {
 
     private fun displayProductInfo(product: ProductModel) {
         binding.edtNameProduct.setText(product.nameProduct)
-        binding.edtQuantityProduct.setText(product.quantityProduct)
+        binding.edtQuantityProduct.setText(product.quantityProduct.toString())
         binding.edtPriceProduct.setText(product.priceProduct.toString())
         binding.edtDescriptionProduct.setText(product.descriptionProduct)
         binding.edtImageProduct.setText(product.imageProduct)

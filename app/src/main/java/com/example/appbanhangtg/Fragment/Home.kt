@@ -40,6 +40,11 @@ class Home : Fragment() {
     private val productDAO: ProductDAO by lazy { ProductDAO(requireContext()) }
 
     private val cartDAO: CartDAO by lazy { CartDAO(requireContext()) }
+    override fun onResume() {
+        super.onResume()
+        loadProduct() // Tải lại sản phẩm
+        loadnumcart()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,17 +79,7 @@ class Home : Fragment() {
             2,
             GridLayoutManager.VERTICAL,
             false)
-        val user = context?.let { SharedPrefsManager.getUser(it) }
-        val userId = user?._idUser
-
-        val cartCount = userId?.let {
-            cartDAO.getCartCountByUserId(it)
-        }
-
-        // Hiển thị số lượng sản phẩm lên TextView
-        cartCount?.let {
-            binding.numcart.text = "$it"
-        }
+        loadnumcart()
         loadProduct()
 
         binding.carthome.setOnClickListener {
@@ -103,8 +98,24 @@ class Home : Fragment() {
     }
     private fun loadProduct() {
         productList.clear()
-        productList.addAll(productDAO.getAllProduct())
+        val allProducts = productDAO.getAllProduct()
+        val filteredProducts = allProducts.filter { it.quantityProduct >= 1 }
+
+        productList.addAll(filteredProducts)
         productAdapter.notifyDataSetChanged()
+    }
+    private fun loadnumcart(){
+        val user = context?.let { SharedPrefsManager.getUser(it) }
+        val userId = user?._idUser
+
+        val cartCount = userId?.let {
+            cartDAO.getCartCountByUserId(it)
+        }
+
+        // Hiển thị số lượng sản phẩm lên TextView
+        cartCount?.let {
+            binding.numcart.text = "$it"
+        }
     }
 
 

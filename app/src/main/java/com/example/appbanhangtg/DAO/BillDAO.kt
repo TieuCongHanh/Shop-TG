@@ -69,6 +69,36 @@ class BillDAO(private val context: Context) {
         db.close()
         return billtList
     }
+    @SuppressLint("Range")
+    fun getTotalQuantityByProductId(productId: Int): Int {
+        var totalQuantity = 0
+        val db = sqLiteData.readableDatabase
+
+        val selection = "_idProduct = ?"
+        val selectionArgs = arrayOf(productId.toString())
+
+        val cursor: Cursor? = db.query(
+            "BILL",
+            arrayOf("quantitybill"),
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+
+        cursor?.use {
+            while (it.moveToNext()) {
+                val quantitybill = it.getInt(it.getColumnIndex("quantitybill"))
+                totalQuantity += quantitybill
+            }
+        }
+
+        cursor?.close()
+        db.close()
+
+        return totalQuantity
+    }
 
     @SuppressLint("Range")
     fun getByBillIdUser(userId: Int): List<BillModel> {
@@ -319,6 +349,18 @@ class BillDAO(private val context: Context) {
         val db = sqLiteData.writableDatabase
         val contentValues = ContentValues()
         contentValues.put("username", newTTHuy)
+
+        val selection = "_idBill = ?"
+        val selectionArgs = arrayOf(billId.toString())
+
+        val updatedRows = db.update("BILL", contentValues, selection, selectionArgs)
+        db.close()
+        return updatedRows
+    }
+    fun updateTTVote(billId: Int, newTTVote: String): Int {
+        val db = sqLiteData.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put("TTVote", newTTVote)
 
         val selection = "_idBill = ?"
         val selectionArgs = arrayOf(billId.toString())

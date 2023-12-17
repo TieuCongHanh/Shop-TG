@@ -7,17 +7,24 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.example.appbanhangtg.Adapter.VoteProductAdapter
+import com.example.appbanhangtg.DAO.BillDAO
 import com.example.appbanhangtg.DAO.CartDAO
 import com.example.appbanhangtg.DAO.ProductDAO
 import com.example.appbanhangtg.DAO.ShopDAO
+import com.example.appbanhangtg.DAO.UserDAO
+import com.example.appbanhangtg.DAO.VoteProductDAO
 import com.example.appbanhangtg.DAO.VoteShopDAO
 import com.example.appbanhangtg.Interface.SharedPrefsManager
 import com.example.appbanhangtg.Model.CartModel
 import com.example.appbanhangtg.Model.ProductModel
+import com.example.appbanhangtg.Model.ProductWrapper
+import com.example.appbanhangtg.Model.VoteProductModel
 import com.example.appbanhangtg.R
 import com.example.appbanhangtg.databinding.ActivityProductDetailBinding
 import java.text.DecimalFormat
@@ -30,6 +37,9 @@ class ProductDetail : AppCompatActivity() {
     private lateinit var productDAO: ProductDAO
     private lateinit var voteShopDAO: VoteShopDAO
     private val cartDAO: CartDAO by lazy { CartDAO(this) }
+    private val voteProductDAO: VoteProductDAO by lazy { VoteProductDAO(this) }
+    private val userDao:UserDAO by lazy { UserDAO(this) }
+    private val billDAO:BillDAO by lazy { BillDAO(this) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,6 +105,15 @@ class ProductDetail : AppCompatActivity() {
             val productIdsp = it._idProduct
             val shopIdsp = it._idShop
 
+            // hiển thị trung bình cộng đánh giá sản phẩm
+            val averageRating = productIdsp?.let { voteProductDAO.calculateAverageRatingByShopId(it) }
+            binding.tbcdanhgia.text = "$averageRating"
+
+            // hiển thị soos lượng bán được
+            val totalQuantitySold = billDAO.getTotalQuantityByProductId(it._idProduct)
+            binding.SLdaban.text = "Đã bán được $totalQuantitySold"
+
+
 
             // thêm sản phẩm vào giỏ hàng
             binding.imgCartAdd.setOnClickListener {
@@ -105,6 +124,19 @@ class ProductDetail : AppCompatActivity() {
                 }
 
             }
+            // Lấy danh sách vote theo ID của cửa hàng
+            val voteShopList = productIdsp?.let {
+                voteProductDAO.getByVote4ShopId(it)
+            }
+
+            voteShopList?.let { displayStarList(it) }
+
+            binding.txtshowallvote.setOnClickListener {
+                val intent = Intent(this,VoteProduct1::class.java)
+                intent.putExtra("PRODUCT_EXTRA", productModel)
+                startActivity(intent)
+            }
+
 
         }
 
@@ -165,4 +197,18 @@ class ProductDetail : AppCompatActivity() {
             binding.numcart.text = "$it"
         }
     }
+    private fun displayStarList(votes: List<VoteProductModel>) {
+        val recyclerView = binding.recyclerviewvoteproduct
+
+        recyclerView.layoutManager = GridLayoutManager(this,
+            1,
+            GridLayoutManager.VERTICAL,
+            false
+        )
+        val voteShopAdapter = VoteProductAdapter(votes, userDao) { clickedVoteShop ->
+            Toast.makeText(this, "${clickedVoteShop._idProduct}", Toast.LENGTH_SHORT).show()
+        }
+        recyclerView.adapter = voteShopAdapter
+    }
+
 }

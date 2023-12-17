@@ -39,6 +39,33 @@ class ProductDAO(private val context: Context) {
         db.close()
         return productList
     }
+    @SuppressLint("Range")
+    fun getProductById(productId: Int): ProductModel? {
+        val db = sqLiteData.readableDatabase
+        var product: ProductModel? = null
+
+        val selectQuery = "SELECT * FROM PRODUCT WHERE _idProduct = ?"
+        val cursor = db.rawQuery(selectQuery, arrayOf(productId.toString()))
+
+        if (cursor.moveToFirst()) {
+            val id = cursor.getInt(cursor.getColumnIndex("_idProduct"))
+            val nameProduct = cursor.getString(cursor.getColumnIndex("nameProduct"))
+            val quantityProduct = cursor.getInt(cursor.getColumnIndex("quantityProduct"))
+            val priceProduct = cursor.getDouble(cursor.getColumnIndex("priceProduct"))
+            val descriptionProduct = cursor.getString(cursor.getColumnIndex("descriptionProduct"))
+            val imageProduct = cursor.getString(cursor.getColumnIndex("imageProduct"))
+            val _idUser = cursor.getInt(cursor.getColumnIndex("_idUser"))
+            val _idShop = cursor.getInt(cursor.getColumnIndex("_idShop"))
+            val _idtypeProduct = cursor.getInt(cursor.getColumnIndex("_idtypeProduct"))
+
+             product = ProductModel(id, nameProduct, quantityProduct, priceProduct, descriptionProduct,imageProduct, _idUser,_idShop,_idtypeProduct)
+
+        }
+
+        cursor.close()
+        db.close()
+        return product
+    }
 
     fun getByShopIdProduct(shopId: Int): List<ProductModel> {
         val productList = mutableListOf<ProductModel>()

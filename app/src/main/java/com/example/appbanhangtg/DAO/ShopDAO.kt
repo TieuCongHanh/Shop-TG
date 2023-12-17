@@ -1,6 +1,7 @@
 package com.example.appbanhangtg.DAO
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import com.example.appbanhangtg.Model.ProductModel
@@ -53,6 +54,34 @@ class ShopDAO (context: Context){
     fun getProductCountByShopId(shopId: Int): Int {
         val allProducts = getAllShop()
         return allProducts.count { it._idShop == shopId }
+    }
+    fun addShop(shop: ShopModel): Long {
+        val db = sqLiteData.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put("nameShop", shop.nameShop)
+        contentValues.put("descriptionShop", shop.descriptionShop)
+        contentValues.put("sloganShop", shop.sloganShop)
+        contentValues.put("imageavtShop", shop.imageavtShop)
+        contentValues.put("imageShop", shop.imageShop ?: "")
+        contentValues.put("_idUser", shop._idUser)
+
+        val addproduct = db.insert("SHOP", null, contentValues)
+        db.close()
+        return addproduct
+    }
+    fun updateShop(shop: ShopModel): Int {
+        val db = sqLiteData.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put("nameShop", shop.nameShop)
+        contentValues.put("descriptionShop", shop.descriptionShop)
+        contentValues.put("sloganShop", shop.sloganShop)
+        contentValues.put("imageavtShop", shop.imageavtShop)
+        contentValues.put("imageShop", shop.imageShop ?: "")
+        contentValues.put("_idUser", shop._idUser)
+
+        val updateproduct = db.update("SHOP", contentValues, "_idShop = ?", arrayOf(shop._idShop.toString()))
+        db.close()
+        return updateproduct
     }
     fun getShopsByUserId(userId: Int): List<ShopModel> {
         val shopsByUser = mutableListOf<ShopModel>()

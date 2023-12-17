@@ -13,6 +13,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.appbanhangtg.Activity.AccountSetting
 import com.example.appbanhangtg.Activity.Bill
 import com.example.appbanhangtg.Activity.Bill1
+import com.example.appbanhangtg.Activity.Bill2
 import com.example.appbanhangtg.Activity.Cart
 import com.example.appbanhangtg.Activity.Login
 import com.example.appbanhangtg.Activity.MyShop
@@ -27,33 +28,17 @@ import com.example.appbanhangtg.databinding.FragmentProfileBinding
 private lateinit var binding: FragmentProfileBinding
 class Profile : Fragment() {
     private val cartDAO: CartDAO by lazy { CartDAO(requireContext()) }
-
+    override fun onResume() {
+        super.onResume()
+        loadshop()
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentProfileBinding.inflate(inflater,container,false)
 
-        val user = context?.let { SharedPrefsManager.getUser(it) }
-
-        if (user?.username == "" || user?.username == null){
-            binding.txtusernameProfile.setText("Bạn chưa đăng nhập")
-            binding.txtchucvuProfile.setText("Đăng nhập ngay  >  ")
-            binding.txtchucvuProfile.setOnClickListener {
-                val intent = Intent(context,Login::class.java)
-                startActivity(intent)
-            }
-        }else{
-            val requestOptions = RequestOptions().transform(CircleCrop())
-
-            Glide.with(binding.root.context)
-                .load(user?.image)
-                .apply(requestOptions)
-                .placeholder(R.drawable.icon_persion) // Placeholder image while loading
-                .into(binding.imgavtProfile)
-            binding.txtusernameProfile.text = user?.username
-
-        }
+        loadshop()
 
 
         binding.txtshowaccountProfile.setOnClickListener {
@@ -80,18 +65,44 @@ class Profile : Fragment() {
             val intent = Intent(context,Bill1::class.java)
             startActivity(intent)
         }
+        binding.donshipcuatoi.setOnClickListener {
+            val intent = Intent(context,Bill2::class.java)
+            startActivity(intent)
+        }
 
+
+
+        return binding.root
+    }
+    private fun loadshop(){
+        val user = context?.let { SharedPrefsManager.getUser(it) }
         val userId = user?._idUser
 
+        if (user?.username == "" || user?.username == null){
+            binding.txtusernameProfile.setText("Bạn chưa đăng nhập")
+            binding.txtchucvuProfile.setText("Đăng nhập ngay  >  ")
+            binding.txtchucvuProfile.setOnClickListener {
+                val intent = Intent(context,Login::class.java)
+                startActivity(intent)
+            }
+        }else{
+            val requestOptions = RequestOptions().transform(CircleCrop())
+
+            Glide.with(binding.root.context)
+                .load(user?.image)
+                .apply(requestOptions)
+                .placeholder(R.drawable.icon_persion) // Placeholder image while loading
+                .into(binding.imgavtProfile)
+            binding.txtusernameProfile.text = user?.username
+
+        }
         val cartCount = userId?.let {
             cartDAO.getCartCountByUserId(it)
         }
 
         // Hiển thị số lượng sản phẩm lên TextView
         cartCount?.let {
-          binding.numcart.text = "$it"
+            binding.numcart.text = "$it"
         }
-
-        return binding.root
     }
 }

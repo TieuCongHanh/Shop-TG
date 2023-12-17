@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.appbanhangtg.Activity.BillDetail
 import com.example.appbanhangtg.Activity.ProductDetail
 
 import com.example.appbanhangtg.Adapter.BillAdapter
@@ -25,7 +26,10 @@ class XacNhan : Fragment() , OnDataChangedListener{
         // Gọi lại hàm load dữ liệu và cập nhật giao diện
         loadDataAndUpdateUI()
     }
-
+    override fun onResume() {
+        super.onResume()
+        loadDataAndUpdateUI()
+    }
     private fun loadDataAndUpdateUI() {
         billDAO = BillDAO(requireContext())
         val user = context?.let { SharedPrefsManager.getUser(it) }
@@ -57,12 +61,8 @@ class XacNhan : Fragment() , OnDataChangedListener{
             false
         )
         val billAdapter = BillAdapter(requireContext(), bill, billDAO,this) { clickedCart ->
-            val productId = clickedCart._idProduct
-            Log.d("TTXacNhan","TT: " + clickedCart.TTXacNhan)
-            val productModel = billDAO.getProductByIdProduct(productId)
-
-            val intent = Intent(context, ProductDetail::class.java)
-            intent.putExtra("PRODUCT_EXTRA", productModel)
+            val intent = Intent(requireContext(), BillDetail::class.java)
+            intent.putExtra("BILL_EXTRA", clickedCart)
             startActivity(intent)
         }
         recyclerView.adapter = billAdapter

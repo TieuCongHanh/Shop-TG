@@ -30,7 +30,10 @@ class StarShop : Fragment() {
     private var shopModel: ShopModel? = null
     private lateinit var voteshopDAO: VoteShopDAO
     private lateinit var userDao: UserDAO
-
+    override fun onResume() {
+        super.onResume()
+        listStar1()
+    }
     companion object {
         fun newInstance(shopWrapper: ShopWrapper): StarShop {
             val fragment = StarShop()

@@ -100,7 +100,7 @@ class Product_Shop : Fragment() {
 
                     .setCancelable(true)
                     .setPositiveButton("Delete") { dialog, _ ->
-                        showDeleteCommentDialog(clickedProduct)
+                        showDeleteProductDialog(clickedProduct)
                     }
                     .setNegativeButton("Update") { dialog, _ ->
                         val intent = Intent(context, AddOrUpdate_ProductShop::class.java)
@@ -143,7 +143,7 @@ class Product_Shop : Fragment() {
 
         productList?.let { displayProductList(it) }
     }
-    private fun showDeleteCommentDialog(product: ProductModel) {
+    private fun showDeleteProductDialog(product: ProductModel) {
         val builder = android.app.AlertDialog.Builder(context)
         builder.setTitle("Xóa sản phẩm")
         builder.setMessage("Bạn có chắc muốn xóa sản phẩm này?")

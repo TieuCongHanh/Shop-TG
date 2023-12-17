@@ -37,6 +37,9 @@ class SQLiteData(context: Context): SQLiteOpenHelper(context,"DATA",null,1) {
         db?.execSQL("CREATE TABLE CART(" +
                 "_idCart integer primary key," +
                 " _idUser integer, _idProduct integer, _idShop integer)")
+        db?.execSQL("CREATE TABLE VOTEPRODUCT(" +
+                "_idVoteProduct integer primary key, numberofstart TEXT, content TEXT, date TEXT," +
+                " _idUser integer, _idProduct integer)")
 
         // user
         db?.execSQL("Insert into USER(username,password,phone,role,email,image) values ('admin','admin','0123','Admin','admin@gmail.com'," +
@@ -107,12 +110,29 @@ class SQLiteData(context: Context): SQLiteOpenHelper(context,"DATA",null,1) {
                 "230000.0,'Thanh toán khi nhận hàng',30000.0,'11/12/2023','16/12/2023','false','false','false','false','false','false',1,2,2 ,1,'shipper')")
         db?.execSQL("Insert into BILL(quantitybill,sumpricebill,ptthanhtoan,phiship,datedathang,datenhanhang," +
                 "TTXacNhan,TTLayhang,TTGiaoHang,TTHuy,TTDaGiao,TTVote,_idUser,_idProduct,_idAddRess,_idShop,username) values (2," +
-                "230000.0,'Thanh toán khi nhận hàng',30000.0,'11/12/2023','16/12/2023','false','false','false','false','false','false',1,2,2,1 ,'shipper')")
+                "230000.0,'Thanh toán khi nhận hàng',30000.0,'11/12/2023','16/12/2023','true','true','true','false','true','false',1,2,2,1 ,'shipper')")
 
         // cart
         db?.execSQL("Insert into CART(_idUser,_idProduct,_idShop) values (1,2,1 )")
         db?.execSQL("Insert into CART(_idUser,_idProduct,_idShop) values (1,2 ,1)")
         db?.execSQL("Insert into CART(_idUser,_idProduct,_idShop) values (1,3 ,2)")
+
+        //vote product
+        db?.execSQL("Insert into VOTEPRODUCT(numberofstart,content,date,_idUser,_idProduct) values ('5'," +
+                "'Shop làm ăn rất uy tín mọi người hãy ủng hộ shop nhiều nhiều lên nha chứ không shop mà nản l anh em mình khôncoscos '," +
+                "'20-11-2023',4,1)")
+        db?.execSQL("Insert into VOTEPRODUCT(numberofstart,content,date,_idUser,_idProduct) values ('2'," +
+                "'Shop làm ăn rất cẩu thả nhìn là biets méo uy tín rồi anh em cẩn tận shop này lừa đảo nha anh em tôi mua 2 mà ship có 3 à vão ò lừa đảo nha '," +
+                "'20-11-2023',3,1)")
+        db?.execSQL("Insert into VOTEPRODUCT(numberofstart,content,date,_idUser,_idProduct) values ('3'," +
+                "'Shop làm ăn rất uy tín mọi người hãy ủng hộ shop nhiều nhiều lên nha chứ không shop mà nản l anh em mình khôncoscos '," +
+                "'20-11-2023',2,1)")
+        db?.execSQL("Insert into VOTEPRODUCT(numberofstart,content,date,_idUser,_idProduct) values ('1'," +
+                "'Shop làm ăn rất uy tín mọi người hãy ủng hộ shop nhiều nhiều lên nha chứ không shop mà nản l anh em mình khôncoscos '," +
+                "'20-11-2023',2,1)")
+        db?.execSQL("Insert into VOTEPRODUCT(numberofstart,content,date,_idUser,_idProduct) values ('4'," +
+                "'Shop làm ăn rất uy tín mọi người hãy ủng hộ shop nhiều nhiều lên nha chứ không shop mà nản l anh em mình khôncoscos '," +
+                "'20-11-2023',2,1)")
 
     }
 

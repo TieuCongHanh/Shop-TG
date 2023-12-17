@@ -9,12 +9,17 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.appbanhangtg.Interface.OnItemLongClickListener
 import com.example.appbanhangtg.Model.AddressModel
 import com.example.appbanhangtg.Model.ProductModel
 import com.example.appbanhangtg.R
 
-class AddressAdapter  (private val list: List<AddressModel>, private val clickRecyclerView: (AddressModel) -> Unit) :
+class AddressAdapter  (
+    private val list: List<AddressModel>,
+    private val clickRecyclerView: (AddressModel) -> Unit) :
     RecyclerView.Adapter<AddressAdapter.AddressHolder>() {
+    private var longClickListener: OnItemLongClickListener? = null
+
 
     inner class AddressHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
        val radioButton:RadioButton = itemView.findViewById(R.id.radioButton)
@@ -31,6 +36,15 @@ class AddressAdapter  (private val list: List<AddressModel>, private val clickRe
                 }
             }
         }
+        init {
+            itemView.setOnLongClickListener {
+                longClickListener?.onItemLongClick(list[position])
+                true
+            }
+        }
+
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddressAdapter.AddressHolder {
@@ -56,5 +70,8 @@ class AddressAdapter  (private val list: List<AddressModel>, private val clickRe
 
     override fun getItemCount(): Int {
         return list.size
+    }
+    fun setOnItemLongClickListener(listener: OnItemLongClickListener) {
+        this.longClickListener = listener
     }
 }

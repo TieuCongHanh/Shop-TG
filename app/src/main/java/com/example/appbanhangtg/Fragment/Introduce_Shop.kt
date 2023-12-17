@@ -29,12 +29,20 @@ class Introduce_Shop : Fragment() {
             return fragment
         }
     }
-
+    override fun onResume() {
+        super.onResume()
+        lisst() // Tải lại sản phẩm
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentIntroduceShopBinding.inflate(inflater, container, false)
+        lisst()
+
+        return binding.root
+    }
+    private fun lisst(){
         val shopWrapper = arguments?.getSerializable("SHOP_EXTRA") as? ShopWrapper
         val shopModel = shopWrapper?.shopModel
 
@@ -64,8 +72,6 @@ class Introduce_Shop : Fragment() {
             binding.txtslogan.text = "Với slogan của Shop là ${it.sloganShop} chúng tôi sẽ cho bạn những trải nghiệm thật thú vị"
             binding.txtdesc.text = "Miêu tả: ${it.descriptionShop}"
         }
-
-        return binding.root
     }
 
 }
