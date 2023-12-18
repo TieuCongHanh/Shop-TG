@@ -99,7 +99,10 @@ class BillDAO(private val context: Context) {
 
         return totalQuantity
     }
-
+    fun getBillCountByUserId(userId: Int): Int {
+        val allProducts = getAllBill()
+        return allProducts.count { it._idUser == userId }
+    }
     @SuppressLint("Range")
     fun getByBillIdUser(userId: Int): List<BillModel> {
         val billList = mutableListOf<BillModel>()
@@ -273,6 +276,95 @@ class BillDAO(private val context: Context) {
             db.close()
             return addproduct
         }
+    // đơn mua
+    fun getbillCountByTTXacNhanId(userId: Int): Int {
+        val allProducts = getAllBill()
+        return allProducts.count { it._idUser == userId && it.TTXacNhan == "false" && it.TTHuy == "false"}
+    }
+    fun getbillCountByTTLayHangId(userId: Int): Int {
+        val allProducts = getAllBill()
+        return allProducts.count { it._idUser == userId && it.TTXacNhan == "true" && it.TTLayhang == "false" && it.TTHuy == "false"}
+    }
+    fun getbillCountByTTGiaoHangId(userId: Int): Int {
+        val allProducts = getAllBill()
+        return allProducts.count { it._idUser == userId && it.TTXacNhan == "true" && it.TTLayhang == "true"
+                && it.TTDaGiao == "false" && it.TTHuy == "false"}
+    }
+    fun getbillCountByTTDanhGiaId(userId: Int): Int {
+        val allProducts = getAllBill()
+        return allProducts.count { it._idUser == userId && it.TTXacNhan == "true" && it.TTLayhang == "true" && it.TTGiaoHang == "true"
+                && it.TTDaGiao == "true" && it.TTHuy == "false" && it.TTVote == "false"}
+    }
+    // đơn ship
+    fun getbillCountByTTGiaoHangShipId(username: String): Int {
+        val allProducts = getAllBill()
+        return allProducts.count { it.username == username && it.TTXacNhan == "true" && it.TTLayhang == "true" && it.TTGiaoHang == "true"
+                && it.TTDaGiao == "false" && it.TTHuy == "false" }
+    }
+    fun getbillCountByTTGiaoHangShip1Id(username: String): Int {
+        val allProducts = getAllBill()
+        return allProducts.count { it.username == username && it.TTXacNhan == "true" && it.TTLayhang == "true" && it.TTGiaoHang == "true"
+                && it.TTDaGiao == "true" && it.TTHuy == "false" }
+    }
+    @SuppressLint("Range")
+    fun getTotalSumPriceByUserId(userId: Int): Double {
+        var totalSumPrice = 0.0
+        val db = sqLiteData.readableDatabase
+
+        val selection = "_idUser = ? AND TTHuy = ? AND TTDaGiao = ?"
+        val selectionArgs = arrayOf(userId.toString(), "false", "true")
+
+        val cursor: Cursor? = db.query(
+            "BILL",
+            arrayOf("sumpricebill"), // Chỉ chọn cột sumpricebill
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+
+        cursor?.use {
+            while (it.moveToNext()) {
+                val sumpricebill = it.getDouble(it.getColumnIndex("sumpricebill"))
+                totalSumPrice += sumpricebill
+            }
+        }
+
+        cursor?.close()
+        db.close()
+
+        return totalSumPrice
+    }
+
+    // đơn bán
+
+    fun getbillCountByTTXacNhanBanId(userId: Int): Int {
+        val allBills = getAllBill()
+        val shopDAO = ShopDAO(context)
+
+        // Lọc danh sách hóa đơn
+        val filteredBills = allBills.filter { bill ->
+            val shop = shopDAO.getByProductIdShop(bill._idShop).firstOrNull()
+            shop != null && shop._idUser == userId && bill.TTXacNhan == "false" && bill.TTHuy == "false"
+        }
+
+        return filteredBills.size
+    }
+    fun getbillCountByTTLayHangBanId(userId: Int): Int {
+        val allBills = getAllBill()
+        val shopDAO = ShopDAO(context)
+
+        // Lọc danh sách hóa đơn
+        val filteredBills = allBills.filter { bill ->
+            val shop = shopDAO.getByProductIdShop(bill._idShop).firstOrNull()
+            shop != null && shop._idUser == userId && bill.TTXacNhan == "true" && bill.TTLayhang == "false" && bill.TTHuy == "false"
+        }
+
+        return filteredBills.size
+    }
+
+
     fun updateTTXacNhan(billId: Int, newTTXacNhan: String): Int {
         val db = sqLiteData.writableDatabase
         val contentValues = ContentValues()

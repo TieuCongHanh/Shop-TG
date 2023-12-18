@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.appbanhangtg.Activity.Login
 import com.example.appbanhangtg.Activity.ProductDetail
 import com.example.appbanhangtg.Adapter.ProductAdapter
 import com.example.appbanhangtg.Adapter.VoteShopAdapter
@@ -94,5 +95,4 @@ class StarShop : Fragment() {
             binding.txttotu.text = "Tổng đánh giá của 1 sao là : $it"
         }
     }
-
 }

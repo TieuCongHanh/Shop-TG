@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appbanhangtg.Activity.AddOrUpdate_User
 import com.example.appbanhangtg.Activity.Cart
+import com.example.appbanhangtg.Activity.Login
 import com.example.appbanhangtg.Activity.ProductDetail
 import com.example.appbanhangtg.Activity.Shop
 import com.example.appbanhangtg.Adapter.ProductAdapter
@@ -83,8 +84,13 @@ class Home : Fragment() {
         loadProduct()
 
         binding.carthome.setOnClickListener {
-            val intent = Intent(context,Cart::class.java)
-            startActivity(intent)
+            val user = context?.let { SharedPrefsManager.getUser(it) }
+            if (user == null){
+                showDoaLogLogin()
+            }else{
+                val intent = Intent(context,Cart::class.java)
+                startActivity(intent)
+            }
         }
 
 
@@ -116,6 +122,21 @@ class Home : Fragment() {
         cartCount?.let {
             binding.numcart.text = "$it"
         }
+    }
+    private fun showDoaLogLogin() {
+        val user = context?.let { SharedPrefsManager.getUser(it) }
+        val builder = android.app.AlertDialog.Builder(context)
+        builder.setTitle("Thông Báo Shop TG")
+        builder.setMessage("Bạn có muốn đăng nhập lúc này?")
+        builder.setPositiveButton("Đăng nhập") { dialog, which ->
+            val intent = Intent(context, Login::class.java)
+            startActivity(intent)
+        }
+        builder.setNegativeButton(
+            "Hủy"
+        ) { dialog, which -> dialog.dismiss() }
+        val dialog = builder.create()
+        dialog.show()
     }
 
 

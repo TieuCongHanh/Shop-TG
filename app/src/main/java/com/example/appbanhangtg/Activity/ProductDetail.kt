@@ -50,6 +50,7 @@ class ProductDetail : AppCompatActivity() {
         val productModel = intent.getSerializableExtra("PRODUCT_EXTRA") as? ProductModel
         productDAO = ProductDAO(this)
         voteShopDAO = VoteShopDAO(this)
+        val user = this?.let { SharedPrefsManager.getUser(it) }
 
         productModel?.let {
 
@@ -100,7 +101,7 @@ class ProductDetail : AppCompatActivity() {
             binding.txtnameproductDetail.text = it.nameProduct
             binding.txtdescproductDetail.text = it.descriptionProduct
 
-            val user = this?.let { SharedPrefsManager.getUser(it) }
+
             val userId = user?._idUser
             val productIdsp = it._idProduct
             val shopIdsp = it._idShop
@@ -118,7 +119,7 @@ class ProductDetail : AppCompatActivity() {
             // thêm sản phẩm vào giỏ hàng
             binding.imgCartAdd.setOnClickListener {
                 if (productIdsp == null || userId == null ){
-                    Toast.makeText(this, "Lỗi rùi hahaa", Toast.LENGTH_SHORT).show()
+                    showDoaLogLogin()
                 }else{
                     hamADDCart(userId,productIdsp,shopIdsp)
                 }
@@ -142,9 +143,13 @@ class ProductDetail : AppCompatActivity() {
 
 
         binding.txtcartting.setOnClickListener {
-            val intent = Intent(this, Cartting::class.java)
-            intent.putExtra("PRODUCT_EXTRA", productModel)
-            startActivity(intent)
+            if (user == null){
+                showDoaLogLogin()
+            }else{
+                val intent = Intent(this, Cartting::class.java)
+                intent.putExtra("PRODUCT_EXTRA", productModel)
+                startActivity(intent)
+            }
         }
 
         // tính tổng sản phẩm có trong giỏ hàng
@@ -155,8 +160,12 @@ class ProductDetail : AppCompatActivity() {
 
         }
         binding.imgcartproductDetail.setOnClickListener {
-            val intent = Intent(this, Cart::class.java)
-            startActivity(intent)
+            if (user == null){
+                showDoaLogLogin()
+            }else {
+                val intent = Intent(this, Cart::class.java)
+                startActivity(intent)
+            }
         }
     }
 
@@ -210,5 +219,18 @@ class ProductDetail : AppCompatActivity() {
         }
         recyclerView.adapter = voteShopAdapter
     }
-
+    private fun showDoaLogLogin() {
+        val builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle("Thông Báo Shop TG")
+        builder.setMessage("Bạn cần phải đăng nhập. Bạn có muốn đăng nhập lúc này?")
+        builder.setPositiveButton("Đăng nhập") { dialog, which ->
+            val intent = Intent(this, Login::class.java)
+            startActivity(intent)
+        }
+        builder.setNegativeButton(
+            "Hủy"
+        ) { dialog, which -> dialog.dismiss() }
+        val dialog = builder.create()
+        dialog.show()
+    }
 }

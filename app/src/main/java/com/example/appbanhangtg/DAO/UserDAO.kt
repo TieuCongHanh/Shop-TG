@@ -87,7 +87,15 @@ class UserDAO (context: Context){
         db.close()
         return updateCount
     }
+    fun updateUserRole(userId: Int, newrole: String): Int {
+        val db = sqLiteData.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put("role", newrole)
 
+        val updateCount = db.update("USER", contentValues, "_idUser = ?", arrayOf(userId.toString()))
+        db.close()
+        return updateCount
+    }
 
     fun login(username: String, password: String, context: Context): UserModel? {
         val userList = getAllUsers()
