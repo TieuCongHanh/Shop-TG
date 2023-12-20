@@ -4,17 +4,10 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
 
-        <RadioButton
-            android:id="@+id/radioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RadioGroup>
 
     <LinearLayout
+        android:paddingHorizontal="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -67,6 +60,11 @@
             android:layout_height="wrap_content"
             android:text="Xã Liên Mạc- Huyện Thanh Hà- Tỉnh Hải Duương"
             android:textSize="18sp"/>
-
+        <TextView
+            android:layout_marginTop="10dp"
+            android:background="#9E9B9E"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
     </LinearLayout>
+
 </LinearLayout>

@@ -87,7 +87,7 @@ class Product_Shop : Fragment() {
             GridLayoutManager.VERTICAL,
             false
         )
-        productAdapter = ProductAdapter(products) { clickedProduct ->
+        productAdapter = ProductAdapter(requireContext(), products) { clickedProduct ->
             val shopWrapper = arguments?.getSerializable("SHOP_EXTRA") as? ShopWrapper
             val shopModel = shopWrapper?.shopModel
             val user = context?.let { SharedPrefsManager.getUser(it) }
@@ -110,19 +110,27 @@ class Product_Shop : Fragment() {
                         startActivityForResult(intent, ADD_OR_UPDATE_REQUEST)
                     }
                     .setNeutralButton("Detail") { dialog, _ ->
-                        val intent = Intent(context, ProductDetail::class.java)
-                        intent.putExtra("PRODUCT_EXTRA", clickedProduct)
-                        startActivity(intent)
+                        if (clickedProduct.quantityProduct <= 0) {
+                            Toast.makeText(context, "Sản phẩm đã hết", Toast.LENGTH_SHORT).show()
+                        } else {
+                            val intent = Intent(context, ProductDetail::class.java)
+                            intent.putExtra("PRODUCT_EXTRA", clickedProduct)
+                            startActivity(intent)
+                        }
                     }
 
 
                 val alert = dialogBuilder.create()
                 alert.show()
             } else {
+                if (clickedProduct.quantityProduct <= 0) {
+                    Toast.makeText(context, "Sản phẩm đã hết", Toast.LENGTH_SHORT).show()
+                }else{
+                    val intent = Intent(context, ProductDetail::class.java)
+                    intent.putExtra("PRODUCT_EXTRA", clickedProduct)
+                    startActivity(intent)
+                }
 
-                val intent = Intent(context, ProductDetail::class.java)
-                intent.putExtra("PRODUCT_EXTRA", clickedProduct)
-                startActivity(intent)
             }
         }
 
@@ -143,6 +151,7 @@ class Product_Shop : Fragment() {
 
         productList?.let { displayProductList(it) }
     }
+
     private fun showDeleteProductDialog(product: ProductModel) {
         val builder = android.app.AlertDialog.Builder(context)
         builder.setTitle("Xóa sản phẩm")

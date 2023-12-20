@@ -30,7 +30,10 @@ class SetNewPassWord : AppCompatActivity() {
             val userId = user?._idUser
             if ( oldpass.isEmpty() || newpass.isEmpty()|| newpass1.isEmpty()) {
                 Toast.makeText(this, "Bạn cần nhập thông tin", Toast.LENGTH_SHORT).show()
-            }else if (!newpass.equals(newpass1)){
+            }else if (newpass.length < 6 || newpass1.length < 6){
+                Toast.makeText(this, "Mật khẩu mới phải lớn hơn 6 kí tự", Toast.LENGTH_SHORT).show()
+            }
+            else if (!newpass.equals(newpass1)){
                 Toast.makeText(this, "Mật khẩu mới không khớp", Toast.LENGTH_SHORT).show()
             }else if (!user?.password.toString().equals(oldpass)){
                 Toast.makeText(this, "Mật khẩu cũ không đúng", Toast.LENGTH_SHORT).show()

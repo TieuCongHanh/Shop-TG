@@ -29,6 +29,7 @@ import com.example.appbanhangtg.Model.ShopWrapper
 import com.example.appbanhangtg.Model.TypeProductModel
 
 import com.example.appbanhangtg.databinding.ActivityAddOrUpdateProductShopBinding
+import java.text.DecimalFormat
 
 private lateinit var binding: ActivityAddOrUpdateProductShopBinding
 
@@ -72,10 +73,11 @@ class AddOrUpdate_ProductShop : AppCompatActivity() {
             imageUri?.let {
                 contentResolver.takePersistableUriPermission(imageUri!!, takeFlags)
             }
+            val requestOptions = RequestOptions().transform(CircleCrop())
             Glide.with(this)
                 .load(imageUri)
+                .apply(requestOptions)
                 .into(binding.imgavtproduct)
-            // Sử dụng URI với Glide để tải ảnh, hoặc xử lý tùy theo nhu cầu của bạn
         }
     }
 
@@ -98,7 +100,7 @@ class AddOrUpdate_ProductShop : AppCompatActivity() {
         }
 
 
-        binding.edtImageProduct.setOnClickListener {
+        binding.imgavtproduct.setOnClickListener {
             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
                 type = "image/*"
@@ -139,7 +141,7 @@ class AddOrUpdate_ProductShop : AppCompatActivity() {
 
                 if (nameProduct.isEmpty() || quantityProduct.isEmpty() || priceProduct.isEmpty() || descriptionProduct.isEmpty()) {
                     Toast.makeText(this, "Bạn cần nhập thông tin", Toast.LENGTH_SHORT).show()
-                } else if (imageUriString.isEmpty()) {
+                } else if (imageUri == null) {
                     Toast.makeText(this, "Hình ảnh phải có cho sản phẩm", Toast.LENGTH_SHORT).show()
                 }else if (quantity == null || price == null ){
                     Toast.makeText(this, "Số lượng hoặc giá tiền phải là số", Toast.LENGTH_SHORT).show()
@@ -177,15 +179,15 @@ class AddOrUpdate_ProductShop : AppCompatActivity() {
                     val idshop = shopModel?._idShop
                     val iduser = user?._idUser
                     val idtype = selectedTypeId
+                    val imges = binding.imgavtproduct.toString()
 
                     val quantity = quantityProduct.toIntOrNull()
                     val price = priceProduct.toDoubleOrNull()
 
                     if (nameProduct.isEmpty() || quantityProduct.isEmpty() || priceProduct.isEmpty() || descriptionProduct.isEmpty()) {
                         Toast.makeText(this, "Bạn cần nhập thông tin", Toast.LENGTH_SHORT).show()
-                    } else if (imageUriString.isEmpty()) {
-                        Toast.makeText(this, "Hình ảnh phải có cho sản phẩm", Toast.LENGTH_SHORT)
-                            .show()
+                    } else if (imageUri == null) {
+                        Toast.makeText(this, "Hình ảnh phải có cho sản phẩm", Toast.LENGTH_SHORT).show()
                     }else if (quantity == null || price == null ){
                         Toast.makeText(this, "Số lượng hoặc giá tiền phải là số", Toast.LENGTH_SHORT).show()
                     }
@@ -309,9 +311,8 @@ class AddOrUpdate_ProductShop : AppCompatActivity() {
     private fun displayProductInfo(product: ProductModel) {
         binding.edtNameProduct.setText(product.nameProduct)
         binding.edtQuantityProduct.setText(product.quantityProduct.toString())
-        binding.edtPriceProduct.setText(product.priceProduct.toString())
+        binding.edtPriceProduct.setText(formatPrice(product.priceProduct))
         binding.edtDescriptionProduct.setText(product.descriptionProduct)
-        binding.edtImageProduct.setText(product.imageProduct)
         val requestOptions = RequestOptions().transform(CircleCrop())
 
         Glide.with(binding.root.context)
@@ -324,5 +325,9 @@ class AddOrUpdate_ProductShop : AppCompatActivity() {
         if (typeIndex != -1) {
             binding.sproleaddorupdate.setSelection(typeIndex)
         }
+    }
+    private fun formatPrice(price: Double) : String {
+        val formatter = DecimalFormat("#.###")
+        return formatter.format(price)
     }
 }

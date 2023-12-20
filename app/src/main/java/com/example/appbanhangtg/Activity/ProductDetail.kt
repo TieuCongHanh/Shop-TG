@@ -4,6 +4,10 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.text.Html
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.StrikethroughSpan
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -12,11 +16,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.example.appbanhangtg.Adapter.ProductAdapter
 import com.example.appbanhangtg.Adapter.VoteProductAdapter
 import com.example.appbanhangtg.DAO.BillDAO
 import com.example.appbanhangtg.DAO.CartDAO
 import com.example.appbanhangtg.DAO.ProductDAO
 import com.example.appbanhangtg.DAO.ShopDAO
+import com.example.appbanhangtg.DAO.TypeProductDAO
 import com.example.appbanhangtg.DAO.UserDAO
 import com.example.appbanhangtg.DAO.VoteProductDAO
 import com.example.appbanhangtg.DAO.VoteShopDAO
@@ -35,18 +41,29 @@ private lateinit var binding: ActivityProductDetailBinding
 class ProductDetail : AppCompatActivity() {
 
     private lateinit var productDAO: ProductDAO
+    private lateinit var productAdapter: ProductAdapter
+    private lateinit var productList: MutableList<ProductModel>
+
     private lateinit var voteShopDAO: VoteShopDAO
     private val cartDAO: CartDAO by lazy { CartDAO(this) }
     private val voteProductDAO: VoteProductDAO by lazy { VoteProductDAO(this) }
     private val userDao:UserDAO by lazy { UserDAO(this) }
     private val billDAO:BillDAO by lazy { BillDAO(this) }
-
+    private val typeProductDAO:TypeProductDAO by lazy { TypeProductDAO(this) }
+    override fun onResume() {
+        super.onResume()
+        list()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProductDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        list()
+
+    }
+    private fun list(){
         val productModel = intent.getSerializableExtra("PRODUCT_EXTRA") as? ProductModel
         productDAO = ProductDAO(this)
         voteShopDAO = VoteShopDAO(this)
@@ -98,9 +115,11 @@ class ProductDetail : AppCompatActivity() {
                 .placeholder(R.drawable.shop1)
                 .into(binding.avt)
             binding.txtpriceproductDetail.text = formatPrice(it.priceProduct)
+            val tien =it.priceProduct + it.priceProduct * 10/100
+            binding.tiengiamgia.text = applyStrikethroughSpan(formatPrice(tien ))
             binding.txtnameproductDetail.text = it.nameProduct
             binding.txtdescproductDetail.text = it.descriptionProduct
-
+            binding.numproduct.text = it.quantityProduct.toString()
 
             val userId = user?._idUser
             val productIdsp = it._idProduct
@@ -140,7 +159,21 @@ class ProductDetail : AppCompatActivity() {
 
 
         }
-
+        // hiển thị sản phẩm cùng loại
+        // sản phẩm
+        productList = mutableListOf()
+        productAdapter = ProductAdapter(this,productList) { clickedProduct ->
+            val intent = Intent(this, ProductDetail::class.java)
+            intent.putExtra("PRODUCT_EXTRA", clickedProduct)
+            startActivity(intent)
+        }
+        binding.recyclerviewvoteproduct1.adapter = productAdapter
+       binding.recyclerviewvoteproduct1.layoutManager = GridLayoutManager(
+            this,
+            2,
+            GridLayoutManager.VERTICAL,
+            false)
+        loadProduct()
 
         binding.txtcartting.setOnClickListener {
             if (user == null){
@@ -232,5 +265,20 @@ class ProductDetail : AppCompatActivity() {
         ) { dialog, which -> dialog.dismiss() }
         val dialog = builder.create()
         dialog.show()
+    }
+    fun applyStrikethroughSpan(text: String): SpannableString {
+        val spannableString = SpannableString(text)
+        spannableString.setSpan(StrikethroughSpan(), 0, text.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        return spannableString
+    }
+    private fun loadProduct() {
+        productList.clear()
+        val allProducts = productDAO.getAllProduct()
+        val typelist = typeProductDAO.getAllTypeProducts()
+        val typeId = typelist?.get(0)!!._idtypeProduct
+        val filteredProducts = allProducts.filter { it.quantityProduct >= 1 && it._idtypeProduct == typeId}
+
+        productList.addAll(filteredProducts)
+        productAdapter.notifyDataSetChanged()
     }
 }

@@ -253,7 +253,7 @@ class Cartting : AppCompatActivity() {
 
             binding.ptvanchuyen.text = "Bình thường"
             totalMonyship = 20000.0
-            ngaynhanhang =  "Nhận hàng vào : " + resultDate5 + " - " + resultDate6
+            ngaynhanhang =  "Nhận hàng trước: " +resultDate6
             binding.sumtienship.text = formatPrice(totalMonyship)
             binding.moneysship.text = formatPrice(totalMonyship)
             binding.date.text = ngaynhanhang
@@ -269,7 +269,7 @@ class Cartting : AppCompatActivity() {
 
             binding.ptvanchuyen.text = "Chậm"
             totalMonyship = 10000.0
-            ngaynhanhang = "Nhận hàng trên : " + resultDate7
+            ngaynhanhang = "Nhận hàng trước: " + resultDate7
             binding.sumtienship.text = formatPrice(totalMonyship)
             binding.moneysship.text = formatPrice(totalMonyship)
             binding.date.text = ngaynhanhang
@@ -331,15 +331,13 @@ class Cartting : AppCompatActivity() {
     private fun ptgiaohang() {
         val currentDate3 = Calendar.getInstance()
         val currentDate4 = Calendar.getInstance()
-        currentDate3.add(Calendar.DAY_OF_MONTH, 3) // Thêm 3 ngày
         currentDate4.add(Calendar.DAY_OF_MONTH, 4) // Thêm 4 ngày
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-        val resultDate3 = dateFormat.format(currentDate3.time)
         val resultDate4 = dateFormat.format(currentDate4.time)
 
         binding.ptvanchuyen.text = "Nhanh"
         totalMonyship = 30000.0
-        ngaynhanhang = "Nhận hàng vào: " + resultDate3 + " - " + resultDate4
+        ngaynhanhang = "Nhận hàng trước: "+ resultDate4
         binding.moneysship.text = formatPrice(totalMonyship)
         binding.sumtienship.text = formatPrice(totalMonyship)
         binding.date.text = ngaynhanhang
@@ -396,9 +394,10 @@ class Cartting : AppCompatActivity() {
                 // Tính toán số lượng còn lại và cập nhật
                 val newQuantity = currentQuantity - numberquantity
                 productDAO.updateSL(_idProduct, newQuantity.toString())
-
                 setResult(AppCompatActivity.RESULT_OK)
-                finish()
+
+                val intent = Intent(this,Bill::class.java)
+                startActivity(intent)
             } else {
                 Toast.makeText(this, "Đặt hàng thất bại", Toast.LENGTH_SHORT).show()
             }

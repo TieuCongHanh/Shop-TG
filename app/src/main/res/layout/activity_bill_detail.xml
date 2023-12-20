@@ -466,7 +466,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text=""
+                        android:text="abc"
                         android:textSize="17sp" />
 
                     <TextView

@@ -1,25 +1,33 @@
 package com.example.appbanhangtg.Adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.appbanhangtg.DAO.BillDAO
+import com.example.appbanhangtg.DAO.ProductDAO
 import com.example.appbanhangtg.Model.ProductModel
 import com.example.appbanhangtg.R
 import java.text.DecimalFormat
 
-class ProductAdapter (private val list: List<ProductModel>, private val clickRecyclerView: (ProductModel) -> Unit) :
+class ProductAdapter (
+    private val context: Context,
+    private val list: List<ProductModel>,
+    private val clickRecyclerView: (ProductModel) -> Unit) :
     RecyclerView.Adapter<ProductAdapter.ProductHolder>() {
-
+    private val billDAO: BillDAO by lazy { BillDAO(context) }
     inner class ProductHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val avt: ImageView = itemView.findViewById(R.id.itemimgavt_product)
         val name: TextView = itemView.findViewById(R.id.itemtxtname_product)
         val price: TextView = itemView.findViewById(R.id.itemtxtprice_product)
         val slban: TextView = itemView.findViewById(R.id.itemtxtsl_product)
+        val hethang: TextView = itemView.findViewById(R.id.hethang)
         init {
             itemView.setOnClickListener {
                 val position = adapterPosition
@@ -44,7 +52,7 @@ class ProductAdapter (private val list: List<ProductModel>, private val clickRec
 
         // Gán dữ liệu vào các view trong ViewHolder
         holder.apply {
-            val nameProductLimited = currentProduct.nameProduct.limitTo(100)
+            val nameProductLimited = currentProduct.nameProduct.limitTo(30)
             name.text = nameProductLimited
             price.text = formatPrice(currentProduct.priceProduct)
 
@@ -55,6 +63,14 @@ class ProductAdapter (private val list: List<ProductModel>, private val clickRec
                 .placeholder(R.drawable.icon_person) // Placeholder image while loading
                 .transform(RoundedCorners(radiusInPixels.toInt()))
                 .into(avt)
+            // hiển thị soos lượng bán
+            hethang.visibility = View.GONE
+            if (currentProduct.quantityProduct <=0){
+                hethang.visibility = View.VISIBLE
+            }
+
+            val totalQuantitySold = billDAO.getTotalQuantityByProductId(currentProduct._idProduct)
+            slban.text = "Đã bán $totalQuantitySold"
         }
 
     }

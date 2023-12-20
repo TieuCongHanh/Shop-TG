@@ -51,22 +51,31 @@ class BillDetail : AppCompatActivity() {
             if (billmodel?.TTXacNhan == "false" && billmodel?.TTHuy =="false") {
                 binding.TTdonhang.text = "Đơn hàng đang chờ xác nhận"
                 binding.datedonhang.text = billmodel?.datedathang
+                binding.dategiaohang.text = "Chưa giao"
             }else if (billmodel?.TTXacNhan == "true" && billmodel?.TTLayhang == "false" && billmodel?.TTHuy == "false"){
                 binding.TTdonhang.text = "Đơn hàng đang chờ Lấy hàng"
                 binding.datedonhang.text = currentDate
+                binding.dategiaohang.text = "Chưa giao"
             }else if (billmodel?.TTXacNhan == "true" && billmodel?.TTLayhang == "true"
                 && billmodel?.TTGiaoHang == "false" && billmodel?.TTHuy == "false"){
                 binding.TTdonhang.text = "Đơn hàng đang chờ xác nhận giao hàng"
                 binding.datedonhang.text = currentDate
+                binding.dategiaohang.text = "Chưa giao"
             }
             else if (billmodel?.TTXacNhan == "true" && billmodel?.TTLayhang == "true"
                 && billmodel?.TTGiaoHang == "true" && billmodel?.TTDaGiao=="false" && billmodel?.TTHuy == "false"){
                 binding.TTdonhang.text = "Đơn hàng đang giao hàng"
                 binding.datedonhang.text = currentDate
+                binding.dategiaohang.text = currentDate
             }else if (billmodel?.TTXacNhan == "true" && billmodel?.TTLayhang == "true"
                 && billmodel?.TTGiaoHang == "true" && billmodel?.TTDaGiao=="true" && billmodel?.TTHuy == "false"){
                 binding.TTdonhang.text = "Đơn hàng Đã giao hàng thành công"
                 binding.datedonhang.text = billmodel?.datenhanhang
+                binding.dategiaohang.text = currentDate
+            }else if (billmodel?.TTHuy == "true"){
+                binding.TTdonhang.text = "Đơn hàng Đã hủy"
+                binding.datedonhang.text = "Đơn đã hủy"
+                binding.dategiaohang.text = "Đơn đã hủy"
             }
 
             // địa chỉ nhận hàng

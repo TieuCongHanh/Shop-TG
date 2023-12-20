@@ -8,105 +8,98 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="5dp">
-        <LinearLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <EditText
-                android:id="@+id/homesearch"
+            android:layout_height="wrap_content">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager1TopSelling"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@color/white" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:drawableLeft="@drawable/icon_search"
-                android:hint="Nhập vào thứ bạn muốn"
-                android:layout_weight="1"
-                android:drawablePadding="5dp"/>
-           <RelativeLayout
+                android:orientation="horizontal">
 
-               android:gravity="center"
-               android:layout_width="60dp"
-               android:layout_height="match_parent">
+                <EditText
+                    android:id="@+id/homesearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/icon_search"
+                    android:drawablePadding="5dp"
+                    android:hint="Nhập vào thứ bạn muốn" />
 
-               <ImageView
-                   android:id="@+id/carthome"
-                   android:layout_width="34dp"
-                   android:layout_height="35dp"
-                   android:layout_gravity="center"
-                   android:background="@drawable/icon_cart_24" />
+                <RelativeLayout
 
-               <TextView
-                   android:gravity="center"
-                   android:id="@+id/numcart"
-                   android:layout_width="25dp"
-                   android:layout_height="25dp"
-                   android:layout_marginLeft="15dp"
-                   android:layout_marginTop="-13dp"
-                   android:background="@drawable/border4"
-                   android:text="0"
-                   android:textColor="@color/white"
-                   android:textSize="16sp" />
-           </RelativeLayout>
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
 
-        </LinearLayout>
-        <LinearLayout
+                    <ImageView
+                        android:id="@+id/carthome"
+                        android:layout_width="34dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/icon_cart_24" />
+
+                    <TextView
+                        android:id="@+id/numcart"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="-13dp"
+                        android:background="@drawable/border4"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPagerTopSelling"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="18sp"
-                android:text="Các cửa hàng"
-                android:textStyle="bold"/>
-            <TextView
-                android:id="@+id/allshop"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="16sp"
-                android:gravity="end"
-                android:text="Tất cả Shop >>"
-                />
-        </LinearLayout>
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:id="@+id/recyclerviewshop"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_height="150dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
+            android:background="@color/white" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/white"
             android:orientation="horizontal"
-            >
+            android:paddingHorizontal="10dp">
+
             <TextView
+                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="25sp"
+                android:textColor="@color/tim"
                 android:text="Gợi ý hôm nay"
-                android:textStyle="bold"/>
+                android:textSize="25sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-
+            android:layout_marginLeft="3dp"
             android:id="@+id/recyclerviewdish"
             android:layout_width="match_parent"
             android:layout_height="550dp"
-            android:layout_marginLeft="-5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginTop="-5dp" />
 
 
     </LinearLayout>

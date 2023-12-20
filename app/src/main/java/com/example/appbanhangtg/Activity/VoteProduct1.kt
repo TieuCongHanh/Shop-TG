@@ -33,28 +33,28 @@ class VoteProduct1 : AppCompatActivity() {
                 0 -> {
                     tab.setCustomView(R.layout.custom_tab_layout_shop)
                     val customView = tab.customView
-                    customView?.findViewById<TextView>(R.id.tab_text)?.text = "Đánh giá 1 sao"
+                    customView?.findViewById<TextView>(R.id.tab_text)?.text = "Vote 1 sao"
                 }
 
                 1 -> {
                     tab.setCustomView(R.layout.custom_tab_layout_shop)
                     val customView = tab.customView
-                    customView?.findViewById<TextView>(R.id.tab_text)?.text = "Đánh giá 2 sao"
+                    customView?.findViewById<TextView>(R.id.tab_text)?.text = "Vote 2 sao"
                 }
                 2 -> {
                     tab.setCustomView(R.layout.custom_tab_layout_shop)
                     val customView = tab.customView
-                    customView?.findViewById<TextView>(R.id.tab_text)?.text = "Đánh giá 3 sao"
+                    customView?.findViewById<TextView>(R.id.tab_text)?.text = "Vote 3 sao"
                 }
                 3 -> {
                     tab.setCustomView(R.layout.custom_tab_layout_shop)
                     val customView = tab.customView
-                    customView?.findViewById<TextView>(R.id.tab_text)?.text = "Đánh giá 4 sao"
+                    customView?.findViewById<TextView>(R.id.tab_text)?.text = "Vote 4 sao"
                 }
                 4 -> {
                     tab.setCustomView(R.layout.custom_tab_layout_shop)
                     val customView = tab.customView
-                    customView?.findViewById<TextView>(R.id.tab_text)?.text = "Đánh giá 5 sao"
+                    customView?.findViewById<TextView>(R.id.tab_text)?.text = "Vote 5 sao"
                 }
 
 

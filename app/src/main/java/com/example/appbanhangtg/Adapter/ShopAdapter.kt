@@ -8,7 +8,9 @@ import android.widget.TextView
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.example.appbanhangtg.DAO.ShopDAO
 import com.example.appbanhangtg.DAO.VoteShopDAO
 import com.example.appbanhangtg.Model.ShopModel
@@ -46,11 +48,11 @@ class ShopAdapter(private val list: List<ShopModel>, private val clickRecyclerVi
     override fun onBindViewHolder(holder: ShopAdapter.ShopHolder, position: Int) {
         holder.apply {
             // Load ảnh
-            val radiusInPixels = itemView.context.resources.displayMetrics.density * 100 // Chuyển đổi dp sang pixel
+            val requestOptions = RequestOptions().transform(CircleCrop())
             Glide.with(itemView.context)
                 .load(list[position].imageShop)
+                .apply(requestOptions)
                 .placeholder(R.drawable.icon_person) // Placeholder image while loading
-                .transform(RoundedCorners(radiusInPixels.toInt()))
                 .into(avt)
             nameShop.text = list[position].nameShop
             descriptionShop.text = list[position].descriptionShop

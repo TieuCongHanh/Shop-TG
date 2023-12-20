@@ -44,7 +44,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:src="@drawable/ngoisao" />
+        android:src="@drawable/add_shop_product" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -160,49 +160,12 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="20dp">
 
-        <EditText
-            android:id="@+id/edt_imageProduct"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/border"
-            android:gravity="start"
-            android:hint="hãy chọn hình ảnh sản phẩm"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:paddingRight="20dp" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="7dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#fafafa"
-                android:text="imageProduct"
-                android:textColor="#303030"
-                android:textSize="14dp"
-                android:textStyle="bold" />
-
-
-        </LinearLayout>
-
-
-    </RelativeLayout>
 
     <RelativeLayout
 
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/border">
@@ -308,10 +271,13 @@
         android:gravity="center|bottom">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:layout_marginTop="20dp"
+            android:textColor="@color/white"
             android:id="@+id/btnadd_product"
-            android:layout_width="wrap_content"
+            android:background="@drawable/border4"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="0dp"
             android:text="Thêm sản phẩm" />
     </LinearLayout>
 

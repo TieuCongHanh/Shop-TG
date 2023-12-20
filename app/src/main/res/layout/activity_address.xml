@@ -43,10 +43,12 @@
         android:layout_weight="1"
         android:layout_height="match_parent" />
     <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="300dp"
+        android:layout_width="200dp"
+        android:textColor="@color/white"
+        android:background="@drawable/border4"
         android:layout_height="50dp"
         android:id="@+id/addAddres"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
         android:layout_gravity="center"
         android:text="Thêm địa chỉ"
         android:textSize="20sp"/>

@@ -55,8 +55,10 @@ class ProfileDetail : AppCompatActivity() {
             imageUri?.let {
                 contentResolver.takePersistableUriPermission(imageUri!!, takeFlags)
             }
+            val requestOptions = RequestOptions().transform(CircleCrop())
             Glide.with(this)
                 .load(imageUri)
+                .apply(requestOptions)
                 .into(binding.imgprofileDetail)
             // Sử dụng URI với Glide để tải ảnh, hoặc xử lý tùy theo nhu cầu của bạn
         }
@@ -80,8 +82,8 @@ class ProfileDetail : AppCompatActivity() {
             .into(binding.imgprofileDetail)
 
        binding.edtusernameprofileDetail.setText(" " +user?.username)
-       binding.edtemailprofileDetail.setText(" " +user?.email)
        binding.edtphoneprofileDetail.setText(" " +user?.phone)
+        binding.edtemailprofileDetail.setText(" " +user?.email)
 
         if (ContextCompat.checkSelfPermission(
                 this,
@@ -109,18 +111,30 @@ class ProfileDetail : AppCompatActivity() {
             val imageUriString = imageUri.toString()
 
             val phone = binding.edtphoneprofileDetail.text.toString()
+            val phoneNumberRegex = Regex("^(03|05|07|08|09)\\d{8}$")
+            val isValidPhone = phoneNumberRegex.matches(phone)
+
             val email = binding.edtemailprofileDetail.text.toString()
+            val emailRegex = Regex("[a-zA-Z0-9._-]+@gmail\\.com")
+            val isValidEmail = emailRegex.matches(email)
+
             val userId = user?._idUser
             if ( phone.isEmpty() || email.isEmpty()) {
                 Toast.makeText(this, "Bạn cần nhập thông tin", Toast.LENGTH_SHORT).show()
-            } else {
+            }
+            else if (!isValidPhone){
+                Toast.makeText(this, "Sai định dạng số điện thoại Việt Nam", Toast.LENGTH_SHORT).show()
+            }else if (!isValidEmail){
+                Toast.makeText(this, "Sai định dạng email", Toast.LENGTH_SHORT).show()
+            }
+            else {
                 if (userId != null) {
                     hamUpdate(userId,phone,email,imageUriString)
                 }
             }
         }
     }
-    private fun hamUpdate(userId: Int, email: String, phone: String, imageUriString: String) {
+    private fun hamUpdate(userId: Int, phone: String, email: String, imageUriString: String) {
         val rowsAffected = userDAO.updateUserDetails(userId,phone, email, imageUriString)
 
         if (rowsAffected > 0) {

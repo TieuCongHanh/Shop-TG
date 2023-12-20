@@ -39,38 +39,134 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:layout_marginHorizontal="20dp"
         android:orientation="vertical">
-        <EditText
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Mật khẩu cũ"
-            android:id="@+id/passold"/>
-        <EditText
-            android:layout_marginTop="10dp"
+            android:layout_height="60dp"
+            >
+
+            <EditText
+                android:id="@+id/passold"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/border"
+                android:gravity="start"
+                android:hint="Mật khẩu cũ"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#fafafa"
+                    android:text="passwordOld"
+                    android:textColor="#303030"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Mật khẩu mới"
-            android:id="@+id/passnew"/>
-        <EditText
-            android:layout_marginTop="10dp"
+            android:layout_height="60dp"
+            >
+
+            <EditText
+                android:id="@+id/passnew"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/border"
+                android:gravity="start"
+                android:hint="Mật khẩu mới"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#fafafa"
+                    android:text="passwordNew"
+                    android:textColor="#303030"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nhập lại mật khẩu mới"
-            android:id="@+id/passnew1"/>
+            android:layout_height="60dp"
+            >
+
+            <EditText
+                android:id="@+id/passnew1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/border"
+                android:gravity="start"
+                android:hint="Nhập lại mật khẩu mới"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#fafafa"
+                    android:text="re-enter passwordNew"
+                    android:textColor="#303030"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="bottom">
+            android:gravity="top">
             <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="Thay đổi"
                 android:textColor="@color/white"
-                android:background="@color/tim"
-                android:layout_marginBottom="20dp"
+                android:background="@drawable/border4"
+               android:layout_marginTop="100dp"
                 android:id="@+id/btnsetnew"
                 android:layout_gravity="center"/>
         </LinearLayout>

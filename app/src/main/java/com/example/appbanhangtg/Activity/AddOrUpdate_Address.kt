@@ -43,9 +43,19 @@ class AddOrUpdate_Address : AppCompatActivity() {
                 val note = binding.edtNote.text.toString()
                 val iduser = user?._idUser
 
+                val phoneNumberRegex = Regex("^(03|05|07|08|09)\\d{8}$")
+                val isValid = phoneNumberRegex.matches(phone)
+
                 if (fullname.isEmpty() || phone.isEmpty() || address.isEmpty() || note.isEmpty()) {
                     Toast.makeText(this, "Bạn cần nhập thông tin", Toast.LENGTH_SHORT).show()
-                } else {
+                }else if (fullname.length < 10){
+                    Toast.makeText(this, "Họ và tên phải lớn hơn 9 kí tự", Toast.LENGTH_SHORT).show()
+                }else if (address.length < 16 ){
+                    Toast.makeText(this, "Địa chỉ phải lớn hơn 15 kí tự", Toast.LENGTH_SHORT).show()
+                }else if (!isValid){
+                    Toast.makeText(this, "Sai định dạng số điện thoại Việt Nam", Toast.LENGTH_SHORT).show()
+                }
+                else {
                     if (iduser != null) {
                         hamAdd(
                             fullname,
@@ -72,9 +82,19 @@ class AddOrUpdate_Address : AppCompatActivity() {
                     val note = binding.edtNote.text.toString()
                     val iduser = user?._idUser
 
+                    val phoneNumberRegex = Regex("^(03|05|07|08|09)\\d{8}$")
+                    val isValid = phoneNumberRegex.matches(phone)
+
                     if (fullname.isEmpty() || phone.isEmpty() || address.isEmpty() || note.isEmpty()) {
                         Toast.makeText(this, "Bạn cần nhập thông tin", Toast.LENGTH_SHORT).show()
-                    } else {
+                    }else if (fullname.length <= 10){
+                        Toast.makeText(this, "Họ và tên phải lớn hơn 10 kí tự", Toast.LENGTH_SHORT).show()
+                    }else if (address.length <= 20 ){
+                        Toast.makeText(this, "Địa chỉ phải lớn hơn 20 kí tự", Toast.LENGTH_SHORT).show()
+                    }else if (!isValid){
+                        Toast.makeText(this, "Sai định dạng số điện thoại Việt Nam", Toast.LENGTH_SHORT).show()
+                    }
+                    else {
                         if (iduser != null) {
                             hamUpdate(
                                 addressId,
@@ -155,5 +175,6 @@ class AddOrUpdate_Address : AppCompatActivity() {
         binding.edtNote.setText(addressModel.note)
 
     }
+
 }
 

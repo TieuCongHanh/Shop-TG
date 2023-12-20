@@ -22,7 +22,6 @@ class AddressAdapter  (
 
 
     inner class AddressHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-       val radioButton:RadioButton = itemView.findViewById(R.id.radioButton)
         val name: TextView = itemView.findViewById(R.id.txtname_address)
         val phone: TextView = itemView.findViewById(R.id.txtphone_address)
         val address: TextView = itemView.findViewById(R.id.address)

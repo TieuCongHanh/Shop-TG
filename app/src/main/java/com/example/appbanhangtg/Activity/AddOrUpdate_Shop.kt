@@ -25,8 +25,6 @@ import com.example.appbanhangtg.databinding.ActivityAddOrUpdateShopBinding
 
 private lateinit var binding:ActivityAddOrUpdateShopBinding
 class AddOrUpdate_Shop : AppCompatActivity() {
-    private var clickedOnImageavtShop = false
-    private var clickedOnImageShop = false
     private val shopDAO: ShopDAO by lazy { ShopDAO(this) }
     private var imageUri: Uri? = null
     companion object {
@@ -63,16 +61,11 @@ class AddOrUpdate_Shop : AppCompatActivity() {
                 contentResolver.takePersistableUriPermission(imageUri!!, takeFlags)
             }
 
-            // Xác định xem bạn bấm vào ảnhavtShop hay imageShop và gán hình ảnh tương ứng
-            if (clickedOnImageavtShop) {
-                Glide.with(this)
+
+            Glide.with(this)
                     .load(imageUri)
                     .into(binding.imageavtShop)
-            } else if (clickedOnImageShop) {
-                Glide.with(this)
-                    .load(imageUri)
-                    .into(binding.imageShop)
-            }
+
         }
     }
 
@@ -98,9 +91,6 @@ class AddOrUpdate_Shop : AppCompatActivity() {
 
 
         binding.imageavtShop.setOnClickListener {
-            clickedOnImageavtShop = true
-            clickedOnImageShop = false
-
             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
                 type = "image/*"
@@ -108,16 +98,6 @@ class AddOrUpdate_Shop : AppCompatActivity() {
             startActivityForResult(intent, pickImage)
         }
 
-        binding.imageShop.setOnClickListener {
-            clickedOnImageavtShop = false
-            clickedOnImageShop = true
-
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = "image/*"
-            }
-            startActivityForResult(intent, pickImage)
-        }
 
         binding.imgbackaddShop.setOnClickListener { finish() }
 
@@ -141,7 +121,10 @@ class AddOrUpdate_Shop : AppCompatActivity() {
 
                 if (nameShop.isEmpty() || sloganShop.isEmpty() || descriptionShop.isEmpty()) {
                     Toast.makeText(this, "Bạn cần nhập thông tin", Toast.LENGTH_SHORT).show()
-                } else if (imageUriString.isEmpty()) {
+                }else if (nameShop.length > 20){
+                    Toast.makeText(this, "Tên cửa hàng không được quá 20 kí tự", Toast.LENGTH_SHORT).show()
+                }
+                else if (imageUri == null) {
                     Toast.makeText(this, "Hình ảnh phải có cho shop", Toast.LENGTH_SHORT).show()
                 }
                 else {
@@ -268,10 +251,6 @@ class AddOrUpdate_Shop : AppCompatActivity() {
             .load(shop?.imageavtShop)
             .apply(requestOptions)
             .into(binding.imageavtShop)
-        Glide.with(binding.root.context)
-            .load(shop?.imageShop)
-            .apply(requestOptions)
-            .into(binding.imageShop)
 
     }
 }

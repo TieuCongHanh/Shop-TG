@@ -48,9 +48,9 @@ class QLUser : Fragment() {
 
         userAdapter = UserAdapter(userList) { clickedUser ->
             // Xử lý sự kiện click trên RecyclerView ở đây
-            val intent = Intent(context, AddOrUpdate_User::class.java)
-            intent.putExtra("_idUser", clickedUser._idUser)
-            startActivityForResult(intent, ADD_OR_UPDATE_REQUEST)
+//            val intent = Intent(context, AddOrUpdate_User::class.java)
+//            intent.putExtra("_idUser", clickedUser._idUser)
+//            startActivityForResult(intent, ADD_OR_UPDATE_REQUEST)
         }
         binding.recyclerview.adapter = userAdapter
 
@@ -62,6 +62,7 @@ class QLUser : Fragment() {
             intent.putExtra("_idUser", 0)
             startActivityForResult(intent, ADD_OR_UPDATE_REQUEST)
         }
+        binding.adduser.visibility = View.GONE
 
 
 

@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 import com.example.appbanhangtg.Model.UserModel
 import com.example.appbanhangtg.R
 import com.bumptech.glide.request.target.Target
@@ -51,25 +53,12 @@ class UserAdapter(private val list: List<UserModel>, private val clickRecyclerVi
             email.text = currentUser.email
 
             // Load ảnh
-            val radiusInPixels = itemView.context.resources.displayMetrics.density * 100 // Chuyển đổi dp sang pixel
-            val baseUrl = "https://"
-
+            val requestOptions = RequestOptions().transform(CircleCrop())
             Glide.with(itemView.context)
                 .load(currentUser.image) // 'image' là URI hoặc đường dẫn ảnh
+                .apply(requestOptions)
                 .placeholder(R.drawable.icon_person) // Hình ảnh placeholder khi đang tải
                 .error(R.drawable.icon_bill) // Hình ảnh hiển thị khi có lỗi
-                .transform(RoundedCorners(radiusInPixels.toInt()))
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                        e?.logRootCauses("Glide") // Ghi lại nguyên nhân gốc của lỗi
-                        return false
-                    }
-
-
-                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                        return false
-                    }
-                })
                 .into(avt) // 'imageView' là ImageView trong layout của adapter
 
 

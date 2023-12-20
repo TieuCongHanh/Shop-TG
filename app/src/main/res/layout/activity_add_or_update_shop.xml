@@ -38,19 +38,7 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/imageShop"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:src="@drawable/ngoisao" />
-        </LinearLayout>
+
         <ImageView
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
@@ -58,8 +46,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:src="@drawable/ngoisao" />
-    </RelativeLayout>
+            android:src="@drawable/add_shop_product" />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -187,9 +175,11 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnadd_shop"
-            android:layout_width="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/border4"
+            android:layout_width="150dp"
+            android:textColor="@color/white"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:text="Thêm sản phẩm" />
     </LinearLayout>
 

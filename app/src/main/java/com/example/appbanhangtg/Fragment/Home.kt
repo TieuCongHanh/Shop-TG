@@ -2,6 +2,8 @@ package com.example.appbanhangtg.Fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,7 @@ import com.example.appbanhangtg.Activity.ProductDetail
 import com.example.appbanhangtg.Activity.Shop
 import com.example.appbanhangtg.Adapter.ProductAdapter
 import com.example.appbanhangtg.Adapter.ShopAdapter
+import com.example.appbanhangtg.Adapter.TopSellingAdapter
 import com.example.appbanhangtg.Adapter.UserAdapter
 import com.example.appbanhangtg.DAO.CartDAO
 import com.example.appbanhangtg.DAO.ProductDAO
@@ -32,6 +35,8 @@ import java.text.DecimalFormat
 
 private lateinit var binding:FragmentHomeBinding
 class Home : Fragment() {
+    private lateinit var topSellingAdapter: TopSellingAdapter
+
     private lateinit var shopAdapter: ShopAdapter
     private lateinit var shopList: MutableList<ShopModel>
     private val shopDAO: ShopDAO by lazy { ShopDAO(requireContext()) }
@@ -53,23 +58,11 @@ class Home : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater,container,false)
 
-        // shop
-        shopList = mutableListOf()
-        shopAdapter = ShopAdapter(shopList) { clickedShop ->
-            val intent = Intent(context, Shop::class.java)
-            intent.putExtra("SHOP_EXTRA", clickedShop)
-            startActivity(intent)
-        }
-        binding.recyclerviewshop.adapter = shopAdapter
-        binding.recyclerviewshop.layoutManager = LinearLayoutManager(
-            context,
-            LinearLayoutManager.HORIZONTAL,
-            false)
-        loadShop()
+
 
         // sản phẩm
         productList = mutableListOf()
-        productAdapter = ProductAdapter(productList) { clickedProduct ->
+        productAdapter = ProductAdapter(requireContext(),productList) { clickedProduct ->
             val intent = Intent(context, ProductDetail::class.java)
             intent.putExtra("PRODUCT_EXTRA", clickedProduct)
             startActivity(intent)
@@ -93,15 +86,32 @@ class Home : Fragment() {
             }
         }
 
+        // quảng cáo
+        topSellingAdapter = TopSellingAdapter(requireContext(),productList){ clickitem ->
+            val intent = Intent(context, ProductDetail::class.java)
+            intent.putExtra("PRODUCT_EXTRA", clickitem)
+            startActivity(intent)
+        }
+        binding.viewPagerTopSelling.adapter = topSellingAdapter
+
+        val handler = Handler(Looper.getMainLooper())
+        val runnable = object : Runnable {
+            var count = 0
+            override fun run() {
+                if (count < topSellingAdapter.itemCount) {
+                    binding.viewPagerTopSelling.currentItem = count++
+                } else {
+                    count = 0
+                }
+                handler.postDelayed(this, 3000) // 3000 milliseconds = 3 seconds
+            }
+        }
+        handler.postDelayed(runnable, 3000)
 
         return binding.root
     }
 
-    private fun loadShop() {
-        shopList.clear()
-        shopList.addAll(shopDAO.getAllShop())
-        shopAdapter.notifyDataSetChanged()
-    }
+
     private fun loadProduct() {
         productList.clear()
         val allProducts = productDAO.getAllProduct()
