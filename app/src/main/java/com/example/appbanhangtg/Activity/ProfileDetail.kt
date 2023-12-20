@@ -81,9 +81,9 @@ class ProfileDetail : AppCompatActivity() {
             .placeholder(R.drawable.icon_person) // Placeholder image while loading
             .into(binding.imgprofileDetail)
 
-       binding.edtusernameprofileDetail.setText(" " +user?.username)
-       binding.edtphoneprofileDetail.setText(" " +user?.phone)
-        binding.edtemailprofileDetail.setText(" " +user?.email)
+       binding.edtusernameprofileDetail.setText("" +user?.username)
+       binding.edtphoneprofileDetail.setText("" +user?.phone)
+        binding.edtemailprofileDetail.setText("" +user?.email)
 
         if (ContextCompat.checkSelfPermission(
                 this,

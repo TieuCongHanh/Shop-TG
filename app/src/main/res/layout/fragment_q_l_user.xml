@@ -9,15 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <EditText
+        <SearchView
+            android:background="#F6ECEC"
             android:id="@+id/homesearch"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/icon_search"
-            android:hint="Nhập vào thứ bạn muốn"
-            android:drawablePadding="5dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:queryHint="Tìm kiếm sản phẩm..."/>
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"

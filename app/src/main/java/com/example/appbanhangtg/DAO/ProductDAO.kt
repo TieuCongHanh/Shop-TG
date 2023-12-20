@@ -9,6 +9,7 @@ import com.example.appbanhangtg.Model.ProductModel
 import com.example.appbanhangtg.Model.ShopModel
 import com.example.appbanhangtg.Model.UserModel
 import com.example.appbanhangtg.SQLiteDatabase.SQLiteData
+import java.util.Locale
 
 class ProductDAO(private val context: Context) {
     private var sqLiteData: SQLiteData = SQLiteData(context)
@@ -65,6 +66,48 @@ class ProductDAO(private val context: Context) {
         cursor.close()
         db.close()
         return product
+    }
+
+    fun getTopSellingProducts(): List<ProductModel> {
+        val allProducts = getAllProduct()
+        val billDAO = BillDAO(context)
+
+        // Tạo một map từ ProductModel đến tổng số lượng bán
+        val productToTotalSold = allProducts.associateWith { billDAO.getTotalQuantityByProductId(it._idProduct) }
+
+        // Sắp xếp sản phẩm dựa trên tổng số lượng bán giảm dần và lấy top 5
+        return productToTotalSold.entries.sortedByDescending { it.value }
+            .take(5)
+            .map { it.key }
+    }
+    @SuppressLint("Range")
+    fun searchProductsByName(name: String): List<ProductModel> {
+        val productList = mutableListOf<ProductModel>()
+        val db = sqLiteData.readableDatabase
+
+        // Sử dụng LOWER để không phân biệt chữ hoa và chữ thường
+        val selectQuery = "SELECT * FROM PRODUCT WHERE LOWER(nameProduct) LIKE ? AND quantityProduct > 0"
+        val cursor = db.rawQuery(selectQuery, arrayOf("%${name.toLowerCase(Locale.getDefault())}%"))
+
+        cursor.use {
+            while (it.moveToNext()) {
+                val id = it.getInt(it.getColumnIndex("_idProduct"))
+                val nameProduct = it.getString(it.getColumnIndex("nameProduct"))
+                val quantityProduct = it.getInt(it.getColumnIndex("quantityProduct"))
+                val priceProduct = it.getDouble(it.getColumnIndex("priceProduct"))
+                val descriptionProduct = it.getString(it.getColumnIndex("descriptionProduct"))
+                val imageProduct = it.getString(it.getColumnIndex("imageProduct"))
+                val _idUser = it.getInt(it.getColumnIndex("_idUser"))
+                val _idShop = it.getInt(it.getColumnIndex("_idShop"))
+                val _idtypeProduct = it.getInt(it.getColumnIndex("_idtypeProduct"))
+                val product = ProductModel(id, nameProduct, quantityProduct, priceProduct, descriptionProduct, imageProduct, _idUser, _idShop, _idtypeProduct)
+                productList.add(product)
+            }
+        }
+
+        cursor.close()
+        db.close()
+        return productList
     }
 
     fun getByShopIdProduct(shopId: Int): List<ProductModel> {

@@ -23,7 +23,7 @@ import java.text.DecimalFormat
 
 class TopSellingAdapter(
     private val context: Context,
-    private val list: List<ProductModel>,
+    var list: List<ProductModel>,
     private val clickItem: (ProductModel) -> Unit
 ) : RecyclerView.Adapter<TopSellingAdapter.ProductHolder>() {
 
@@ -85,6 +85,7 @@ class TopSellingAdapter(
         val formatter = DecimalFormat("#,### VNĐ")
         return formatter.format(price)
     }
+    // làm chữ gạch giữa
     fun applyStrikethroughSpan(text: String): SpannableString {
         val spannableString = SpannableString(text)
         spannableString.setSpan(StrikethroughSpan(), 0, text.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)

@@ -1,5 +1,6 @@
 package com.example.appbanhangtg.Fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -8,6 +9,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,8 +36,12 @@ import com.example.appbanhangtg.R
 import com.example.appbanhangtg.databinding.FragmentHomeBinding
 import com.example.appbanhangtg.databinding.FragmentQLUserBinding
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-private lateinit var binding:FragmentHomeBinding
+private lateinit var binding: FragmentHomeBinding
+
 class Home : Fragment() {
     private lateinit var topSellingAdapter: TopSellingAdapter
 
@@ -50,19 +58,19 @@ class Home : Fragment() {
         super.onResume()
         loadProduct() // Tải lại sản phẩm
         loadnumcart()
+        loadTopSellingProducts()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(inflater,container,false)
-
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
 
 
         // sản phẩm
         productList = mutableListOf()
-        productAdapter = ProductAdapter(requireContext(),productList) { clickedProduct ->
+        productAdapter = ProductAdapter(requireContext(), productList) { clickedProduct ->
             val intent = Intent(context, ProductDetail::class.java)
             intent.putExtra("PRODUCT_EXTRA", clickedProduct)
             startActivity(intent)
@@ -72,27 +80,33 @@ class Home : Fragment() {
             context,
             2,
             GridLayoutManager.VERTICAL,
-            false)
+            false
+        )
         loadnumcart()
         loadProduct()
 
         binding.carthome.setOnClickListener {
             val user = context?.let { SharedPrefsManager.getUser(it) }
-            if (user == null){
+            if (user == null) {
                 showDoaLogLogin()
-            }else{
-                val intent = Intent(context,Cart::class.java)
+            } else {
+                val intent = Intent(context, Cart::class.java)
                 startActivity(intent)
             }
         }
 
-        // quảng cáo
-        topSellingAdapter = TopSellingAdapter(requireContext(),productList){ clickitem ->
-            val intent = Intent(context, ProductDetail::class.java)
-            intent.putExtra("PRODUCT_EXTRA", clickitem)
-            startActivity(intent)
+        // quảng cáo sản phẩm
+        topSellingAdapter = TopSellingAdapter(requireContext(), productList) { clickitem ->
+            if (clickitem.quantityProduct <= 0) {
+                Toast.makeText(context, "Sản phẩm đã hết hàng", Toast.LENGTH_SHORT).show()
+            } else {
+                val intent = Intent(context, ProductDetail::class.java)
+                intent.putExtra("PRODUCT_EXTRA", clickitem)
+                startActivity(intent)
+            }
         }
         binding.viewPagerTopSelling.adapter = topSellingAdapter
+        loadTopSellingProducts()
 
         val handler = Handler(Looper.getMainLooper())
         val runnable = object : Runnable {
@@ -108,19 +122,80 @@ class Home : Fragment() {
         }
         handler.postDelayed(runnable, 3000)
 
+        // quảng cáo banner
+        val viewFlipper = binding.bannerViewFlipper
+        for (i in 0 until viewFlipper.childCount) {
+            val imageView = viewFlipper.getChildAt(i) as ImageView
+            imageView.setOnClickListener {
+                if (i == 1) {
+                    Toast.makeText(
+                        context,
+                        "Shop TG giảm giá toàn sản phẩm 10%",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(context, "Top 5 sản phẩm bán chạy", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        // Xử lý sự kiện tìm kiếm
+        binding.homesearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let {
+                    searchProducts(it)
+
+                    // Ẩn bàn phím sau khi submit
+                    val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                    inputMethodManager?.hideSoftInputFromWindow(binding.homesearch.windowToken, 0)
+
+                    // Cuộn xuống đầu danh sách sản phẩm trong RecyclerView
+                    scrollToTopOfProductList()
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                loadProduct()
+                return true
+            }
+        })
+
         return binding.root
     }
 
+    private fun loadTopSellingProducts() {
+        val topSellingProducts = productDAO.getTopSellingProducts() // Lấy 5 sản phẩm bán chạy nhất
+        topSellingAdapter.list = topSellingProducts
+        topSellingAdapter.notifyDataSetChanged()
+    }
+    private fun shouldShuffleToday(): Boolean {
+        val prefs = context?.let { SharedPrefsManager.getPrefs(it) }
+        val lastShuffleDate = prefs?.getString("lastShuffleDate", "")
+        val today = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
+
+        if (lastShuffleDate != today) {
+            prefs!!.edit().putString("lastShuffleDate", today).apply()
+            return true
+        }
+        return false
+    }
 
     private fun loadProduct() {
         productList.clear()
         val allProducts = productDAO.getAllProduct()
-        val filteredProducts = allProducts.filter { it.quantityProduct >= 1 }
+        val filteredProducts = allProducts.filter { it.quantityProduct >= 1 }.toMutableList()
+
+        if (shouldShuffleToday()) {
+            filteredProducts.shuffle()
+        }
 
         productList.addAll(filteredProducts)
         productAdapter.notifyDataSetChanged()
     }
-    private fun loadnumcart(){
+
+
+    private fun loadnumcart() {
         val user = context?.let { SharedPrefsManager.getUser(it) }
         val userId = user?._idUser
 
@@ -133,6 +208,7 @@ class Home : Fragment() {
             binding.numcart.text = "$it"
         }
     }
+
     private fun showDoaLogLogin() {
         val user = context?.let { SharedPrefsManager.getUser(it) }
         val builder = android.app.AlertDialog.Builder(context)
@@ -149,5 +225,16 @@ class Home : Fragment() {
         dialog.show()
     }
 
+    private fun searchProducts(query: String) {
+        val searchedProducts = productDAO.searchProductsByName(query)
+        productList.clear()
+        productList.addAll(searchedProducts)
+        productAdapter.notifyDataSetChanged()
+    }
+    private fun scrollToTopOfProductList() {
+        binding.nestedScrollView.post {
+            binding.nestedScrollView.scrollTo(0, binding.recyclerviewdish.top)
+        }
+    }
 
 }

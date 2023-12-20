@@ -9,7 +9,7 @@ object SharedPrefsManager {
     private const val PREF_NAME = "MyAppPrefs"
     private const val USER_KEY = "currentUser"
 
-    private fun getPrefs(context: Context): SharedPreferences {
+    fun getPrefs(context: Context): SharedPreferences {
         return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     }
 
