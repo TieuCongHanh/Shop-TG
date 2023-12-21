@@ -29,7 +29,7 @@ class CartAdapter(
     private val clickRecyclerView: (CartModel) -> Unit
 ) :
 RecyclerView.Adapter<CartAdapter.BillHolder>() {
-
+    private val shopCheckboxStates = mutableMapOf<Int, Boolean>()
     private val sortedList: MutableList<CartModel>
     init {
         sortedList = mutableListOf()
@@ -111,6 +111,17 @@ RecyclerView.Adapter<CartAdapter.BillHolder>() {
                     }
                 }
             }
+            holder.checkboxshop.isChecked = shopCheckboxStates.getOrDefault(sortedList[position]._idShop, false)
+            holder.checkboxshop.setOnClickListener {
+                val shopId = sortedList[position]._idShop
+                val currentState = shopCheckboxStates.getOrDefault(shopId, false)
+                shopCheckboxStates[shopId] = !currentState
+                // Cập nhật toàn bộ sản phẩm trong RecyclerView có cùng idShop
+                notifyItemRangeChanged(0, sortedList.size)
+            }
+           // Cập nhật checkbox cho mỗi sản phẩm
+            checkboxproduct.isChecked = shopCheckboxStates.getOrDefault(sortedList[position]._idShop, false)
+
             imgtrucart.setOnClickListener {
                 val currentQuantity = txtquantitycart.text.toString().toIntOrNull() ?: 0
                 if (currentQuantity > 1) {

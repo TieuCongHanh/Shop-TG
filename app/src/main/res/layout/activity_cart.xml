@@ -63,7 +63,7 @@
             android:id="@+id/sumtienthanhtoan1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="2.000.000 VNĐ"
+            android:text="0 VNĐ"
             android:textSize="15sp"
             android:textColor="@color/tim"
             android:gravity="end|center"
