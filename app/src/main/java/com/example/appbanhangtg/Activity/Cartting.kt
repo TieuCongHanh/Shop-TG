@@ -102,7 +102,7 @@ class Cartting : AppCompatActivity() {
             binding.txtpriceproduct.text = formatPrice(it.priceProduct)
             binding.sumtienhang.text = formatPrice(it.priceProduct)
             binding.sumone.text = formatPrice(it.priceProduct)
-            binding.txtnameProduct.text = it.nameProduct
+            binding.txtnameProduct.text = it.nameProduct.limitTo(30)
 
 
             // nút đặt hàng
@@ -406,5 +406,11 @@ class Cartting : AppCompatActivity() {
         }
 
     }
-
+    fun String.limitTo(length: Int): String {
+        return if (this.length > length) {
+            "${this.substring(0, length)}..."
+        } else {
+            this
+        }
+    }
 }

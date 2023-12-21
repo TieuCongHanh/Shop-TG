@@ -61,7 +61,10 @@ class SQLiteData(context: Context): SQLiteOpenHelper(context,"DATA",null,1) {
 
         // thể loại
         db?.execSQL("Insert into TYPEPRODUCT(nameTypeProduct) values ('Đồ ăn')")
-        db?.execSQL("Insert into TYPEPRODUCT(nameTypeProduct) values ('Đồ dùng dụng cụ')")
+        db?.execSQL("Insert into TYPEPRODUCT(nameTypeProduct) values ('Đồ uống')")
+        db?.execSQL("Insert into TYPEPRODUCT(nameTypeProduct) values ('Quần áo')")
+        db?.execSQL("Insert into TYPEPRODUCT(nameTypeProduct) values ('Làm đẹp')")
+        db?.execSQL("Insert into TYPEPRODUCT(nameTypeProduct) values ('Giày dép')")
         db?.execSQL("Insert into TYPEPRODUCT(nameTypeProduct) values ('Thời trang')")
 
         // sản phẩm

@@ -282,4 +282,5 @@ class ProductDetail : AppCompatActivity() {
         productList.addAll(filteredProducts)
         productAdapter.notifyDataSetChanged()
     }
+
 }
