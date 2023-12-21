@@ -43,118 +43,172 @@
         android:layout_marginHorizontal="20dp"
         android:orientation="vertical">
 
-        <RelativeLayout
+<!--        <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="60dp"-->
+<!--            >-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/passold"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                android:background="@drawable/border"-->
+<!--                android:gravity="start"-->
+<!--                android:hint="Mật khẩu cũ"-->
+<!--                android:paddingLeft="20dp"-->
+<!--                android:paddingTop="10dp"-->
+<!--                android:paddingRight="20dp" />-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginTop="7dp"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="#fafafa"-->
+<!--                    android:text="passwordOld"-->
+<!--                    android:textColor="#303030"-->
+<!--                    android:textSize="14dp"-->
+<!--                    android:textStyle="bold" />-->
+
+
+<!--            </LinearLayout>-->
+
+<!--        </RelativeLayout>-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_inputPasswordDangKy"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            >
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_email"
+            app:startIconDrawable="@drawable/icon_lock_24"
+            app:endIconMode="password_toggle"
+            app:hintEnabled="false"
+            android:layout_marginTop="16dp">
 
             <EditText
                 android:id="@+id/passold"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
+                android:layout_height="52dp"
                 android:background="@drawable/border"
-                android:gravity="start"
                 android:hint="Mật khẩu cũ"
-                android:paddingLeft="20dp"
-                android:paddingTop="10dp"
-                android:paddingRight="20dp" />
+                android:inputType="textPassword"/>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="7dp"
-                android:orientation="horizontal">
+        </com.google.android.material.textfield.TextInputLayout>
+<!--        <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="60dp"-->
+<!--            >-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#fafafa"
-                    android:text="passwordOld"
-                    android:textColor="#303030"
-                    android:textSize="14dp"
-                    android:textStyle="bold" />
+<!--            <EditText-->
+<!--                android:id="@+id/passnew"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                android:background="@drawable/border"-->
+<!--                android:gravity="start"-->
+<!--                android:hint="Mật khẩu mới"-->
+<!--                android:paddingLeft="20dp"-->
+<!--                android:paddingTop="10dp"-->
+<!--                android:paddingRight="20dp" />-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginTop="7dp"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="#fafafa"-->
+<!--                    android:text="passwordNew"-->
+<!--                    android:textColor="#303030"-->
+<!--                    android:textSize="14dp"-->
+<!--                    android:textStyle="bold" />-->
 
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
-        </RelativeLayout>
-        <RelativeLayout
+<!--        </RelativeLayout>-->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            >
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_email"
+            app:startIconDrawable="@drawable/icon_lock_24"
+            app:endIconMode="password_toggle"
+            app:hintEnabled="false"
+            android:layout_marginTop="16dp">
 
             <EditText
                 android:id="@+id/passnew"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
+                android:layout_height="52dp"
                 android:background="@drawable/border"
-                android:gravity="start"
                 android:hint="Mật khẩu mới"
-                android:paddingLeft="20dp"
-                android:paddingTop="10dp"
-                android:paddingRight="20dp" />
+                android:inputType="textPassword"/>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="7dp"
-                android:orientation="horizontal">
+        </com.google.android.material.textfield.TextInputLayout>
+<!--        <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="60dp"-->
+<!--            >-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#fafafa"
-                    android:text="passwordNew"
-                    android:textColor="#303030"
-                    android:textSize="14dp"
-                    android:textStyle="bold" />
+<!--            <EditText-->
+<!--                android:id="@+id/passnew1"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                android:background="@drawable/border"-->
+<!--                android:gravity="start"-->
+<!--                android:hint="Nhập lại mật khẩu mới"-->
+<!--                android:paddingLeft="20dp"-->
+<!--                android:paddingTop="10dp"-->
+<!--                android:paddingRight="20dp" />-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginTop="7dp"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="#fafafa"-->
+<!--                    android:text="re-enter passwordNew"-->
+<!--                    android:textColor="#303030"-->
+<!--                    android:textSize="14dp"-->
+<!--                    android:textStyle="bold" />-->
 
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
-        </RelativeLayout>
-
-        <RelativeLayout
+<!--        </RelativeLayout>-->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            >
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_email"
+            app:startIconDrawable="@drawable/icon_lock_24"
+            app:endIconMode="password_toggle"
+            app:hintEnabled="false"
+            android:layout_marginTop="16dp">
 
             <EditText
                 android:id="@+id/passnew1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
+                android:layout_height="52dp"
                 android:background="@drawable/border"
-                android:gravity="start"
                 android:hint="Nhập lại mật khẩu mới"
-                android:paddingLeft="20dp"
-                android:paddingTop="10dp"
-                android:paddingRight="20dp" />
+                android:inputType="textPassword"/>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="7dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#fafafa"
-                    android:text="re-enter passwordNew"
-                    android:textColor="#303030"
-                    android:textSize="14dp"
-                    android:textStyle="bold" />
-
-
-            </LinearLayout>
-
-        </RelativeLayout>
+        </com.google.android.material.textfield.TextInputLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

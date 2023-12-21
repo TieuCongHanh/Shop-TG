@@ -1,11 +1,13 @@
 package com.example.appbanhangtg.Activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.appbanhangtg.Adapter.ViewPageBillAdapter
 import com.example.appbanhangtg.Adapter.ViewPageShopAdapter
+import com.example.appbanhangtg.Interface.SharedPrefsManager
 import com.example.appbanhangtg.R
 import com.example.appbanhangtg.databinding.ActivityBillBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -17,10 +19,30 @@ class Bill : AppCompatActivity() {
         binding = ActivityBillBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.imgbackaddProductshop.setOnClickListener { finish() }
+        val user = this?.let { SharedPrefsManager.getUser(it) }
+        binding.imgbackaddProductshop.setOnClickListener {
+            val roleuser = user?.role
+            if (roleuser == "Admin") {
+                val intent = Intent(this, HomeAdmin::class.java)
+                intent.putExtra("OPEN_TAB_INDEX", 3) // Ví dụ, mở tab số 0
+                startActivity(intent)
+            } else if (roleuser == "Shipper") {
+                val intent = Intent(this, HomeShip::class.java)
+                intent.putExtra("OPEN_TAB_INDEX", 2) // Ví dụ, mở tab số 0
+                startActivity(intent)
+            } else {
+                val intent = Intent(this, HomeUser::class.java)
+                intent.putExtra("OPEN_TAB_INDEX", 1) // Ví dụ, mở tab số 0
+                startActivity(intent)
+            }
+        }
 
         val adapter = ViewPageBillAdapter(supportFragmentManager, lifecycle)
         binding.pagershop.adapter = adapter
+        val openTabIndex = intent.getIntExtra("OPEN_TAB_INDEX", -1)
+        if (openTabIndex != -1) {
+            binding.pagershop.currentItem = openTabIndex
+        }
         TabLayoutMediator(binding.tablayoutshop, binding.pagershop) { tab, pos ->
             when (pos) {
 

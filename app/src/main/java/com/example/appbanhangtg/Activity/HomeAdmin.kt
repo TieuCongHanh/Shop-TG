@@ -16,6 +16,10 @@ class HomeAdmin : AppCompatActivity() {
 
         val adapter = ViewPageAdminAdapter(supportFragmentManager, lifecycle)
         binding.pager.adapter = adapter
+        val openTabIndex = intent.getIntExtra("OPEN_TAB_INDEX", -1)
+        if (openTabIndex != -1) {
+            binding.pager.currentItem = openTabIndex
+        }
         TabLayoutMediator(binding.tablayout, binding.pager){tab,pos ->
             when(pos){
                 0 -> {tab.text = "Home"}

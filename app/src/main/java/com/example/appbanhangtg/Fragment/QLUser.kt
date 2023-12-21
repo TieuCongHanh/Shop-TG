@@ -1,11 +1,14 @@
 package com.example.appbanhangtg.Fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,6 +67,25 @@ class QLUser : Fragment() {
         }
         binding.adduser.visibility = View.GONE
 
+        // Xử lý sự kiện tìm kiếm
+        binding.Usersearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let {
+                    searchUsername(it)
+
+                    // Ẩn bàn phím sau khi submit
+                    val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                    inputMethodManager?.hideSoftInputFromWindow(binding.Usersearch.windowToken, 0)
+
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                loadUsers()
+                return true
+            }
+        })
 
 
         return binding.root
@@ -74,6 +96,11 @@ class QLUser : Fragment() {
         userList.addAll(userDAO.getAllUsers())
         userAdapter.notifyDataSetChanged()
     }
-
+    private fun searchUsername(query: String) {
+        val searchedUsername = userDAO.searchUsernameByUser(query)
+        userList.clear()
+        userList.addAll(searchedUsername)
+        userAdapter.notifyDataSetChanged()
+    }
 
 }

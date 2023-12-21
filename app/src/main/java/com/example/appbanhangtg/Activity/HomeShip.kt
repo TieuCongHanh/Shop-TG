@@ -17,6 +17,10 @@ class HomeShip : AppCompatActivity() {
 
         val adapter = ViewPageShipAdapter(supportFragmentManager, lifecycle)
         binding.pagership.adapter = adapter
+        val openTabIndex = intent.getIntExtra("OPEN_TAB_INDEX", -1)
+        if (openTabIndex != -1) {
+            binding.pagership.currentItem = openTabIndex
+        }
         TabLayoutMediator(binding.tablayoutship, binding.pagership){tab,pos ->
             when(pos){
                 0 -> {tab.text = "Home"}

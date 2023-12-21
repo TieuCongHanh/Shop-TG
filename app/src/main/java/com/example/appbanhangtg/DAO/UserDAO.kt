@@ -10,6 +10,7 @@ import com.example.appbanhangtg.Model.UserModel
 import com.example.appbanhangtg.Model.VoteShopModel
 
 import com.example.appbanhangtg.SQLiteDatabase.SQLiteData
+import java.util.Locale
 
 class UserDAO (context: Context){
     private var sqLiteData: SQLiteData = SQLiteData(context)
@@ -36,6 +37,33 @@ class UserDAO (context: Context){
             }
         }
         cursor?.close()
+        db.close()
+        return userList
+    }
+    @SuppressLint("Range")
+    fun searchUsernameByUser(name: String): List<UserModel> {
+        val userList = mutableListOf<UserModel>()
+        val db = sqLiteData.readableDatabase
+
+        // Sử dụng LOWER để không phân biệt chữ hoa và chữ thường
+        val selectQuery = "SELECT * FROM USER WHERE LOWER(username) LIKE ?"
+        val cursor = db.rawQuery(selectQuery, arrayOf("%${name.toLowerCase(Locale.getDefault())}%"))
+
+        cursor.use {
+            while (it.moveToNext()) {
+                val id = it.getInt(it.getColumnIndex("_idUser"))
+                val username = it.getString(it.getColumnIndex("username"))
+                val password = it.getString(it.getColumnIndex("password"))
+                val phone = it.getString(it.getColumnIndex("phone"))
+                val role = it.getString(it.getColumnIndex("role"))
+                val email = it.getString(it.getColumnIndex("email"))
+                val image = it.getString(it.getColumnIndex("image"))
+                val user = UserModel(id, username, password, phone, role, email, image)
+                userList.add(user)
+            }
+        }
+
+        cursor.close()
         db.close()
         return userList
     }

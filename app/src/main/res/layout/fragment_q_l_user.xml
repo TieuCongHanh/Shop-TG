@@ -11,7 +11,7 @@
         android:orientation="horizontal">
         <SearchView
             android:background="#F6ECEC"
-            android:id="@+id/homesearch"
+            android:id="@+id/Usersearch"
             android:layout_margin="8dp"
             android:layout_weight="1"
             android:layout_width="match_parent"

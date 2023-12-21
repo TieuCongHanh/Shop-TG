@@ -35,6 +35,7 @@ private lateinit var binding: ActivityAddOrUpdateProductShopBinding
 
 class AddOrUpdate_ProductShop : AppCompatActivity() {
 
+    private var originalImageUri: Uri? = null
     private lateinit var productAdapter: ProductAdapter
     private val typeProductDAO: TypeProductDAO by lazy { TypeProductDAO(this) }
     private val productDAO: ProductDAO by lazy { ProductDAO(this) }
@@ -170,7 +171,7 @@ class AddOrUpdate_ProductShop : AppCompatActivity() {
             if (currentProduct != null) {
                 displayProductInfo(currentProduct)
                 binding.btnaddProduct.setOnClickListener {
-                    val imageUriString = imageUri.toString()
+                    val imageUriToUse = if (imageUri == null) originalImageUri.toString() else imageUri.toString()
 
                     val nameProduct = binding.edtNameProduct.text.toString()
                     val quantityProduct = binding.edtQuantityProduct.text.toString()
@@ -186,8 +187,6 @@ class AddOrUpdate_ProductShop : AppCompatActivity() {
 
                     if (nameProduct.isEmpty() || quantityProduct.isEmpty() || priceProduct.isEmpty() || descriptionProduct.isEmpty()) {
                         Toast.makeText(this, "Bạn cần nhập thông tin", Toast.LENGTH_SHORT).show()
-                    } else if (imageUri == null) {
-                        Toast.makeText(this, "Hình ảnh phải có cho sản phẩm", Toast.LENGTH_SHORT).show()
                     }else if (quantity == null || price == null ){
                         Toast.makeText(this, "Số lượng hoặc giá tiền phải là số", Toast.LENGTH_SHORT).show()
                     }
@@ -199,7 +198,7 @@ class AddOrUpdate_ProductShop : AppCompatActivity() {
                                 quantity,
                                 price,
                                 descriptionProduct,
-                                imageUriString,
+                                imageUriToUse,
                                 iduser,
                                 idshop,
                                 idtype
@@ -281,7 +280,7 @@ class AddOrUpdate_ProductShop : AppCompatActivity() {
         quantityProduct: Int,
         priceProduct: Double,
         descriptionProduct: String,
-        imageProduct: String,
+        imageUriToUse :String,
         iduser: Int,
         idshop: Int,
         idtype: Int
@@ -292,7 +291,7 @@ class AddOrUpdate_ProductShop : AppCompatActivity() {
             quantityProduct,
             priceProduct,
             descriptionProduct,
-            imageProduct,
+            imageUriToUse,
             iduser,
             idshop,
             idtype
@@ -325,6 +324,7 @@ class AddOrUpdate_ProductShop : AppCompatActivity() {
         if (typeIndex != -1) {
             binding.sproleaddorupdate.setSelection(typeIndex)
         }
+        originalImageUri = Uri.parse(product.imageProduct)
     }
     private fun formatPrice(price: Double) : String {
         val formatter = DecimalFormat("#.###")

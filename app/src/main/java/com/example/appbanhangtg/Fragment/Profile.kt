@@ -16,6 +16,9 @@ import com.example.appbanhangtg.Activity.Bill
 import com.example.appbanhangtg.Activity.Bill1
 import com.example.appbanhangtg.Activity.Bill2
 import com.example.appbanhangtg.Activity.Cart
+import com.example.appbanhangtg.Activity.HomeAdmin
+import com.example.appbanhangtg.Activity.HomeShip
+import com.example.appbanhangtg.Activity.HomeUser
 import com.example.appbanhangtg.Activity.Login
 import com.example.appbanhangtg.Activity.MyShop
 import com.example.appbanhangtg.Activity.VoteProduct
@@ -208,6 +211,10 @@ class Profile : Fragment() {
             binding.khachhangthantiet.setOnClickListener {
                 showDoaLogLogin()
             }
+            // suwj kiện
+            binding.mainhome.setOnClickListener {
+                showDoaLogLogin()
+            }
         }else{
             binding.txtshowaccountProfile.setOnClickListener {
                 val intent = Intent(context, AccountSetting::class.java)
@@ -224,18 +231,22 @@ class Profile : Fragment() {
             // mua
             binding.historibill.setOnClickListener {
                 val intent = Intent(context, Bill::class.java)
+                intent.putExtra("OPEN_TAB_INDEX", 4) // Mở tab số 2
                 startActivity(intent)
             }
             binding.muaCXN.setOnClickListener {
                 val intent = Intent(context, Bill::class.java)
+                intent.putExtra("OPEN_TAB_INDEX", 0) // Ví dụ, mở tab số 0
                 startActivity(intent)
             }
             binding.muaCLH.setOnClickListener {
                 val intent = Intent(context, Bill::class.java)
+                intent.putExtra("OPEN_TAB_INDEX", 1) // Ví dụ, mở tab số 1
                 startActivity(intent)
             }
             binding.muaCGH.setOnClickListener {
                 val intent = Intent(context, Bill::class.java)
+                intent.putExtra("OPEN_TAB_INDEX", 2) // Mở tab số 2
                 startActivity(intent)
             }
             // dánh giá
@@ -247,6 +258,23 @@ class Profile : Fragment() {
             binding.khachhangthantiet.setOnClickListener {
                 val intent = Intent(context, chucvuProfile::class.java)
                 startActivity(intent)
+            }
+            // suwj kiện
+            binding.mainhome.setOnClickListener {
+                val roleuser = user?.role
+                if (roleuser == "Admin") {
+                    val intent = Intent(context, HomeAdmin::class.java)
+                    intent.putExtra("OPEN_TAB_INDEX", 0) // Ví dụ, mở tab số 0
+                    startActivity(intent)
+                } else if (roleuser == "Shipper") {
+                    val intent = Intent(context, HomeShip::class.java)
+                    intent.putExtra("OPEN_TAB_INDEX", 0) // Ví dụ, mở tab số 0
+                    startActivity(intent)
+                } else {
+                    val intent = Intent(context, HomeUser::class.java)
+                    intent.putExtra("OPEN_TAB_INDEX", 0) // Ví dụ, mở tab số 0
+                    startActivity(intent)
+                }
             }
         }
 
@@ -282,14 +310,17 @@ class Profile : Fragment() {
             }else{
                 binding.donbancuatoi.setOnClickListener {
                     val intent = Intent(context, Bill1::class.java)
+                    intent.putExtra("OPEN_TAB_INDEX", 4) // Mở tab số 2
                     startActivity(intent)
                 }
                 binding.banCXN.setOnClickListener {
                     val intent = Intent(context, Bill1::class.java)
+                    intent.putExtra("OPEN_TAB_INDEX", 0) // Ví dụ, mở tab số 0
                     startActivity(intent)
                 }
                 binding.banCLH.setOnClickListener {
                     val intent = Intent(context, Bill1::class.java)
+                    intent.putExtra("OPEN_TAB_INDEX", 1) // Ví dụ, mở tab số 1
                     startActivity(intent)
                 }
             }

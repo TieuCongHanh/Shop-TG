@@ -48,9 +48,9 @@ class UserAdapter(private val list: List<UserModel>, private val clickRecyclerVi
 
         // Gán dữ liệu vào các view trong ViewHolder
         holder.apply {
-            name.text = "${currentUser.username} ${currentUser._idUser}"
-            phone.text = currentUser.phone
-            email.text = currentUser.email
+            name.text = "UserName : ${currentUser.username}"
+            phone.text = "Phone : "+ currentUser.phone
+            email.text = "Email : "+ currentUser.email
 
             // Load ảnh
             val requestOptions = RequestOptions().transform(CircleCrop())

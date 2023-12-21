@@ -39,6 +39,7 @@ class Cartting : AppCompatActivity() {
     private var numberquantity : Int = 1
     private var totalSum : Double = 0.0
     private var totalMonyship : Double = 0.0
+    var _idAddRess : Int = 1
     private var ptship : String = ""
     private var ngaynhanhang : String = ""
     private lateinit var productDAO: ProductDAO
@@ -117,10 +118,8 @@ class Cartting : AppCompatActivity() {
                 val datenhanhang = ngaynhanhang
                 val _idUser = userId
                 val _idProduct = productModel?._idProduct
-                 var _idAddRess : Int = 1
-                if (addressList?.isNotEmpty() == true){
-                    _idAddRess = addressList?.get(0)?._idAddRess!!
-                }else{
+
+                if (addressList?.isNotEmpty() == false){
                     _idAddRess = 0
                 }
 
@@ -174,6 +173,7 @@ class Cartting : AppCompatActivity() {
                     "${selectedAddress.fullname} | ${selectedAddress.phone}"
                 binding.address.text = selectedAddress.address
                 binding.note.text = selectedAddress.note
+                _idAddRess = selectedAddress._idAddRess
             }
         }
     }

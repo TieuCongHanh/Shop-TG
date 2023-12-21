@@ -22,9 +22,7 @@ class AccountSetting : AppCompatActivity() {
             finish()
         }
         binding.txtlogoutSetting.setOnClickListener {
-            val user = this?.let { SharedPrefsManager.clearUser(it) }
-            val intent = Intent(this,Login::class.java)
-            startActivity(intent)
+            showDialogOut()
         }
         binding.txtaccount1Setting.setOnClickListener {
             val intent = Intent(this,SetNewPassWord::class.java)
@@ -34,5 +32,20 @@ class AccountSetting : AppCompatActivity() {
             val intent = Intent(this,Address::class.java)
             startActivity(intent)
         }
+    }
+    private fun showDialogOut() {
+        val builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle("Thông Báo Shop TG")
+        builder.setMessage("Bạn muốn đăng xuất?")
+        builder.setPositiveButton("Đăng xuất") { dialog, which ->
+            SharedPrefsManager.clearUser(this)
+            val intent = Intent(this, Login::class.java)
+            startActivity(intent)
+        }
+        builder.setNegativeButton(
+            "Hủy"
+        ) { dialog, which -> dialog.dismiss() }
+        val dialog = builder.create()
+        dialog.show()
     }
 }

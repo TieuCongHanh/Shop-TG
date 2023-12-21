@@ -30,6 +30,10 @@ class HomeUser : AppCompatActivity() {
 
         val adapter = ViewPageUserAdapter(supportFragmentManager, lifecycle)
         binding.pageruser.adapter = adapter
+        val openTabIndex = intent.getIntExtra("OPEN_TAB_INDEX", -1)
+        if (openTabIndex != -1) {
+            binding.pageruser.currentItem = openTabIndex
+        }
         TabLayoutMediator(binding.tablayoutuser, binding.pageruser){tab,pos ->
             when(pos){
                 0 -> {tab.text = "Home"}

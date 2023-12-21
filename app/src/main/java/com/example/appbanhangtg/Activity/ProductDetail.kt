@@ -50,10 +50,10 @@ class ProductDetail : AppCompatActivity() {
     private val userDao:UserDAO by lazy { UserDAO(this) }
     private val billDAO:BillDAO by lazy { BillDAO(this) }
     private val typeProductDAO:TypeProductDAO by lazy { TypeProductDAO(this) }
-    override fun onResume() {
-        super.onResume()
-        list()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        list()
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -272,11 +272,12 @@ class ProductDetail : AppCompatActivity() {
         return spannableString
     }
     private fun loadProduct() {
+        val productModel = intent.getSerializableExtra("PRODUCT_EXTRA") as? ProductModel
         productList.clear()
         val allProducts = productDAO.getAllProduct()
         val typelist = typeProductDAO.getAllTypeProducts()
         val typeId = typelist?.get(0)!!._idtypeProduct
-        val filteredProducts = allProducts.filter { it.quantityProduct >= 1 && it._idtypeProduct == typeId}
+        val filteredProducts = allProducts.filter { it.quantityProduct >= 1 && it._idtypeProduct == typeId && it._idProduct != productModel?._idProduct }
 
         productList.addAll(filteredProducts)
         productAdapter.notifyDataSetChanged()

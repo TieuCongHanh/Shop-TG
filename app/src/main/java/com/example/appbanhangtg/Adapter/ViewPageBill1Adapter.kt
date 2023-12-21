@@ -38,7 +38,7 @@ class ViewPageBill1Adapter (
             }
 
             else -> {
-                XacNhan()
+                DaGiao()
             }
         }
     }

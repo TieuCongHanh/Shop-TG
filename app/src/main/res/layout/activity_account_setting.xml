@@ -112,7 +112,7 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thông tin tài khoản"
+            android:text="Thông tin địa chỉ giao hàng"
             android:textSize="20sp"/>
 
         <TextView
@@ -138,24 +138,22 @@
         android:layout_height="50dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Thông tin tài khoản"
-            android:textSize="20sp"/>
 
         <TextView
+
             android:layout_gravity="center"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="end|center"
+            android:gravity="center"
             android:id="@+id/txtlogout_setting"
-            android:text="Out   >  "
+            android:text="Out "
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/white"/>
 </LinearLayout>

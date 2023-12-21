@@ -19,6 +19,7 @@ import com.example.appbanhangtg.Model.VoteProductModel
 import com.example.appbanhangtg.Model.VoteShopModel
 import com.example.appbanhangtg.R
 import com.example.appbanhangtg.databinding.ActivityAddVoteProductBinding
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -57,14 +58,14 @@ class AddVote_Product : AppCompatActivity() {
                     .placeholder(R.drawable.icon_person) // Placeholder image while loading
                     .into(binding.imgproductbill)
                 binding.nameproductbill.text = it.nameProduct.toString()
-                binding.priceproductbill.text = it.priceProduct.toString()
+                binding.priceproductbill.text = formatPrice(it.priceProduct)
             }
 
             // thông tin bill
             binding.trangthaibill.text = "Đang đánh giá"
             binding.quantityproductbill.text = it.quantitybill.toString()
             binding.sumproduct.text = it.quantitybill.toString()
-            binding.sumpricebill.text = it.sumpricebill.toString()
+            binding.sumpricebill.text = formatPrice(it.sumpricebill)
 
             // nút viết comment
             binding.btnaddVoteshop.setOnClickListener {
@@ -89,7 +90,10 @@ class AddVote_Product : AppCompatActivity() {
         }
 
     }
-
+    private fun formatPrice(price: Double) : String {
+        val formatter = DecimalFormat("#,### VNĐ")
+        return formatter.format(price)
+    }
     private fun hamAdd(
         numberofstart: String,
         content: String,
